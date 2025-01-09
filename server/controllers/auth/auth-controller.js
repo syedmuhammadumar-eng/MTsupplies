@@ -54,9 +54,7 @@ export const registerControler = async (req,res) => {
             message: 'Registeration Success, please login',
             user,
         });
-
-        
-
+ 
     }catch(error){
         console.log(error);
         res.status(500).send({
@@ -104,9 +102,7 @@ export const loginController = async (req, res) => {
             success:true,
             message:'login seuccessfully',
             user,
-
         })
-
 
     } catch(error){
         console.log(error)

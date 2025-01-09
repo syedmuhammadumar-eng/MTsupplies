@@ -41,9 +41,10 @@ const userSchema = new mongoose.Schema({
 },{timestamps:true});
 
 
+//hashing
 import bcrypt from 'bcryptjs'
 
-//1
+//1-
 //we can create function for hashing here , but we can create in another file in middleware
 //hash function, (you dont need to learn hashing just go to documents and use it)
 userSchema.pre('save', async function(){

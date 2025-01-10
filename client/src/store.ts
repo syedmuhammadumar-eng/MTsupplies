@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -10,8 +10,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import mtSuppliesReducer from "./redux/mtSupplies";
 import { PersistConfig } from "redux-persist/es/types";
+import mtSupplies from "./redux/mtSupplies";
+import credentialReducer from "./redux/credentialReducer";
+
+const rootReducer = combineReducers({
+  mtSupplies: mtSupplies,
+  credentialReducer: credentialReducer,
+});
 
 // Define the persist configuration
 const persistConfig: PersistConfig<any> = {
@@ -21,11 +27,11 @@ const persistConfig: PersistConfig<any> = {
 };
 
 // Persist the reducer
-const persistedReducer = persistReducer(persistConfig, mtSuppliesReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Configure the store
 export const store = configureStore({
-  reducer: { mtSupplies: persistedReducer },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -35,7 +41,7 @@ export const store = configureStore({
 });
 
 // Infer RootState and AppDispatch types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
 
 // Persistor for Redux Persist

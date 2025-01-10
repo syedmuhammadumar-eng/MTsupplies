@@ -1,31 +1,67 @@
 import { Link } from "react-router";
 import logoblack from '../../assets/logoblack.png';
-import axios from "axios";
-
-const localHost = 'http://localhost:8080/api/v1';
+import { useState } from "react";
+import { PostService } from "../../global/GeneralService";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import DangerToast from "../../global/DangerToast";
 
 const SignUp = () => {
-    const handleSignUp = () => {
-        axios({
-            method: 'post',
-            url: `${localHost}/user/register`,
-            data: {
-                name: "joker",
-                email: "joker@kplr",
-                password: "demo1234",
-                address: "address232",
-                city: "karachi",
-                country: "pakistan",
-                phone: "123 123 123",
-                profilepic: "profilepic"
-            },
-            headers: {
-                "Content-Type": 'application/json',
-            }
-        });
+    const [open, setOpen] = useState<boolean>(false);
+    const [warningMessage, setWarningMessage] = useState('');
+    const [isPasswordIcon, setPasswordIcon] = useState(false);
+    const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(false);
+    const [form, setForm] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+    });
+
+    const handleChange = (field: string, value: string) => {
+        const newFormState = { ...form, [field]: value };
+        setForm(newFormState);
     };
+
+    const handleSignUp = () => {
+        // const payload = { ...form };
+        const payload = {
+            name: 'testt',
+            email: 'test123@email.com',
+            password: 'demo123',
+            address: 'address123',
+            city: 'karachi',
+            country: 'pakitan',
+            phone: '123 123 123',
+            profilepic: 'image',
+        };
+
+        PostService('/user/register', payload)
+            .then(response => {
+                console.log(response);
+                // if (response)
+                if (response.status === 200) {
+                    if (!response.data.message) {
+                        setWarningMessage(response.data.message);
+                    } else {
+                        setWarningMessage(response.data.message);
+                    }
+                }
+            })
+            .catch(error => {
+                setOpen(true);
+                const errMsg = error?.response?.data?.message;
+                setWarningMessage(errMsg);
+            });
+    };
+
     return (
         <>
+            <DangerToast
+                open={open}
+                setOpen={setOpen}
+                warningMessage={warningMessage}
+            />
             <div className="flex justify-between selection:bg-[#0082E7] selection:text-[#FFF]" >
                 <div className="p-10 w-[20em]">
                     <Link to={'/'}>
@@ -42,21 +78,39 @@ const SignUp = () => {
                         <div className='mt-10 text-xl font-medium' >
                             <div>
                                 <div>First Name</div>
-                                <input className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none' type='text' placeholder='Enter First Name' />
+                                <input
+                                    className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
+                                    type='text'
+                                    placeholder='Enter First Name'
+                                    value={form?.firstName}
+                                    onChange={(event) => handleChange('firstName', event.target.value)}
+                                />
                             </div>
                         </div>
 
                         <div className='mt-10 text-xl font-medium' >
                             <div>
                                 <div>Last Name</div>
-                                <input className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none' type='text' placeholder='Enter Last Name' />
+                                <input
+                                    className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
+                                    type='text'
+                                    placeholder='Enter Last Name'
+                                    value={form?.lastName}
+                                    onChange={(event) => handleChange('lastName', event.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
 
                     <div className='mt-5 text-xl font-medium' >Email</div>
                     <div className='mt-2' >
-                        <input className='w-[25em] border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none' type='text' placeholder='Enter Email Address' />
+                        <input
+                            className='w-[25em] border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
+                            type='text'
+                            placeholder='Enter Email Address'
+                            value={form?.email}
+                            onChange={(event) => handleChange('email', event.target.value)}
+                        />
                     </div>
 
                     <div className='mt-5 flex justify-between items-center' >
@@ -64,7 +118,22 @@ const SignUp = () => {
                     </div>
 
                     <div className='mt-2' >
-                        <input className='w-[25em] border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 outline-none' type='password' placeholder='Enter Password' />
+                        <div className="relative w-[25em]">
+                            <span className="absolute inset-y-0 right-2 flex items-center text-[#0082E7]"
+                                onMouseDown={() => setPasswordIcon(true)}
+                                onMouseUp={() => setPasswordIcon(false)}
+                                onMouseLeave={() => setPasswordIcon(false)}
+                            >
+                                {isPasswordIcon ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                            </span>
+                            <input
+                                className="w-full p-2 border border-[#0082E7] border-r-0 border-t-0 border-l-0 outline-none"
+                                type={isPasswordIcon ? "text" : "password"}
+                                placeholder="Enter your Password"
+                                value={form?.password}
+                                onChange={(event) => handleChange('password', event.target.value)}
+                            />
+                        </div>
                     </div>
 
                     <div className='mt-5 flex justify-between items-center' >
@@ -72,7 +141,22 @@ const SignUp = () => {
                     </div>
 
                     <div className='mt-2' >
-                        <input className='w-[25em] p-2 border border-[#0082E7] border-r-0 border-t-0 border-l-0 outline-none' type='password' placeholder='Enter Confirm Password' />
+                        <div className="relative w-[25em]">
+                            <span className="absolute inset-y-0 right-2 flex items-center text-[#0082E7]"
+                                onMouseDown={() => setConfirmPasswordIcon(true)}
+                                onMouseUp={() => setConfirmPasswordIcon(false)}
+                                onMouseLeave={() => setConfirmPasswordIcon(false)}
+                            >
+                                {confirmPasswordIcon ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                            </span>
+                            <input
+                                className="w-full p-2 border border-[#0082E7] border-r-0 border-t-0 border-l-0 outline-none"
+                                type={confirmPasswordIcon ? "text" : "password"}
+                                placeholder="Enter your Password"
+                                value={form?.confirmPassword}
+                                onChange={(event) => handleChange('confirmPassword', event.target.value)}
+                            />
+                        </div>
                     </div>
                     <div className='mt-20' >
                         <button
@@ -80,7 +164,7 @@ const SignUp = () => {
                             onClick={() => handleSignUp()}
                         >Sign Up</button>
                     </div>
-                    <div className="mt-5 font-medium text-center" >Don't Have an Account ? <span className="text-[#0082E7] cursor-pointer"><Link to={'/Login'} >Create New Account</Link></span></div>
+                    <div className="mt-5 font-medium text-center" >Don't Have an Account ? <span className="text-[#0082E7] cursor-pointer"><Link to={'/Login'} className="hover:underline" >Create New Account</Link></span></div>
                 </div>
             </div>
         </>

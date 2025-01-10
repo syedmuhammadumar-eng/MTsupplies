@@ -13,7 +13,7 @@ export interface Product {
   categoryName: string,
 }
 
-interface State {
+export interface State {
   userInfo: any[],
   products: Product[],
   productDetails: Product[],

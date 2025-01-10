@@ -66,7 +66,7 @@ const initialFormData = [
   { id: 3, headerName: 'Phone', value: '', type: 'text' },
   { id: 4, headerName: 'createdAt', value: '', type: 'text', },
   { id: 5, headerName: 'Verified', value: '', type: 'text' },
-]
+];
 
 const AdminUser = () => {
 
@@ -120,7 +120,7 @@ const AdminUser = () => {
   };
 
   const addNewuserButton = () => {
-    setIsAddEdit('Add')
+    setIsAddEdit('Add');
     setFormField(initialFormData);
     setOpen(true);
   };

@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
 },{timestamps:true});
 
 
-//hashing
+//hashing===================================>
 import bcrypt from 'bcryptjs'
 
 //1-
@@ -58,6 +58,17 @@ userSchema.methods.comparePassword = async function(plainPassword){
     return await bcrypt.compare(plainPassword, this.password)
 };
 
+
+
+//JWT Token=========================================>
+import JWT from 'jsonwebtoken'
+
+//1-
+userSchema.methods.generateToken = function(){
+    return JWT.sign({_id:this._id}, process.env.JWT_SECRET, {
+        expiresIn: '7d',
+    });
+};
 
 
 //export this model

@@ -49,7 +49,7 @@ export const registerControler = async (req,res) => {
             phone
         });
 
-        res.status(201).send({
+        res.status(200).send({
             success: true,
             message: 'Registeration Success, please login',
             user,

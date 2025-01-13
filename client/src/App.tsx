@@ -23,7 +23,7 @@ import AdminProduct from "./Pages/AdminPanel/AdminProduct/AdminProduct";
 import AdminUserDetail from "./Pages/AdminPanel/adminUserDetail/AdminUserDetail";
 import AdminProductDetail from "./Pages/AdminPanel/adminProductDetail/AdminProductDetail";
 function App() {
-  const isAdmin = false;
+  const isAdmin = true;
   const Layout = () => {
     return (
       <div className="bg-mainBg text-mainColor min-h-screen flex flex-col overflow-x-hidden">

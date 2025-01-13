@@ -40,18 +40,18 @@ export const menu = [
         url: "/product",
         icon: <MdProductionQuantityLimits />,
       },
-      // {
-      //   id: 3,
-      //   title: "Orders",
-      //   url: "/orders",
-      //   icon: <MdOutlineFavoriteBorder />,
-      // },
-      // {
-      //   id: 4,
-      //   title: "Posts",
-      //   url: "/posts",
-      //   icon: <BsFillSignpost2Fill />,
-      // },
+      {
+        id: 3,
+        title: "Orders",
+        url: "/orders",
+        icon: <MdOutlineFavoriteBorder />,
+      },
+      {
+        id: 4,
+        title: "Posts",
+        url: "/posts",
+        icon: <BsFillSignpost2Fill />,
+      },
     ],
   },
   // {
@@ -209,6 +209,7 @@ export const chartBoxProduct = {
     { name: "Sat", products: 450 },
   ],
 };
+
 export const chartBoxRevenue = {
   color: "teal",
   icon: "/revenueIcon.svg",
@@ -226,6 +227,7 @@ export const chartBoxRevenue = {
     { name: "Sat", revenue: 450 },
   ],
 };
+
 export const chartBoxConversion = {
   color: "gold",
   icon: "/conversionIcon.svg",
@@ -643,6 +645,7 @@ export const singleUser = {
     },
   ],
 };
+
 export const singleProduct = {
   id: 1,
   title: "Playstation 5 Digital Edition",

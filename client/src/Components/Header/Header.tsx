@@ -13,15 +13,19 @@ import { Product, setBreadCrumb } from '../../redux/mtSupplies';
 import { motion, AnimatePresence } from 'framer-motion';
 import { product1, product2, Brush1 } from '../../assets/index';
 import SearchCard from '../Searchcard/SearchCard';
+import { RxAvatar } from 'react-icons/rx';
+import { setLogout } from '../../redux/credentialReducer';
 
 const Header = () => {
   const [chevron, setChevron] = useState<boolean>(false);
-  const Products = useSelector((state: RootState) => state.mtSupplies.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
-
+  const Products = useSelector((state: RootState) => state.mtSupplies.products);
+  const user = useSelector((state: RootState) => state?.credentialReducer?.login)
+  const isLoginSuccessFull = useSelector((state: RootState) => state?.credentialReducer?.isLoginSuccessFull)
+  console.log(user);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,6 +39,7 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
   const searchData: Product[] = [
     {
       id: '1',
@@ -76,6 +81,7 @@ const Header = () => {
       categoryName: 'Brushes',
     },
   ];
+
   const [formData, setFormData] = useState(searchData);
   const [isDropDown, setIsDropDown] = useState<boolean>(false);
 
@@ -103,8 +109,11 @@ const Header = () => {
   const handleAuthNavigation = (authValue: string) => {
     if (authValue === 'login') {
       navigate('/Login');
-    } else {
+    } else if (authValue === 'signup') {
       navigate('/Signup');
+    } else {
+      dispatch(setLogout(false));
+      setIsDropDown(false);
     }
   };
 
@@ -170,21 +179,40 @@ const Header = () => {
               <img src={location} alt="search" className='cursor-pointer w-6' />
             </motion.div>
 
-            <motion.div className='relative' ref={dropdownRef} >
-              <motion.div whileTap={{ scale: 0.8 }} >
-                <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => setIsDropDown(!isDropDown)} /></motion.div>
-              {isDropDown &&
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 24 }}
-                  className='absolute -left-12 w-32 bg-white mt-2 border border-[#0082E7] rounded-lg p-2 flex flex-col  items-start' >
-                  <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('login')} >Log In</motion.div>
-                  <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('signup')}>Sign Up</motion.div>
-                </motion.div>
-              }
-            </motion.div>
+            {isLoginSuccessFull ? (
+              <div className="user flex gap-3 relative" ref={dropdownRef}>
+                <RxAvatar size={32} className="opacity-50" onClick={() => setIsDropDown(!isDropDown)} />
+                {isDropDown &&
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 24 }}
+                    className='absolute top-5 -left-12 w-32 bg-white mt-2 border border-[#0082E7] rounded-lg p-2 flex flex-col  items-start' >
+                    <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('logout')} >Log Out</motion.div>
+                  </motion.div>
+                }
+                <span className='font-medium'>{user?.name}</span>
+              </div>
+            ) : (
+              <motion.div className='relative' ref={dropdownRef} >
+                <motion.div whileTap={{ scale: 0.8 }} >
+                  <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => setIsDropDown(!isDropDown)} /></motion.div>
+                {isDropDown &&
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 24 }}
+                    className='absolute -left-12 w-32 bg-white mt-2 border border-[#0082E7] rounded-lg p-2 flex flex-col  items-start' >
+                    <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('login')} >Log In</motion.div>
+                    <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('signup')}>Sign Up</motion.div>
+                  </motion.div>
+                }
+              </motion.div>
+
+            )}
+
             <motion.div whileTap={{ scale: 0.8 }} >
               <img src={heart} alt="search" className='cursor-pointer w-6' />
             </motion.div>
@@ -207,7 +235,7 @@ const Header = () => {
               <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium"><Link to={'/'}>Home</Link></motion.div>
               <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium"><Link to={'/about'} >About Us</Link></motion.div>
               {/* <div className="text-white">Blog</div> */}
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium cursor-pointer "><div onClick={() => handleNavigation()} >Shop</div></motion.div>
+              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium cursor-pointer"><div onClick={() => handleNavigation()} >Shop</div></motion.div>
               <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium cursor-pointer"><Link to={'/Contact'} >Contact</Link></motion.div>
             </div>
             <div className="flex justify-center items-center">

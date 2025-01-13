@@ -9,25 +9,7 @@ type Props = {
   columns: GridColDef[];
   rows: any;
   slug: string;
-  setUsers: React.Dispatch<React.SetStateAction<({
-    id: number;
-    img: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    createdAt: string;
-    verified: boolean | undefined;
-  } | {
-    id: number;
-    img: string;
-    lastName: string;
-    firstName: string;
-    email: string;
-    phone: string;
-    createdAt: string;
-    verified?: undefined;
-  })[]>>;
+  setUsers: any;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setFormField: React.Dispatch<React.SetStateAction<formDataInterface[]>>;
   setIsAddEdit: React.Dispatch<React.SetStateAction<string>>;

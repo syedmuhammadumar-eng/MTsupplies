@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from 'dotenv';
 import connectDB from "./config/db.js";
+import cookieParser from 'cookie-parser'
 
 //=========================================================> dot env config 
 dotenv.config();
@@ -20,6 +21,8 @@ connectDB();
 const app = express();
 
 
+
+
 //======================================================> MiddleWares
 //morgan
 app.use(morgan("dev"));
@@ -29,6 +32,9 @@ app.use(express.json())
 
 //cors
 app.use(cors())
+
+//cookie parser
+app.use(cookieParser());
 
 
 //===================================================================> Test/Dry
@@ -53,7 +59,7 @@ const PORT = process.env.PORT || 8080;
 //Listen
 //before deploy our application first remove the 0.0.0.0 other wise it could be acessalbe for all , here i bind the our application with our local ip address
 app.listen( PORT ,  () => {
-    console.log(`Server Running on Port ${process.env.PORT || 8080}`)
+    console.log(`Server Running on Port ${process.env.PORT || 8080} on ${process.env.NODE_ENV} Mode`)
 })
 
 //now you can test the server after running in Terminal like npm run server or node server.js

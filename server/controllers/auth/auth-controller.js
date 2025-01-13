@@ -65,7 +65,7 @@ export const registerControler = async (req,res) => {
     }
 };
 
-//login
+//login controller
 export const loginController = async (req, res) => {
     try{
         const {email,password} = req.body
@@ -91,16 +91,25 @@ export const loginController = async (req, res) => {
         //decrpt the user password
         const isMatch = await user.comparePassword(password);
 
-        //validaton
+        //validaton PASSWORD
         if(!isMatch){
             return res.status(500).send({
                 success:false,
                 message:'invalid credentials'
-            })
+            });
         }
-        res.status(200).send({
+        //token call 
+        const token = user.generateToken();
+
+        res.status(200).cookie('token', token, {
+            expires: new Date(Date.now() + 15 * 24 * 60 * 1000),
+            secure: process.env.NODE_ENV === "development" ? true: false,
+            httpOnly: process.env.NODE_ENV === "development" ? true: false,
+            sameSite: process.env.NODE_ENV === "development" ? true : false,
+        }).send({
             success:true,
             message:'login seuccessfully',
+            token,
             user,
         })
 
@@ -112,4 +121,130 @@ export const loginController = async (req, res) => {
             error
         })
     }
+};
+
+
+//Get USER Profile controller
+export const getUserProfileController =  async (req, res) => {
+    try{
+
+        //here we send res so, we get user info from the req and send in throgh user profile end point 
+        const user = await userModel.findById(req.user._id);
+        //here we hide password, because we dont need to show pass in profile
+        user.password = undefined;
+
+        res.status(200).send({
+            success: true,
+            message: 'User Profile Fetched Successfully',
+            //above fetched user, we send it thorugh here
+            user,
+        })
+
+    } catch (error){
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: 'Error in Profile Api'
+        })
+    }
+};
+
+
+//Get Logout controller
+export const logoutController = async (req, res ) => {
+    try{
+        res.status(200).cookie("token", "", {
+            expires: new Date(Date.now()),
+            secure: process.env.NODE_ENV === "development" ? true: false,
+            httpOnly: process.env.NODE_ENV === "development" ? true: false,
+            sameSite: process.env.NODE_ENV === "development" ? true : false,
+        }).send({
+            success: true,
+            message: "Logot Successfully",
+        });
+    }catch (error){
+        console.log(error);
+        res.status(500).send({
+            success : false,
+            message: "Error in Logout Api",
+            error,
+        });
+    }
+}
+
+
+//Put Update-Profile controller
+export const updateProfileController = async (req,res) => {
+    try{
+        //find user on the basis of _id
+        const user = await userModel.findById(req.user._id)
+        //get data that user wanted to update
+        //here we destructure name,email,address,city,country,phone
+        const {name,email,address,city,country,phone} = req.body;
+
+        // validation for update
+        if(name) user.name = name
+        if(email) user.email = email
+        if(address) user.address = address
+        if(city) user.city = city
+        if(country) user.country = country
+        if(phone) user.phone = phone
+
+        //save user
+        await user.save()
+        res.status(200).send({
+            success:true,
+            message: "User Profile updated"
+        })
+
+    } catch(error){
+        console.log(error);
+        res.status(500).send({
+            success: false,                                                          
+            message: "Error in update Api",
+            error,
+        });
+    
+    }
+};
+
+//update password
+export const updatePasswordController = async (req, res) => {
+
+    try{
+        const user = await userModel.findById(req.user._id)
+        const {oldPassword, newPassword} = req.body
+        
+        // validation
+        if(!oldPassword || !newPassword){
+            return res.status(500).send({
+                success:false,
+                message:'Please provide old or new password'
+            })
+        }
+
+        //Old pass check (Check new password is already in the database, or match with database or not)
+        const isMatch = await user.comparePassword(oldPassword)
+
+        // validation
+        if(!isMatch){
+            return res.status(500).send({
+                success: false,
+                message: "Error in update password Api",
+                error,
+            })
+        }
+
+        
+
+
+    }catch(error){
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:"Error in Update Password Api",
+            error,
+        });
+    }
+    
 };

@@ -646,4 +646,21 @@ process.exit(1) ensures that if the connection fails, the application stops.
 - https://www.youtube.com/watch?v=AxcCilviM-c 
 
 
-# 
+
+
+- Note: remember (req.body)  data is provided by the client and we destructure that data in to the backend  use
+
+<!--================================================ LEGAL: HERE ALL ABOUT THIS BACKEND API DOCS ================================================-->
+
+# genera api: http://localhost:8080/                         {Get}
+# register api: http://localhost:8080/api/v1/user/register  {Post}   
+# login api: http://localhost:8080/api/v1/user/login        {Post}
+# User Profile api: http://localhost:8080/api/v1/user/profile    {Get}
+# Logout api: http://localhost:8080/api/v1/user/logout        {Get}
+# UpdateProfile api: http://localhost:8080/api/v1/user/profile-update       {Put}
+# change password api: http://localhost:8080/api/v1/user
+
+- Note: autorization and cookies = done
+- Note: login session = done
+- profile end point is private, is only acessable, when user is login 
+-

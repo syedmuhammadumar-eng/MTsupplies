@@ -47,7 +47,8 @@ import bcrypt from 'bcryptjs'
 //1-
 //we can create function for hashing here , but we can create in another file in middleware
 //hash function, (you dont need to learn hashing just go to documents and use it)
-userSchema.pre('save', async function(){
+userSchema.pre('save', async function(next){
+    if(!this.isModified('password')) return next()
     this.password = await bcrypt.hash(this.password, 10)
 });
 
@@ -63,12 +64,15 @@ userSchema.methods.comparePassword = async function(plainPassword){
 //JWT Token=========================================>
 import JWT from 'jsonwebtoken'
 
-//1-
+//1- we can use during login and register
+// we can do this in middleware but here now we do it in model file
 userSchema.methods.generateToken = function(){
     return JWT.sign({_id:this._id}, process.env.JWT_SECRET, {
         expiresIn: '7d',
     });
 };
+
+
 
 
 //export this model

@@ -17,25 +17,25 @@ const userSchema = new mongoose.Schema({
         required:[true, 'password is required'],
         minLength:[6,'password length should be greater then 6 character']
     },
-    address:{
-       type: String,
-        required:[true, 'address is required']
-    },
-    city:{
-        type:String,
-        required:[true,'city name is required']
-    },
-    country:{
-        type:String,
-        required:[true, 'country name is required']
-    },
-    phone:{
-        type:String,
-        required:[true, 'phone number is required']
-    },
-    profilepic:{
-        type:String,
-    }
+    // address:{
+    //    type: String,
+    //     required:[true, 'address is required']
+    // },
+    // city:{
+    //     type:String,
+    //     required:[true,'city name is required']
+    // },
+    // country:{
+    //     type:String,
+    //     required:[true, 'country name is required']
+    // },
+    // phone:{
+    //     type:String,
+    //     required:[true, 'phone number is required']
+    // },
+    // profilepic:{
+    //     type:String,
+    // }
 
     // you can add more schema later on below
 },{timestamps:true});

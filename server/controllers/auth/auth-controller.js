@@ -12,10 +12,12 @@ export const registerControler = async (req,res) => {
 
         // get data from the user, all those data  that we define in models> user schema and names should be same like name: in schema so name: in also same in controller
         //destructue data from the req 
-        const {name,email,password,address,city,country,phone,profilepic} = req.body
+        // const {name,email,password,address,city,country,phone,profilepic} = req.body
+        const {name,email,password} = req.body
 
         //1- validation to check all data is coming or not
-        if(!name | !email || !password || !city || !address || !country){
+        // if(!name | !email || !password || !city || !address || !country){
+        if(!name || !email || !password ){
             return res.status(500).send({
                 success: false,
                 message: "please provide All Fields"
@@ -38,15 +40,20 @@ export const registerControler = async (req,res) => {
 
 
         //save the user
+        // const user = await userModel.create({
+        //     name,
+        //     email,
+        //     password,
+        //     city,
+        //     address,
+        //     country,
+        //     profilepic,
+        //     phone
+        // });
         const user = await userModel.create({
             name,
             email,
             password,
-            city,
-            address,
-            country,
-            profilepic,
-            phone
         });
 
         res.status(200).send({

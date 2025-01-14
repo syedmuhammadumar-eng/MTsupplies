@@ -21,13 +21,13 @@ router.post('/login',loginController);
 //flow: is route ==> isAuth ==> controller
 router.get('/profile', isAuth, getUserProfileController);
 
-// 4- logout , only autenticated user can be log out
+// 4- logout private route, only autenticated user can be log out
 router.get('/logout', isAuth, logoutController);
 
-// 5- Update Profile
+// 5- Update private route, Profile
 router.put('/profile-update', isAuth, updateProfileController )
 
-// 6- Password change
+// 6- Password change , private route,
 router.put('/update-password', isAuth, updatePasswordController  )
 
 //export

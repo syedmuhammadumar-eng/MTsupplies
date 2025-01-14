@@ -5,8 +5,7 @@
 import userModel from '../../models/UserModel.js'
 
 
-// user controller
-
+// user Register controller
 export const registerControler = async (req,res) => {
     try{
 
@@ -17,29 +16,67 @@ export const registerControler = async (req,res) => {
 
         //1- validation to check all data is coming or not
         // if(!name | !email || !password || !city || !address || !country){
-        if(!name || !email || !password ){
+        // if(!name || !email || !password ){
+        //     return res.status(500).send({
+        //         success: false,
+        //         message: "please provide All Fields"
+        //     });
+        // };
+
+        if(!name){
             return res.status(500).send({
                 success: false,
-                message: "please provide All Fields"
+                message: "Name can not be empty"
             });
-        }
+        };
 
+        if(!email){
+            return res.status(500).send({
+                success: false,
+                message: "Email can not be empty"
+            });
+        };
+
+        if(!password){
+            return res.status(500).send({
+                success: false,
+                message: "Password can not be empty"
+            });
+        };
 
         //2- Check the Existing user
         //here we use mongodb function: findOne and destructue the email 
-        const existingUser = await userModel.findOne({email})
+        const existingUser = await userModel.findOne({email});
 
-        //3- validation
+        // validate the user
         //it tells that user is already is in the database
         if(existingUser){
             return res.status(500).send({
                 success:false,
                 message: "email already taken",
             })
-        }
+        };
+
+        //3- check exising password
+        const existingPassword = await userModel.findOne({password});
+
+        //valieate the password
+        if(existingPassword){
+            return res.status(500).send({
+                success: false,
+                message: "password is already taken"
+            })
+        };
+
 
 
         //save the user
+        const user = await userModel.create({
+            name,
+            email,
+            password,
+        });
+
         // const user = await userModel.create({
         //     name,
         //     email,
@@ -50,11 +87,7 @@ export const registerControler = async (req,res) => {
         //     profilepic,
         //     phone
         // });
-        const user = await userModel.create({
-            name,
-            email,
-            password,
-        });
+   
 
         res.status(200).send({
             success: true,
@@ -187,15 +220,16 @@ export const updateProfileController = async (req,res) => {
         const user = await userModel.findById(req.user._id)
         //get data that user wanted to update
         //here we destructure name,email,address,city,country,phone
-        const {name,email,address,city,country,phone} = req.body;
+        // const {name,email,address,city,country,phone} = req.body;
+        const {name,email,address} = req.body;
 
         // validation for update
         if(name) user.name = name
         if(email) user.email = email
-        if(address) user.address = address
-        if(city) user.city = city
-        if(country) user.country = country
-        if(phone) user.phone = phone
+        // if(address) user.address = address
+        // if(city) user.city = city
+        // if(country) user.country = country
+        // if(phone) user.phone = phone
 
         //save user
         await user.save()

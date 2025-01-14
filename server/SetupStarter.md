@@ -652,15 +652,49 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 <!--================================================ LEGAL: HERE ALL ABOUT THIS BACKEND API DOCS ================================================-->
 
-# genera api: http://localhost:8080/                         {Get}
-# register api: http://localhost:8080/api/v1/user/register  {Post}   
-# login api: http://localhost:8080/api/v1/user/login        {Post}
-# User Profile api: http://localhost:8080/api/v1/user/profile    {Get}
-# Logout api: http://localhost:8080/api/v1/user/logout        {Get}
-# UpdateProfile api: http://localhost:8080/api/v1/user/profile-update       {Put}
-# change password api: http://localhost:8080/api/v1/user
+
+
+<!--=============================1-USER===================================-->
+# (done) genera api: http://localhost:8080/                                         {Get}
+# (done) register api: http://localhost:8080/api/v1/user/register                   {Post}   
+# (done) login api: http://localhost:8080/api/v1/user/login                         {Post}
+# (done) User Profile api: http://localhost:8080/api/v1/user/profile                {Get}
+# (done) Logout api: http://localhost:8080/api/v1/user/logout                       {Get}
+# (done) UpdateProfile api: http://localhost:8080/api/v1/user/profile-update        {Put}
+# (done) change password api: http://localhost:8080/api/v1/user/update-password     {put}
+# () admin panel api:                                                                {}
+
+
+<!--=============================2-PLATFORMS===================================-->
+# () Image upload, cloudinary:                          {}
+
+
+<!--=============================3-PRODUCTS===================================-->
+# () create product api:                                {}
+# () update product api:                                {}
+# () update product image api:                          {}
+# () delete product api:                                {}
+# () categories api:                                    {}
+
+
+<!--=============================4-ORDERS===================================-->
+# () order api:                                       {}
+# () my orders api:                                   {}
+# () product reviews and rating api:                  {}
+# () filters api:                                     {}
+
+<!--=============================5-PAYMENT/ADMIN===================================-->
+# () payment gateway integration api:                     {}
+# () forget password reset api:                           {}
+
+<!--=============================6-SECURITY===================================-->
+# () security api:                                      {}
+
+
+
+
+
 
 - Note: autorization and cookies = done
 - Note: login session = done
 - profile end point is private, is only acessable, when user is login 
--

@@ -113,6 +113,7 @@ export const registerControler = async (req,res) => {
 //login controller
 export const loginController = async (req, res) => {
     try{
+        
         const {email,password} = req.body
         //validation
         if(!email || !password){

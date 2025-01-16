@@ -37,7 +37,7 @@ export const registerControler = async (req,res) => {
             });
         };
 
-        if(!password){
+        if(!password){  
             return res.status(500).send({
                 success: false,
                 message: "Password can not be empty"

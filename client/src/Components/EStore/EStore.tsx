@@ -480,7 +480,7 @@ const Product = () => {
                 </div>
                 <div className="flex flex-row justify-center gap-10 flex-wrap basis-4/5">
                     {globalData && globalData.map(item => (
-                        <div className="mt-4 cursor-pointer hover:bg-softColor rounded-xl">
+                        <div className="h-[27rem] mt-4 cursor-pointer hover:bg-softColor rounded-xl">
                             <div className="w-[15rem] relative" >
                                 <img src={item.imgSrc} alt="product5" onClick={() => handleClick(item)} />
                                 <div className="absolute top-0 left-0 ml-8">

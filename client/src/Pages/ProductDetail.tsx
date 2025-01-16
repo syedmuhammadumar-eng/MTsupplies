@@ -392,86 +392,87 @@ const ProductDetail = () => {
                     </div>
                 </div>
 
-
-
-                <div className=' ml-10 flex justify-start flex-wrap' >
-                    <div className='w-3/4' >
+            </div>
+            <div className='mt-40 flex justify-center flex-wrap' >
+                <div className='w-3/4' >
+                    <div>
+                        <label className='text-3xl font-semibold' >Product details</label>
+                    </div>
+                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
                         <div>
-                            <label className='text-3xl font-semibold' >Product details</label>
+                            <label className='text-lg font-medium' >COLOUR:</label>
                         </div>
-                        <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                            <div>
-                                <label className='text-lg font-medium' >COLOUR:</label>
-                            </div>
-                            <div>
-                                <label className='text-lg text-gray-500' >Black</label>
-                            </div>
-                        </div>
-                        <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                            <div>
-                                <label className='text-lg font-medium' >MATERIAL:</label>
-                            </div>
-                            <div>
-                                <label className='text-lg text-gray-500' >Recycled Paper</label>
-                            </div>
-                        </div>
-                        <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                            <div>
-                                <label className='text-lg font-medium' >DIMENSIONS:</label>
-                            </div>
-                            <div>
-                                <label className='text-lg text-gray-500' >16 (H) x 20.5 (W) x 5.5 (D) cm</label>
-                            </div>
-                        </div>
-                        <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                            <div>
-                                <label className='text-lg font-medium' >PACKAGE CONTENTS:</label>
-                            </div>
-                            <div>
-                                <label className='text-lg text-gray-500' >1 Pencil</label>
-                            </div>
-                        </div>
-                        <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                            <div>
-                                <label className='text-lg font-medium' >ORIGIN:</label>
-                            </div>
-                            <div>
-                                <label className='text-lg text-gray-500' >Designed and Made in UK</label>
-                            </div>
+                        <div>
+                            <label className='text-lg text-gray-500' >Black</label>
                         </div>
                     </div>
-
+                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
+                        <div>
+                            <label className='text-lg font-medium' >MATERIAL:</label>
+                        </div>
+                        <div>
+                            <label className='text-lg text-gray-500' >Recycled Paper</label>
+                        </div>
+                    </div>
+                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
+                        <div>
+                            <label className='text-lg font-medium' >DIMENSIONS:</label>
+                        </div>
+                        <div>
+                            <label className='text-lg text-gray-500' >16 (H) x 20.5 (W) x 5.5 (D) cm</label>
+                        </div>
+                    </div>
+                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
+                        <div>
+                            <label className='text-lg font-medium' >PACKAGE CONTENTS:</label>
+                        </div>
+                        <div>
+                            <label className='text-lg text-gray-500' >1 Pencil</label>
+                        </div>
+                    </div>
+                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
+                        <div>
+                            <label className='text-lg font-medium' >ORIGIN:</label>
+                        </div>
+                        <div>
+                            <label className='text-lg text-gray-500' >Designed and Made in UK</label>
+                        </div>
+                    </div>
                 </div>
-                <div className='mt-40 ml-10 flex justify-start flex-wrap' >
-                    <div className='w-3/4' >
-                        <div>
-                            <label className='text-3xl font-semibold' >Related Products</label>
-                        </div>
+
+            </div>
+
+            <div className='mt-40 flex justify-center flex-wrap' >
+                <div className='w-3/4' >
+                    <div>
+                        <label className='text-3xl font-semibold' >Related Products</label>
                     </div>
-                    <div className="mt-10 flex snap-x overflow-x-auto scroll-smooth space-x-4">
-                        {relatedSearchData &&
-                            relatedSearchData.map((item, index) => (
-                                <div
+                </div>
+                <div className="ml-52 mt-10 flex snap-x overflow-x-auto scroll-smooth space-x-4">
+                    {relatedSearchData &&
+                        relatedSearchData.map((item, index) => (
+                            <div
+                                key={index}
+                                className="snap-start flex-shrink-0 w-80"
+                            >
+                                <SellingCards
                                     key={index}
-                                    className="snap-start flex-shrink-0 w-80"
-                                >
-                                    <SellingCards
-                                        key={index}
-                                        id={item.id}
-                                        imgSrc={item.imgSrc}
-                                        specialText={item.specialText}
-                                        isSpecial={item.isSpecial}
-                                        paragraph={item.paragraph}
-                                        price={item.price}
-                                        name={item.Name}
-                                        categoryName={item?.categoryName}
-                                        isDiscount={item?.isDiscount}
-                                        productId={item?.productId} />
-                                </div>
-                            ))}
-                    </div>
+                                    id={item.id}
+                                    imgSrc={item.imgSrc}
+                                    specialText={item.specialText}
+                                    isSpecial={item.isSpecial}
+                                    paragraph={item.paragraph}
+                                    price={item.price}
+                                    name={item.Name}
+                                    categoryName={item?.categoryName}
+                                    isDiscount={item?.isDiscount}
+                                    productId={item?.productId}
+                                />
+                            </div>
+                        ))}
                 </div>
             </div>
+
             <Footer />
         </>
     )

@@ -14,6 +14,7 @@ type Props = {
   setFormField: React.Dispatch<React.SetStateAction<formDataInterface[]>>;
   setIsAddEdit: React.Dispatch<React.SetStateAction<string>>;
   setEditRowId: React.Dispatch<React.SetStateAction<number>>;
+  formField: any;
 };
 
 type formDataInterface = {
@@ -27,7 +28,7 @@ const DataTable = (props: Props) => {
   const [rowData, setRowData] = useState([
     {
       id: 0,
-      img: "",
+      imgSrc: "",
       lastName: "",
       firstName: "",
       email: "",
@@ -54,15 +55,25 @@ const DataTable = (props: Props) => {
     props?.setOpen(true);
     props?.setIsAddEdit('Edit');
     props?.setEditRowId(row?.id);
-    const editUserFields = [
-      { id: 0, headerName: 'First Name', value: row?.firstName, type: 'text' },
-      { id: 1, headerName: 'Last Name', value: row?.lastName, type: 'text' },
-      { id: 2, headerName: 'Email', value: row?.email, type: 'text' },
-      { id: 3, headerName: 'Phone', value: row?.phone, type: 'text' },
-      { id: 4, headerName: 'createdAt', value: row?.createdAt, type: 'text', },
-      { id: 5, headerName: 'Verified', value: row?.verified, type: 'text' },
-    ]
-    props?.setFormField(editUserFields);
+    const editFormFieldState = props?.formField;
+    const mappedHeaders = editFormFieldState.map(header => {
+      const key = header.headerName.toLowerCase(); // Match key names (case insensitive)
+      if (row[key] !== undefined) {
+        return { ...header, value: row[key] };
+      }
+      return header;
+    });
+
+    // const editUserFields = [
+    //   { id: 0, headerName: 'First Name', value: row?.firstName, type: 'text' },
+    //   { id: 1, headerName: 'Last Name', value: row?.lastName, type: 'text' },
+    //   { id: 2, headerName: 'Email', value: row?.email, type: 'text' },
+    //   { id: 3, headerName: 'Phone', value: row?.phone, type: 'text' },
+    //   { id: 4, headerName: 'createdAt', value: row?.createdAt, type: 'text', },
+    //   { id: 5, headerName: 'Verified', value: row?.verified, type: 'text' },
+    // ];
+
+    props?.setFormField(mappedHeaders);
   };
 
   const actionColumn: GridColDef = {

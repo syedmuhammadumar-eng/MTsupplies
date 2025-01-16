@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router'
 import logoblack from '../../assets/logoblack.png';
 import Search from '../../assets/Search.svg';
-import location from '../../assets/location.svg';
 import person from '../../assets/person.svg';
 import heart from '../../assets/heart.svg';
 import cart from '../../assets/cart.svg';
@@ -13,8 +12,8 @@ import { Product, setBreadCrumb } from '../../redux/mtSupplies';
 import { motion, AnimatePresence } from 'framer-motion';
 import { product1, product2, Brush1 } from '../../assets/index';
 import SearchCard from '../Searchcard/SearchCard';
-import { RxAvatar } from 'react-icons/rx';
-import { setLogout } from '../../redux/credentialReducer';
+import { setLogout, setRemoveToken } from '../../redux/credentialReducer';
+import { GetService } from '../../global/GeneralService';
 
 const Header = () => {
   const [chevron, setChevron] = useState<boolean>(false);
@@ -23,9 +22,10 @@ const Header = () => {
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const Products = useSelector((state: RootState) => state.mtSupplies.products);
-  const user = useSelector((state: RootState) => state?.credentialReducer?.login)
-  const isLoginSuccessFull = useSelector((state: RootState) => state?.credentialReducer?.isLoginSuccessFull)
-  console.log(user);
+  const user = useSelector((state: RootState) => state?.credentialReducer?.login);
+  const isLoginSuccessFull = useSelector((state: RootState) => state?.credentialReducer?.isLoginSuccessFull);
+  const token = useSelector((state: RootState) => state.credentialReducer.userToken);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -112,7 +112,14 @@ const Header = () => {
     } else if (authValue === 'signup') {
       navigate('/Signup');
     } else {
-      dispatch(setLogout(false));
+      // GetService('/user/logout', token)
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
+      dispatch(setRemoveToken());
       setIsDropDown(false);
     }
   };
@@ -175,21 +182,27 @@ const Header = () => {
 
           {/* <!-- Icons Section --> */}
           <div className="flex justify-evenly items-center py-4 space-x-4">
-            <motion.div whileTap={{ scale: 0.8 }} >
+            {/* <motion.div whileTap={{ scale: 0.8 }} >
               <img src={location} alt="search" className='cursor-pointer w-6' />
-            </motion.div>
+            </motion.div> */}
 
-            {isLoginSuccessFull ? (
+            {token ? (
               <div className="user flex gap-3 relative" ref={dropdownRef}>
-                <RxAvatar size={32} className="opacity-50" onClick={() => setIsDropDown(!isDropDown)} />
+                {/* <RxAvatar size={32} className="opacity-50" onClick={() => setIsDropDown(!isDropDown)} /> */}
+                <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => setIsDropDown(!isDropDown)} />
                 {isDropDown &&
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 24 }}
-                    className='absolute top-5 -left-12 w-32 bg-white mt-2 border border-[#0082E7] rounded-lg p-2 flex flex-col  items-start' >
-                    <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('logout')} >Log Out</motion.div>
+                    className='absolute top-5 -left-12 w-32 bg-white mt-2 border border-gray-600 rounded-sm p-2 flex flex-col  items-start' >
+                    <motion.div
+                      whileTap={{ scale: 0.9 }}
+                      className='font-medium hover:bg-gray-300 cursor-pointer border-b border-gray-500 w-full p-1'
+                      onClick={() => handleAuthNavigation('logout')} >
+                      Log out
+                    </motion.div>
                   </motion.div>
                 }
                 <span className='font-medium'>{user?.name}</span>
@@ -197,8 +210,8 @@ const Header = () => {
             ) : (
               <motion.div className='relative' ref={dropdownRef} >
                 <motion.div whileTap={{ scale: 0.8 }} >
-                  <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => setIsDropDown(!isDropDown)} /></motion.div>
-                {isDropDown &&
+                  <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => handleAuthNavigation('login')} /></motion.div>
+                {/* {isDropDown &&
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -208,7 +221,7 @@ const Header = () => {
                     <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('login')} >Log In</motion.div>
                     <motion.div whileTap={{ scale: 0.9 }} className='font-medium hover:text-[#0082E7] cursor-pointer border-b border-gray-300 w-full' onClick={() => handleAuthNavigation('signup')}>Sign Up</motion.div>
                   </motion.div>
-                }
+                } */}
               </motion.div>
 
             )}

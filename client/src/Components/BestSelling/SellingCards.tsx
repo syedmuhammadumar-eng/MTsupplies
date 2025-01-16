@@ -57,8 +57,8 @@ const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragr
         // dispatch(resetCart());
     };
     return (
-        <div id={id} className="mt-4 cursor-pointer hover:bg-softColor rounded-xl " onClick={() => handleClick()}>
-            <div className="relative">
+        <div id={id} className="mt-4 cursor-pointer hover:bg-softColor rounded-xl w-60" onClick={() => handleClick()}>
+            <div className="relative hover:bg-softColor">
                 <img src={imgSrc} alt="product5" className='object-cover' />
                 <motion.div whileTap={{ scale: 0.9 }} className="absolute top-0 left-40 ml-8"><img src={WishlistHeart} alt="" /> </motion.div>
                 <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-40 ml-10" onClick={() => handleCartCounter()} ><img src={whitebluebordercart} alt="" /></motion.div>

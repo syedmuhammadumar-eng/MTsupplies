@@ -7,6 +7,7 @@ export interface CredentialState {
         email: string;
         password: string;
     },
+    userToken: string,
 }
 
 const initialState: CredentialState = {
@@ -16,6 +17,7 @@ const initialState: CredentialState = {
         email: '',
         password: '',
     },
+    userToken: '',
 };
 
 export const credentialReducer = createSlice({
@@ -30,11 +32,20 @@ export const credentialReducer = createSlice({
             state.isLoginSuccessFull = action.payload;
             state.login = initialState?.login;
         },
+        setToken: (state, action) => {
+            state.userToken = action.payload;
+        },
+        setRemoveToken: (state) => {
+            state.userToken = '';
+            state.login = initialState?.login;
+        }
     },
 });
 
 export const {
     setLoginData,
+    setToken,
+    setRemoveToken,
     setLogout,
 } = credentialReducer.actions;
 export default credentialReducer.reducer;

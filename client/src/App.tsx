@@ -22,8 +22,8 @@ import AdminUser from "./Pages/AdminPanel/AdminUser/AdminUser";
 import AdminProduct from "./Pages/AdminPanel/AdminProduct/AdminProduct";
 import AdminUserDetail from "./Pages/AdminPanel/adminUserDetail/AdminUserDetail";
 import AdminProductDetail from "./Pages/AdminPanel/adminProductDetail/AdminProductDetail";
-function App() {
-  const isAdmin = true;
+const App = () => {
+  const isAdmin = false;
   const Layout = () => {
     return (
       <div className="bg-mainBg text-mainColor min-h-screen flex flex-col overflow-x-hidden">

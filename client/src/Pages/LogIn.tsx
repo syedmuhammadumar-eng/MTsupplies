@@ -4,9 +4,9 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import { useState } from "react";
 import DangerToast from "../global/DangerToast";
-import { PostService } from "../global/GeneralService";
 import { useDispatch } from "react-redux";
-import { setLoginData } from "../redux/credentialReducer";
+import { setLoginData, setToken } from "../redux/credentialReducer";
+import { authService } from "../global/GeneralService";
 const LogIn = () => {
     const [isPasswordIcon, setPasswordIcon] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
@@ -27,12 +27,13 @@ const LogIn = () => {
     const handleLogin = () => {
         const payload = { ...form };
 
-        PostService('/user/login', payload)
+        authService('/user/login', payload)
             .then(response => {
                 console.log(response);
                 if (response.status === 200) {
                     const respData = response?.data?.user;
                     const newRespData = { ...respData, isLoginSuccessFull: response?.data?.success };
+                    dispatch(setToken(response?.data?.token));
                     dispatch(setLoginData(newRespData));
                     navigate('/');
                 }

@@ -105,7 +105,7 @@ const LogIn = () => {
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default LogIn
+export default LogIn;

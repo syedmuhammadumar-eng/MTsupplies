@@ -112,15 +112,16 @@ const Header = () => {
     } else if (authValue === 'signup') {
       navigate('/Signup');
     } else {
-      // GetService('/user/logout', token)
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      dispatch(setRemoveToken());
-      setIsDropDown(false);
+      GetService('/user/logout', token)
+        .then((response) => {
+          console.log(response);
+          dispatch(setRemoveToken());
+          setIsDropDown(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
     }
   };
 

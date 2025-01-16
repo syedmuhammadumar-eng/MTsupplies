@@ -1,22 +1,23 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logoblack from '../../assets/logoblack.png';
 import { useState } from "react";
-import { PostService } from "../../global/GeneralService";
+import { authService } from "../../global/GeneralService";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import DangerToast from "../../global/DangerToast";
+import SuccessToast from "../../global/SuccessToast";
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [open, setOpen] = useState<boolean>(false);
     const [warningMessage, setWarningMessage] = useState('');
     const [isPasswordIcon, setPasswordIcon] = useState(false);
-    const [confirmPasswordIcon, setConfirmPasswordIcon] = useState(false);
     const [form, setForm] = useState({
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         password: '',
-        confirmPassword: '',
     });
+    const [SuccessOpen, setSuccessOpen] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleChange = (field: string, value: string) => {
         const newFormState = { ...form, [field]: value };
@@ -24,34 +25,31 @@ const SignUp = () => {
     };
 
     const handleSignUp = () => {
-        // const payload = { ...form };
-        const payload = {
-            name: 'testt',
-            email: 'test123@email.com',
-            password: 'demo123',
-            address: 'address123',
-            city: 'karachi',
-            country: 'pakitan',
-            phone: '123 123 123',
-            profilepic: 'image',
-        };
+        const payload = { ...form };
 
-        PostService('/user/register', payload)
+        authService('/user/register', payload)
             .then(response => {
                 console.log(response);
                 // if (response)
                 if (response.status === 200) {
-                    if (!response.data.message) {
-                        setWarningMessage(response.data.message);
-                    } else {
-                        setWarningMessage(response.data.message);
+                    const respMsg = response.data.message;
+                    if (respMsg.includes('Signed Up Successfully.')) {
+                        setSuccessOpen(true);
+                        setSuccessMessage(respMsg);
+                        setTimeout(() => {
+                            navigate('/Login');
+                        }, 1000);
                     }
+                    else if (respMsg) {
+                        setOpen(true);
+                        setWarningMessage(respMsg);
+                    }
+
                 }
             })
             .catch(error => {
                 setOpen(true);
-                const errMsg = error?.response?.data?.message;
-                setWarningMessage(errMsg);
+                console.log(error);
             });
     };
 
@@ -61,6 +59,11 @@ const SignUp = () => {
                 open={open}
                 setOpen={setOpen}
                 warningMessage={warningMessage}
+            />
+            <SuccessToast
+                open={SuccessOpen}
+                setOpen={setSuccessOpen}
+                warningMessage={successMessage}
             />
             <div className="flex justify-between selection:bg-[#0082E7] selection:text-[#FFF]" >
                 <div className="p-10 w-[20em]">
@@ -73,33 +76,15 @@ const SignUp = () => {
                 <div className='w-[30em] h-[28em] p-10 rounded-3xl' >
                     <div className='text-4xl font-semibold text-center' >Sign Up</div>
 
-                    <div className="flex justify-center items-center gap-3" >
-
-                        <div className='mt-10 text-xl font-medium' >
-                            <div>
-                                <div>First Name</div>
-                                <input
-                                    className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
-                                    type='text'
-                                    placeholder='Enter First Name'
-                                    value={form?.firstName}
-                                    onChange={(event) => handleChange('firstName', event.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                        <div className='mt-10 text-xl font-medium' >
-                            <div>
-                                <div>Last Name</div>
-                                <input
-                                    className='mt-2 w-[12em] text-base border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
-                                    type='text'
-                                    placeholder='Enter Last Name'
-                                    value={form?.lastName}
-                                    onChange={(event) => handleChange('lastName', event.target.value)}
-                                />
-                            </div>
-                        </div>
+                    <div className='mt-5 text-xl font-medium' >Name</div>
+                    <div className='mt-2' >
+                        <input
+                            className='w-[25em] border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 font-medium outline-none'
+                            type='text'
+                            placeholder='Enter Name'
+                            value={form?.name}
+                            onChange={(event) => handleChange('name', event.target.value)}
+                        />
                     </div>
 
                     <div className='mt-5 text-xl font-medium' >Email</div>
@@ -136,28 +121,6 @@ const SignUp = () => {
                         </div>
                     </div>
 
-                    <div className='mt-5 flex justify-between items-center' >
-                        <div className="text-xl font-medium" >Confirm Password</div>
-                    </div>
-
-                    <div className='mt-2' >
-                        <div className="relative w-[25em]">
-                            <span className="absolute inset-y-0 right-2 flex items-center text-[#0082E7]"
-                                onMouseDown={() => setConfirmPasswordIcon(true)}
-                                onMouseUp={() => setConfirmPasswordIcon(false)}
-                                onMouseLeave={() => setConfirmPasswordIcon(false)}
-                            >
-                                {confirmPasswordIcon ? <IoEyeOffOutline /> : <IoEyeOutline />}
-                            </span>
-                            <input
-                                className="w-full p-2 border border-[#0082E7] border-r-0 border-t-0 border-l-0 outline-none"
-                                type={confirmPasswordIcon ? "text" : "password"}
-                                placeholder="Enter your Password"
-                                value={form?.confirmPassword}
-                                onChange={(event) => handleChange('confirmPassword', event.target.value)}
-                            />
-                        </div>
-                    </div>
                     <div className='mt-20' >
                         <button
                             className='w-[25em] bg-[#0082E7] hover:bg-[#0082E7] p-4 text-[#FFF] hover:text-[#FFF] font-semibold rounded-md hover:shadow-xl'

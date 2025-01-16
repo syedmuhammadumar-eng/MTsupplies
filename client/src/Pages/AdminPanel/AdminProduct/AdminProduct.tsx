@@ -7,11 +7,11 @@ import { products } from "../../../data";
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
-    field: "img",
+    field: "imgSrc",
     headerName: "Image",
     width: 100,
     renderCell: (params) => {
-      return <img src={params.row.img || "/noavatar.png"} alt="" />;
+      return <img src={params.row.imgSrc || "/noavatar.png"} alt="" />;
     },
   },
   {
@@ -75,7 +75,7 @@ const AdminProduct = () => {
       const user = [...users];
       const newUser = {
         id: Math.floor(Math.random() * 1000),
-        img: "",
+        imgSrc: "",
         title: formField[0]?.value,
         color: formField[1]?.value,
         producer: formField[2]?.value,
@@ -84,7 +84,7 @@ const AdminProduct = () => {
         inStock: formField[5]?.value === 'yes' ? true : false,
       };
 
-      user.unshift(newUser)
+      user.unshift(newUser);
       setUsers(user);
       setOpen(false);
     }
@@ -92,7 +92,7 @@ const AdminProduct = () => {
       const editUsers = [...users];
       const newEditUser = {
         id: editRowId,
-        img: "",
+        imgSrc: "",
         title: formField[0]?.value,
         color: formField[1]?.value,
         producer: formField[2]?.value,
@@ -137,14 +137,19 @@ const AdminProduct = () => {
           className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
           onClick={addNewuserButton}
         >Add New Products</button>
+        <button
+          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
+          onClick={addNewuserButton}
+        >Save Changes</button>
       </div>
       <DataTable
         slug="product"
         columns={columns}
-        rows={products}
+        rows={users}
         setUsers={setUsers}
         setOpen={setOpen}
         setFormField={setFormField}
+        formField={formField}
         setIsAddEdit={setIsAddEdit}
         setEditRowId={setEditRowId}
       />

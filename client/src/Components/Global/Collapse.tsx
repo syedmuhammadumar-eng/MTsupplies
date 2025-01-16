@@ -9,10 +9,6 @@ const Collapse = () => {
 
     const data = [
         {
-            id: '1',
-            title: 'Product Details',
-        },
-        {
             id: '2',
             title: 'Delivery and Returns'
         },

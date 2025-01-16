@@ -26,7 +26,7 @@ const AdminNavbar = () => {
             src="https://images.pexels.com/photos/29929142/pexels-photo-29929142/free-photo-of-black-and-white-portrait-of-a-llama.jpeg"
             alt="image"
           />
-          <span>jane</span>
+          <span>Admin</span>
         </div>
         {/* <IoSettingsOutline /> */}
         <div><button className="bg-white text-mainBg text-xs p-1 rounded-full font-semibold" >Logout</button></div>

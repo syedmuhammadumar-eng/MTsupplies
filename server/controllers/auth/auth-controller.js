@@ -12,37 +12,37 @@ export const registerControler = async (req,res) => {
         // get data from the user, all those data  that we define in models> user schema and names should be same like name: in schema so name: in also same in controller
         //destructue data from the req 
         // const {name,email,password,address,city,country,phone,profilepic} = req.body
-        const {name,email,password} = req.body
+        const { name, email, password } = req.body;
 
         //1- validation to check all data is coming or not
         // if(!name | !email || !password || !city || !address || !country){
-        // if(!name || !email || !password ){
+        if (!name || !email || !password) {
+            return res.json({
+                success: false,
+                message: "please Fill all Fields"
+            });
+        };
+
+        // if(!name){
         //     return res.status(500).send({
         //         success: false,
-        //         message: "please provide All Fields"
+        //         message: "Name can not be empty"
         //     });
         // };
 
-        if(!name){
-            return res.status(500).send({
-                success: false,
-                message: "Name can not be empty"
-            });
-        };
+        // if(!email){
+        //     return res.status(500).send({
+        //         success: false,
+        //         message: "Email can not be empty"
+        //     });
+        // };
 
-        if(!email){
-            return res.status(500).send({
-                success: false,
-                message: "Email can not be empty"
-            });
-        };
-
-        if(!password){
-            return res.status(500).send({
-                success: false,
-                message: "Password can not be empty"
-            });
-        };
+        // if(!password){
+        //     return res.json({
+        //         success: false,
+        //         message: "Password can not be empty"
+        //     });
+        // };
 
         //2- Check the Existing user
         //here we use mongodb function: findOne and destructue the email 
@@ -51,22 +51,26 @@ export const registerControler = async (req,res) => {
         // validate the user
         //it tells that user is already is in the database
         if(existingUser){
-            return res.status(500).send({
+            return res.json({
                 success:false,
                 message: "email already taken",
             })
         };
 
+        if (password.length < 8) {
+            return res.json({success: false, message: "password length should be greater than 6 character"});            
+        }
+        
         //3- check exising password
-        const existingPassword = await userModel.findOne({password});
-
-        //valieate the password
-        if(existingPassword){
-            return res.status(500).send({
-                success: false,
-                message: "password is already taken"
-            })
-        };
+        // const existingPassword = await userModel.findOne({password});
+        
+        // //validate the password
+        // if(existingPassword){
+        //     return res.json({
+        //         success: false,
+        //         message: "password is already taken"
+        //     })
+        // };
 
 
 
@@ -89,19 +93,20 @@ export const registerControler = async (req,res) => {
         // });
    
 
-        res.status(200).send({
+        res.json({
             success: true,
-            message: 'Registeration Success, please login',
+            message: 'Signed Up Successfully.',
             user,
         });
  
     }catch(error){
         console.log(error);
-        res.status(500).send({
-            success:false,
-            message:'Error In Register API',
-            error,
-        });
+        // res.status(500).send({
+        //     success:false,
+        //     message:'Error In Register API',
+        //     error,
+        // });
+        res.json({ success: false, message: error.message });
     }
 };
 
@@ -113,7 +118,7 @@ export const loginController = async (req, res) => {
         if(!email || !password){
             return res.status(500).send({
                 success:false,
-                message:'pleae add email or password'
+                message:'please add email or password'
             })
         }
 
@@ -148,7 +153,7 @@ export const loginController = async (req, res) => {
             sameSite: process.env.NODE_ENV === "development" ? true : false,
         }).send({
             success:true,
-            message:'login seuccessfully',
+            message:'login successfully',
             token,
             user,
         })
@@ -162,6 +167,71 @@ export const loginController = async (req, res) => {
         })
     }
 };
+
+// export const loginController = async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+        
+//         // Validation
+//         if (!email || !password) {
+//             return res.status(500).send({
+//                 success: false,
+//                 message: 'Please add email or password'
+//             });
+//         }
+
+//         let role = 'user'; // Default role
+
+//         // Check for admin credentials
+//         if (email === 'admin@mtsupplies' && password === 'admin') {
+//             role = 'admin'; // Assign admin role
+//         } else {
+//             // Check user in database for other users
+//             const user = await userModel.findOne({ email });
+
+//             if (!user) {
+//                 return res.status(404).send({
+//                     success: false,
+//                     message: 'User not found'
+//                 });
+//             }
+
+//             // Decrypt the user password
+//             const isMatch = await user.comparePassword(password);
+
+//             if (!isMatch) {
+//                 return res.status(500).send({
+//                     success: false,
+//                     message: 'Invalid credentials'
+//                 });
+//             }
+//         }
+
+//         // Generate token
+//         const token = user.generateToken();
+
+//         // Send response
+//         res.status(200).cookie('token', token, {
+//             expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+//             secure: process.env.NODE_ENV === 'production',
+//             httpOnly: true,
+//             sameSite: 'strict'
+//         }).send({
+//             success: true,
+//             message: 'Login successfully',
+//             token,
+//             role,
+//             user: role === 'admin' ? { email, role } : user
+//         });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send({
+//             success: false,
+//             message: 'Error in login API',
+//             error
+//         });
+//     }
+// };
 
 
 //Get USER Profile controller
@@ -200,7 +270,7 @@ export const logoutController = async (req, res ) => {
             sameSite: process.env.NODE_ENV === "development" ? true : false,
         }).send({
             success: true,
-            message: "Logot Successfully",
+            message: "Log out Successfully",
         });
     }catch (error){
         console.log(error);

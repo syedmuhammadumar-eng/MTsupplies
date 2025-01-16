@@ -133,6 +133,10 @@ const AdminUser = () => {
           className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
           onClick={addNewuserButton}
         >Add New User</button>
+        <button
+          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
+          onClick={addNewuserButton}
+        >Save Changes</button>
       </div>
 
       <DataTable
@@ -142,6 +146,7 @@ const AdminUser = () => {
         setUsers={setUsers}
         setOpen={setOpen}
         setFormField={setFormField}
+        formField={formField}
         setIsAddEdit={setIsAddEdit}
         setEditRowId={setEditRowId}
       />

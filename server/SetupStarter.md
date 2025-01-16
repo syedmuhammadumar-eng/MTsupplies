@@ -698,3 +698,5 @@ process.exit(1) ensures that if the connection fails, the application stops.
 - Note: autorization and cookies = done
 - Note: login session = done
 - profile end point is private, is only acessable, when user is login 
+
+

@@ -21,7 +21,7 @@ export const PostService = (url, data, userToken) => {
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${userToken}`,
+                Authorization: `${userToken}`,
 
             },
         }
@@ -34,7 +34,7 @@ export const GetService = (url, userToken) => {
         {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${userToken}`,
+                Authorization: `${userToken}`,
             },
         }
     );

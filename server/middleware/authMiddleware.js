@@ -8,8 +8,8 @@ import userModel from "../models/UserModel.js";
 // we make this profile end point only accessable for those whose is register or login, thats why it is private 
 export const isAuth = async (req,res,next) => {
     //get token from the cookie
-    const {token} = req.cookies
-
+    // const {token} = req.cookies
+    const token = req.headers.authorization;
     //with the help of stored token, we get the current user
     
     // validation

@@ -23,27 +23,6 @@ export const registerControler = async (req,res) => {
             });
         };
 
-        // if(!name){
-        //     return res.status(500).send({
-        //         success: false,
-        //         message: "Name can not be empty"
-        //     });
-        // };
-
-        // if(!email){
-        //     return res.status(500).send({
-        //         success: false,
-        //         message: "Email can not be empty"
-        //     });
-        // };
-
-        // if(!password){
-        //     return res.json({
-        //         success: false,
-        //         message: "Password can not be empty"
-        //     });
-        // };
-
         //2- Check the Existing user
         //here we use mongodb function: findOne and destructue the email 
         const existingUser = await userModel.findOne({email});
@@ -81,18 +60,6 @@ export const registerControler = async (req,res) => {
             password,
         });
 
-        // const user = await userModel.create({
-        //     name,
-        //     email,
-        //     password,
-        //     city,
-        //     address,
-        //     country,
-        //     profilepic,
-        //     phone
-        // });
-   
-
         res.json({
             success: true,
             message: 'Signed Up Successfully.',
@@ -101,11 +68,6 @@ export const registerControler = async (req,res) => {
  
     }catch(error){
         console.log(error);
-        // res.status(500).send({
-        //     success:false,
-        //     message:'Error In Register API',
-        //     error,
-        // });
         res.json({ success: false, message: error.message });
     }
 };
@@ -281,7 +243,7 @@ export const logoutController = async (req, res ) => {
             error,
         });
     }
-}
+};
 
 
 //Put Update-Profile controller

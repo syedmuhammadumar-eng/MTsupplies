@@ -15,38 +15,38 @@ const columns: GridColDef[] = [
     },
   },
   {
-    field: "title",
+    field: "Name",
     type: "string",
     headerName: "Title",
-    width: 250,
+    width: 200,
   },
   {
-    field: "color",
+    field: "paragraph",
     type: "string",
-    headerName: "Color",
-    width: 150,
+    headerName: "Description",
+    width: 400,
   },
   {
     field: "price",
     type: "string",
     headerName: "Price",
+    width: 150,
+  },
+  {
+    field: "isSpecial",
+    headerName: "Special Offer",
+    type: "boolean",
     width: 200,
   },
   {
-    field: "producer",
-    headerName: "Producer",
+    field: "categoryName",
+    headerName: "Category",
+    width: 200,
     type: "string",
-    width: 200,
   },
   {
-    field: "createdAt",
-    headerName: "Created At",
-    width: 200,
-    type: "string",
-  },
-  {
-    field: "inStock",
-    headerName: "In Stock",
+    field: "isDiscount",
+    headerName: "Discount",
     width: 150,
     type: "boolean",
   },
@@ -68,6 +68,26 @@ const AdminProduct = () => {
   const [isAddEdit, setIsAddEdit] = useState('Add');
   const [editRowId, setEditRowId] = useState(0);
 
+  const [form, setFormData] = useState({
+    title: '',
+    desc: '',
+    isSpecial: false,
+    specialText: '',
+    price: '',
+    categoryValue: '6',
+    category: [
+      { name: 'Parties Decor', value: '1' },
+      { name: 'Home Decor', value: '2' },
+      { name: 'Office Stationary', value: '3' },
+      { name: 'DIY households', value: '4' },
+      { name: 'Art & Craft', value: '5' },
+      { name: 'School Stationary', value: '6' },
+    ],
+    bestSeller: false,
+  });
+
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('formField', formField);
@@ -75,13 +95,16 @@ const AdminProduct = () => {
       const user = [...users];
       const newUser = {
         id: Math.floor(Math.random() * 1000),
-        imgSrc: "",
-        title: formField[0]?.value,
-        color: formField[1]?.value,
-        producer: formField[2]?.value,
-        price: formField[3]?.value,
-        createdAt: formField[4]?.value,
-        inStock: formField[5]?.value === 'yes' ? true : false,
+        productId: Number(form?.categoryValue),
+        imgSrc: "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw1b537bbb/images/PLAYSTATION5W/PLAYSTATION5W.png",
+        specialText: form?.specialText,
+        isSpecial: form?.isSpecial,
+        paragraph: form?.desc,
+        price: form?.price,
+        Name: form?.title,
+        quantity: 0,
+        isDiscount: false,
+        categoryName: form?.category[5].name
       };
 
       user.unshift(newUser);
@@ -89,23 +112,23 @@ const AdminProduct = () => {
       setOpen(false);
     }
     else {
-      const editUsers = [...users];
-      const newEditUser = {
-        id: editRowId,
-        imgSrc: "",
-        title: formField[0]?.value,
-        color: formField[1]?.value,
-        producer: formField[2]?.value,
-        price: formField[3]?.value,
-        createdAt: formField[4]?.value,
-        inStock: formField[5]?.value === 'yes' ? true : false,
-      };
-      const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
-      if (findEditedRowIndex !== -1) {
-        editUsers.splice(findEditedRowIndex, 1, newEditUser);
-      }
-      setUsers(editUsers);
-      setOpen(false);
+      // const editUsers = [...users];
+      // const newEditUser = {
+      //   id: editRowId,
+      //   imgSrc: "",
+      //   title: formField[0]?.value,
+      //   color: formField[1]?.value,
+      //   producer: formField[2]?.value,
+      //   price: formField[3]?.value,
+      //   createdAt: formField[4]?.value,
+      //   inStock: formField[5]?.value === 'yes' ? true : false,
+      // };
+      // const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
+      // if (findEditedRowIndex !== -1) {
+      //   editUsers.splice(findEditedRowIndex, 1, newEditUser);
+      // }
+      // setUsers(editUsers);
+      // setOpen(false);
     }
     //add new item
     //axios.post(`/api/${slug}s`, {})
@@ -128,18 +151,21 @@ const AdminProduct = () => {
     setOpen(true);
   };
 
+  const saveChanges = () => {
+    //API will be integrated.
+  };
 
   return (
     <div className="products">
       <div className="info flex items-center gap-5 mb-5">
-        <div className="text-4xl font-bold" >Products</div>
+        <div className="text-4xl font-bold text-mainBg" >Products</div>
         <button
-          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
+          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
           onClick={addNewuserButton}
-        >Add New Products</button>
+        >Add New Product</button>
         <button
-          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
-          onClick={addNewuserButton}
+          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
+          onClick={saveChanges}
         >Save Changes</button>
       </div>
       <DataTable
@@ -157,11 +183,11 @@ const AdminProduct = () => {
         <Add
           isAddEdit={isAddEdit}
           handleSubmit={handleSubmit}
-          setFormField={setFormField}
-          formField={formField}
           slug="product"
           columns={columns}
           setOpen={setOpen}
+          form={form}
+          setFormData={setFormData}
         />
       }
     </div>

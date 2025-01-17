@@ -14,7 +14,6 @@ import LogIn from "./Pages/LogIn";
 import SignUp from "./Pages/SignUp/SignUp";
 import Contact from "./Pages/Contact/Contact";
 import Payment from "./Pages/Payment/Payment";
-import Admin from "./Pages/AdminPanel/Admin";
 import AdminNavbar from "./Components/AdminNavbar/AdminNavbar";
 import AdminFooter from "./Components/AdminFooter/AdminFooter";
 import AdminMenu from "./Components/AdminMenu/AdminMenu";
@@ -22,14 +21,27 @@ import AdminUser from "./Pages/AdminPanel/AdminUser/AdminUser";
 import AdminProduct from "./Pages/AdminPanel/AdminProduct/AdminProduct";
 import AdminUserDetail from "./Pages/AdminPanel/adminUserDetail/AdminUserDetail";
 import AdminProductDetail from "./Pages/AdminPanel/adminProductDetail/AdminProductDetail";
+import AdminCategory from "./Pages/AdminPanel/adminCategory/AdminCategory";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
+import { useEffect, useState } from "react";
 const App = () => {
   const isAdmin = false;
+  const login = useSelector((state: RootState) => state.credentialReducer?.login);
+  const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
+  const [role, setRole] = useState('');
+
+  useEffect(() => {
+    setRole(login?.role);
+  }, [login, token])
+  
+
   const Layout = () => {
     return (
-      <div className="bg-mainBg text-mainColor min-h-screen flex flex-col overflow-x-hidden">
+      <div className="bg-softColor text-mainColor min-h-screen flex flex-col overflow-x-hidden">
         <AdminNavbar />
         <div className="flex flex-1">
-          <div className="lg:w-[250px] md:w-max sm:w-max py-1 px-5 border-r-2 border-softBg">
+          <div className="lg:w-[250px] md:w-max sm:w-max py-1 px-5 border-r-2 border-darkBg">
             <AdminMenu />
           </div>
           <div className="py-1 px-5 w-full">
@@ -44,11 +56,12 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        {isAdmin ? (
+        {role === "admin" ? (
           <Route path="/" element={<Layout />} >
-            <Route index element={<Admin />} ></Route>
-            <Route path="/user" element={<AdminUser />} ></Route>
-            <Route path="/product" element={<AdminProduct />} ></Route>
+            {/* <Route index element={<Admin />} ></Route> */}
+            <Route index element={<AdminProduct />} ></Route>
+            <Route path="/orders" element={<AdminUser />} ></Route>
+            <Route path="/category" element={<AdminCategory />} ></Route>
             <Route path="/user/:id" element={<AdminUserDetail />} ></Route>
             <Route path="/product/:id" element={<AdminProductDetail />} ></Route>
           </Route>

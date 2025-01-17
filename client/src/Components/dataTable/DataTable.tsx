@@ -24,6 +24,8 @@ type formDataInterface = {
   value: string;
 };
 
+
+
 const DataTable = (props: Props) => {
   const [rowData, setRowData] = useState([
     {
@@ -37,9 +39,41 @@ const DataTable = (props: Props) => {
       verified: false,
     }
   ]);
+  const [columns, setColumns] = useState<GridColDef[]>([]);
+
+  const actionColumn: GridColDef = {
+    field: 'action',
+    headerName: 'Action',
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="action flex gap-4 mt-4">
+          {/* <Link to={`/${props?.slug}/${params?.row?.id}`} onClick={() => handleEdit(params?.row)} >
+            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
+          </Link> */}
+          {/* <div onClick={() => handleEdit(params?.row)} >
+            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
+          </div> */}
+          <div className="delete" onClick={() => handleDelete(params?.row?.id)} >
+            <RiDeleteBin5Line size={20} cursor={'pointer'} color='red' />
+          </div>
+        </div>
+      )
+    }
+  };
   useEffect(() => {
     setRowData(props?.rows);
   }, [props?.rows]);
+
+  useEffect(() => {
+    if (props?.slug === 'product') {
+      setColumns([...props?.columns || [], actionColumn]);
+    } else {
+      setColumns([...props?.columns || []]);
+    }
+  }, []);
+
+
 
   const handleDelete = (id: number) => {
     //delete API
@@ -76,32 +110,13 @@ const DataTable = (props: Props) => {
     props?.setFormField(mappedHeaders);
   };
 
-  const actionColumn: GridColDef = {
-    field: 'action',
-    headerName: 'Action',
-    width: 200,
-    renderCell: (params) => {
-      return (
-        <div className="action flex gap-4 mt-4">
-          {/* <Link to={`/${props?.slug}/${params?.row?.id}`} onClick={() => handleEdit(params?.row)} >
-            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
-          </Link> */}
-          <div onClick={() => handleEdit(params?.row)} >
-            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
-          </div>
-          <div className="delete" onClick={() => handleDelete(params?.row?.id)} >
-            <RiDeleteBin5Line size={20} cursor={'pointer'} color='red' />
-          </div>
-        </div>
-      )
-    }
-  };
+
   return (
     <div className="dataTable" >
       <DataGrid
         className='dataGrid bg-white p-5'
-        rows={rowData}
-        columns={[...props?.columns || [], actionColumn]}
+        rows={props?.rows}
+        columns={columns}
         initialState={{
           pagination: {
             paginationModel: {

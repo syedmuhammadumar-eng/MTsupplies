@@ -53,6 +53,7 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Pencils',
+      isBestSelling: false
     },
     {
       id: '2',
@@ -66,6 +67,7 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Pens',
+      isBestSelling: false
     },
     {
       id: '3',
@@ -79,6 +81,7 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Brushes',
+      isBestSelling: false
     },
   ];
 

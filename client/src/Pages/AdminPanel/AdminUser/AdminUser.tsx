@@ -4,11 +4,12 @@ import { userRows } from "../../../data";
 import { RxAvatar } from "react-icons/rx";
 import { useState } from "react";
 import Add from "../../../Components/add/Add";
+import AddOrder from "../../../Components/addOrder/AddOrder";
 
 const columns: GridColDef<(typeof userRows)[number]>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
-    field: 'img', headerName: 'AVATAR', width: 100,
+    field: 'img', headerName: 'Image', width: 100,
     renderCell: (params) => {
       return (params?.row.img ? <img className="w-8 h-8 rounded-full object-cover" src={params?.row?.img} alt='' /> : <RxAvatar size={32} className="opacity-50" />)
     }
@@ -92,7 +93,7 @@ const AdminUser = () => {
         verified: formField[5]?.value === 'yes' ? true : false,
       };
 
-      user.unshift(newUser)
+      user.unshift(newUser);
       setUsers(user);
       setOpen(false);
     }
@@ -128,15 +129,15 @@ const AdminUser = () => {
   return (
     <div className="users">
       <div className="info flex items-center gap-5 mb-5">
-        <div className="text-4xl font-bold" >Users</div>
-        <button
-          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
+        <div className="text-4xl font-bold text-mainBg" >Orders</div>
+        {/* <button
+          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
           onClick={addNewuserButton}
         >Add New User</button>
         <button
-          className="p-2 cursor-pointer bg-softColor text-mainBg font-medium rounded-md"
+          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
           onClick={addNewuserButton}
-        >Save Changes</button>
+        >Save Changes</button> */}
       </div>
 
       <DataTable
@@ -152,11 +153,9 @@ const AdminUser = () => {
       />
 
       {open &&
-        <Add
+        <AddOrder
           isAddEdit={isAddEdit}
           handleSubmit={handleSubmit}
-          setFormField={setFormField}
-          formField={formField}
           slug="user"
           columns={columns}
           setOpen={setOpen}

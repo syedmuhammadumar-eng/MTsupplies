@@ -662,7 +662,7 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (done) Logout api: http://localhost:8080/api/v1/user/logout                       {Get}
 # (done) UpdateProfile api: http://localhost:8080/api/v1/user/profile-update        {Put}
 # (done) change password api: http://localhost:8080/api/v1/user/update-password     {put}
-# () admin panel api:                                                                {}
+# (done) admin panel api: http://localhost:8080/api/v1/admin                        {Get}
 
 
 <!--=============================2-PLATFORMS===================================-->

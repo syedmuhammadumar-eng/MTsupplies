@@ -4,6 +4,7 @@ import JWT from "jsonwebtoken";
 //import usermodel
 import userModel from "../models/UserModel.js";
 
+//1- Auth MiddleWare =============================================>
 //this is private route middleware 
 // we make this profile end point only accessable for those whose is register or login, thats why it is private 
 export const isAuth = async (req,res,next) => {
@@ -31,8 +32,17 @@ export const isAuth = async (req,res,next) => {
 
 };
 
-
-//Admin Role
-export const isadmin = async (req, res, next) => {
-     
-}
+//2- Admin Role/Auth MiddleWare =============================================>
+//Admin Role/Auth
+//Role Logic like admin/user
+// Note: we always receive req, res and next in middleware functions
+// Note: we provide next, to move middleare to controller
+export const isAdmin = async (req, res, next) => {
+    if(req.user.role !== 'Admin'){
+        return res.status(404).send({
+            success: false,
+            message: "Admin only",
+        });
+    }
+    next();
+};

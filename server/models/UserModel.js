@@ -18,8 +18,9 @@ const userSchema = new mongoose.Schema({
         // minLength:[6,'password length should be greater then 6 character']
     },
     role:{
-        type:String,
-        default: 'user',
+        type: String,
+        //by default user is user if admin provide , admin credentials so it wiil redired to admin
+        default: "user",
     },
 
     // address:{

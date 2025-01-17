@@ -657,12 +657,11 @@ process.exit(1) ensures that if the connection fails, the application stops.
 <!--=============================1-USER===================================-->
 # (done) genera api: http://localhost:8080/                                         {Get}
 # (done) register api: http://localhost:8080/api/v1/user/register                   {Post}   
-# (done) login api: http://localhost:8080/api/v1/user/login                         {Post}
+# (done) login/admin  api: http://localhost:8080/api/v1/user/login                         {Post}
 # (done) User Profile api: http://localhost:8080/api/v1/user/profile                {Get}
 # (done) Logout api: http://localhost:8080/api/v1/user/logout                       {Get}
 # (done) UpdateProfile api: http://localhost:8080/api/v1/user/profile-update        {Put}
 # (done) change password api: http://localhost:8080/api/v1/user/update-password     {put}
-# (done) admin panel api: http://localhost:8080/api/v1/admin                        {Get}
 
 
 <!--=============================2-PLATFORMS===================================-->

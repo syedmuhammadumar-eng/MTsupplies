@@ -30,3 +30,9 @@ export const isAuth = async (req,res,next) => {
     next();
 
 };
+
+
+//Admin Role
+export const isadmin = async (req, res, next) => {
+     
+}

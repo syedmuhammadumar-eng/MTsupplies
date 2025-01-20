@@ -84,7 +84,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pencil',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pencils'
+        categoryName: 'Pencils',
+        isBestSelling: false
     },
     {
         id: '2',
@@ -97,7 +98,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pen',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pens'
+        categoryName: 'Pens',
+        isBestSelling: false
     },
     {
         id: '3',
@@ -110,7 +112,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pen',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pens'
+        categoryName: 'Pens',
+        isBestSelling: false
     },
     {
         id: '4',
@@ -123,7 +126,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pen',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pens'
+        categoryName: 'Pens',
+        isBestSelling: false
     },
     {
         id: '5',
@@ -136,7 +140,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pencil',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pencils'
+        categoryName: 'Pencils',
+        isBestSelling: false
     },
     {
         id: '6',
@@ -149,7 +154,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pencil',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pencils'
+        categoryName: 'Pencils',
+        isBestSelling: false
     },
     {
         id: '7',
@@ -162,7 +168,8 @@ const initialData: ProductInterface[] = [
         Name: 'Pen',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Pens'
+        categoryName: 'Pens',
+        isBestSelling: false
     },
     {
         id: '8',
@@ -175,7 +182,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
     {
         id: '9',
@@ -188,7 +196,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
     {
         id: '10',
@@ -201,7 +210,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
     {
         id: '11',
@@ -214,7 +224,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
     {
         id: '12',
@@ -227,7 +238,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
     {
         id: '13',
@@ -240,7 +252,8 @@ const initialData: ProductInterface[] = [
         Name: 'Brush',
         quantity: 0,
         isDiscount: false,
-        categoryName: 'Brushes'
+        categoryName: 'Brushes',
+        isBestSelling: false
     },
 ];
 

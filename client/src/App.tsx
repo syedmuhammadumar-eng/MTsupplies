@@ -24,17 +24,10 @@ import AdminProductDetail from "./Pages/AdminPanel/adminProductDetail/AdminProdu
 import AdminCategory from "./Pages/AdminPanel/adminCategory/AdminCategory";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
-import { useEffect, useState } from "react";
-const App = () => {
-  const isAdmin = false;
-  const login = useSelector((state: RootState) => state.credentialReducer?.login);
-  const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
-  const [role, setRole] = useState('');
+import Order from "./Pages/Order/Order";
 
-  useEffect(() => {
-    setRole(login?.role);
-  }, [login, token])
-  
+const App = () => {
+  const login = useSelector((state: RootState) => state.credentialReducer?.login);
 
   const Layout = () => {
     return (
@@ -56,7 +49,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        {role === "admin" ? (
+        {login?.role === "admin" ? (
           <Route path="/" element={<Layout />} >
             {/* <Route index element={<Admin />} ></Route> */}
             <Route index element={<AdminProduct />} ></Route>
@@ -76,6 +69,7 @@ const App = () => {
             <Route path="/Cart" element={<Cart />} />
             <Route path="/contact" element={<Contact />}></Route>
             <Route path="/paymentgateway" element={<Payment />}></Route>
+            <Route path="/order" element={<Order />} ></Route>
           </Route>
         )}
         {/*   <Route path="/journal" element={<Journal />}></Route>

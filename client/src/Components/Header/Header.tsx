@@ -114,10 +114,13 @@ const Header = () => {
       navigate('/Login');
     } else if (authValue === 'signup') {
       navigate('/Signup');
+    } else if (authValue === 'order') {
+      navigate('/order')
     } else {
       GetService('/user/logout', token)
         .then((response) => {
           console.log(response);
+          navigate('/');
           dispatch(setRemoveToken());
           setIsDropDown(false);
         })
@@ -201,6 +204,12 @@ const Header = () => {
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 24 }}
                     className='absolute top-5 -left-12 w-32 bg-white mt-2 border border-gray-600 rounded-sm p-2 flex flex-col  items-start' >
+                    <motion.div
+                      whileTap={{ scale: 0.9 }}
+                      className='font-medium hover:bg-gray-300 cursor-pointer border-b border-gray-500 w-full p-1'
+                      onClick={() => handleAuthNavigation('order')} >
+                      Orders
+                    </motion.div>
                     <motion.div
                       whileTap={{ scale: 0.9 }}
                       className='font-medium hover:bg-gray-300 cursor-pointer border-b border-gray-500 w-full p-1'

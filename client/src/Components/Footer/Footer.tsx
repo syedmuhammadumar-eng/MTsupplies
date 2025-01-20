@@ -85,9 +85,9 @@ const Footer = () => {
               <img src={phoneWhite} alt="whatsapp" className="" />
               <label className='text-white font-medium' >(+441) 58 8284186</label>
             </div>
-            <div className="flex flex-row py-5 gap-3"><img src={pointerwhite} alt="whatsapp" className="" />
+            {/* <div className="flex flex-row py-5 gap-3"><img src={pointerwhite} alt="whatsapp" className="" />
               <label className='text-white font-medium' >View Store Location</label>
-            </div>
+            </div> */}
           </div>
 
           <div>

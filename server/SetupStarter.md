@@ -655,9 +655,9 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 
 <!--=============================1-USER===================================-->
-# (done) genera api: http://localhost:8080/                                         {Get}
+# (done) general api: http://localhost:8080/                                         {Get}
 # (done) register api: http://localhost:8080/api/v1/user/register                   {Post}   
-# (done) login/admin  api: http://localhost:8080/api/v1/user/login                         {Post}
+# (done) login/admin  api: http://localhost:8080/api/v1/user/login                  {Post}
 # (done) User Profile api: http://localhost:8080/api/v1/user/profile                {Get}
 # (done) Logout api: http://localhost:8080/api/v1/user/logout                       {Get}
 # (done) UpdateProfile api: http://localhost:8080/api/v1/user/profile-update        {Put}
@@ -669,7 +669,9 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 
 <!--=============================3-PRODUCTS===================================-->
-# () create product api:                                {}
+# (done) get all products as admin, api: http://localhost:8080/api/v1/product/get-all         {get}
+# (done, but it shows when product are been created) get single product as admin, api:http://localhost:8080/api/v1/product/paramsValueId  {get}
+# (work in progress) create product api:                {}
 # () update product api:                                {}
 # () update product image api:                          {}
 # () delete product api:                                {}

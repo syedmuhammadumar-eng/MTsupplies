@@ -6,12 +6,12 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from 'dotenv';
 import connectDB from "./config/db.js";
-import cookieParser from 'cookie-parser'
+import cookieParser from 'cookie-parser';
 
 //=========================================================> dot env config 
 dotenv.config();
 
-//=========================================================> database connection
+//=========================================================> database connection call to execute
 connectDB();
 
 
@@ -24,27 +24,39 @@ const app = express();
 
 
 //======================================================> MiddleWares
-//morgan
+//morgan middleware
 app.use(morgan("dev"));
 
 //Json middleware
 app.use(express.json())
 
-//cors
+//cors middleware
 app.use(cors())
 
-//cookie parser
+//cookie parser middleware
 app.use(cookieParser());
 
 
-//===================================================================> Test/Dry
-//Dummy Route To test the code other wise we will shift into Routes
+//===================================================================>All Routes import in main
+// Note:we must define .js with rotes because we are using import export , Esc
 
-//import route and create route here below
-import userRoutes from './routes/auth/auth-routes.js'
+
+//1- import User Route file
+//Note: here we define in the last, route file name instead of single route, in file all routes functions are there in single file
+import userRoutes from './routes/auth/auth-routes.js';
 app.use("/api/v1/user", userRoutes );
 
+//2- import Product Route file
+//Note: in second here we define new route file name because we created new route file in routes folder
+import productRoutes from './routes/shop/productsRoutes.js';
+app.use('/api/v1/product', productRoutes);
 
+//3- import Route file
+ 
+//4- import Route file
+
+
+//0- dummy route, will be removed later on
 app.get("/", (req, res) => {
     return res.status(200).send("<h1> Welcome to node server </h1>");
 });

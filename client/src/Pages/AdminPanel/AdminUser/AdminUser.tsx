@@ -81,51 +81,51 @@ const AdminUser = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('formField', formField);
-    if (isAddEdit === 'Add') {
-      const user = [...users];
-      const newUser = {
-        id: Math.floor(Math.random() * 1000),
-        img: "",
-        firstName: formField[0]?.value,
-        lastName: formField[1]?.value,
-        email: formField[2]?.value,
-        phone: formField[3]?.value,
-        createdAt: formField[4]?.value,
-        verified: formField[5]?.value === 'yes' ? true : false,
-      };
+  //   console.log('formField', formField);
+  //   if (isAddEdit === 'Add') {
+  //     const user = [...users];
+  //     const newUser = {
+  //       id: Math.floor(Math.random() * 1000),
+  //       img: "",
+  //       firstName: formField[0]?.value,
+  //       lastName: formField[1]?.value,
+  //       email: formField[2]?.value,
+  //       phone: formField[3]?.value,
+  //       createdAt: formField[4]?.value,
+  //       verified: formField[5]?.value === 'yes' ? true : false,
+  //     };
 
-      user.unshift(newUser);
-      setUsers(user);
-      setOpen(false);
-    }
-    else {
-      const editUsers = [...users];
-      const newEditUser = {
-        id: editRowId,
-        img: "",
-        firstName: formField[0]?.value,
-        lastName: formField[1]?.value,
-        email: formField[2]?.value,
-        phone: formField[3]?.value,
-        createdAt: formField[4]?.value,
-        verified: formField[5]?.value === 'yes' ? true : false,
-      };
-      const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
-      if (findEditedRowIndex !== -1) {
-        editUsers.splice(findEditedRowIndex, 1, newEditUser);
-      }
-      setUsers(editUsers);
-      setOpen(false);
-    }
-    //add new item
-    //axios.post(`/api/${slug}s`, {})
-  };
+  //     user.unshift(newUser);
+  //     setUsers(user);
+  //     setOpen(false);
+  //   }
+  //   else {
+  //     const editUsers = [...users];
+  //     const newEditUser = {
+  //       id: editRowId,
+  //       img: "",
+  //       firstName: formField[0]?.value,
+  //       lastName: formField[1]?.value,
+  //       email: formField[2]?.value,
+  //       phone: formField[3]?.value,
+  //       createdAt: formField[4]?.value,
+  //       verified: formField[5]?.value === 'yes' ? true : false,
+  //     };
+  //     const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
+  //     if (findEditedRowIndex !== -1) {
+  //       editUsers.splice(findEditedRowIndex, 1, newEditUser);
+  //     }
+  //     setUsers(editUsers);
+  //     setOpen(false);
+  //   }
+  //   //add new item
+  //   //axios.post(`/api/${slug}s`, {})
+  // };
 
-  const addNewuserButton = () => {
-    setIsAddEdit('Add');
-    setFormField(initialFormData);
-    setOpen(true);
+  // const addNewuserButton = () => {
+  //   setIsAddEdit('Add');
+  //   setFormField(initialFormData);
+  //   setOpen(true);
   };
 
   return (
@@ -187,7 +187,7 @@ const AdminUser = () => {
         <AddOrder
           isAddEdit={isAddEdit}
           handleSubmit={handleSubmit}
-          slug="user"
+          slug="orders"
           columns={columns}
           setOpen={setOpen}
         />}

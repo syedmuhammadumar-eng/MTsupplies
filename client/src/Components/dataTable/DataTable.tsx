@@ -1,8 +1,6 @@
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import "./dataTable.css";
-import { Link } from 'react-router';
 import { RiDeleteBin5Line } from 'react-icons/ri';
-import { AiTwotoneEdit } from "react-icons/ai";
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -30,16 +28,18 @@ const DataTable = (props: Props) => {
   const [rowData, setRowData] = useState([
     {
       id: 0,
+      productId: 0,
       imgSrc: "",
-      lastName: "",
-      firstName: "",
-      email: "",
-      phone: "",
-      createdAt: "",
-      verified: false,
+      specialText: '',
+      isSpecial: false,
+      paragraph: '',
+      price: '',
+      Name: '',
+      quantity: 0,
+      isDiscount: false,
+      categoryName: ''
     }
   ]);
-  const [columns, setColumns] = useState<GridColDef[]>([]);
 
   const actionColumn: GridColDef = {
     field: 'action',
@@ -48,12 +48,6 @@ const DataTable = (props: Props) => {
     renderCell: (params) => {
       return (
         <div className="action flex gap-4 mt-4">
-          {/* <Link to={`/${props?.slug}/${params?.row?.id}`} onClick={() => handleEdit(params?.row)} >
-            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
-          </Link> */}
-          {/* <div onClick={() => handleEdit(params?.row)} >
-            <AiTwotoneEdit size={20} cursor={'pointer'} color='green' />
-          </div> */}
           <div className="delete" onClick={() => handleDelete(params?.row?.id)} >
             <RiDeleteBin5Line size={20} cursor={'pointer'} color='red' />
           </div>
@@ -64,16 +58,6 @@ const DataTable = (props: Props) => {
   useEffect(() => {
     setRowData(props?.rows);
   }, [props?.rows]);
-
-  useEffect(() => {
-    if (props?.slug === 'product') {
-      setColumns([...props?.columns || [], actionColumn]);
-    } else {
-      setColumns([...props?.columns || []]);
-    }
-  }, []);
-
-
 
   const handleDelete = (id: number) => {
     //delete API
@@ -98,15 +82,6 @@ const DataTable = (props: Props) => {
       return header;
     });
 
-    // const editUserFields = [
-    //   { id: 0, headerName: 'First Name', value: row?.firstName, type: 'text' },
-    //   { id: 1, headerName: 'Last Name', value: row?.lastName, type: 'text' },
-    //   { id: 2, headerName: 'Email', value: row?.email, type: 'text' },
-    //   { id: 3, headerName: 'Phone', value: row?.phone, type: 'text' },
-    //   { id: 4, headerName: 'createdAt', value: row?.createdAt, type: 'text', },
-    //   { id: 5, headerName: 'Verified', value: row?.verified, type: 'text' },
-    // ];
-
     props?.setFormField(mappedHeaders);
   };
 
@@ -115,8 +90,8 @@ const DataTable = (props: Props) => {
     <div className="dataTable" >
       <DataGrid
         className='dataGrid bg-white p-5'
-        rows={props?.rows}
-        columns={columns}
+        rows={rowData}
+        columns={[...props?.columns || [], actionColumn]}
         initialState={{
           pagination: {
             paginationModel: {

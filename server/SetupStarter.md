@@ -602,7 +602,10 @@ SESSION_COOKIE_NAME=sessionId
 SESSION_MAX_AGE=86400000  # 1 day in milliseconds
 
 
-
+# category api
+# parent category api
+# sales api
+# 
 <!--================================================ 7. Database Connection (config/db.js) ================================================-->
 
 # You’ll need to establish a connection with MongoDB using Mongoose.
@@ -645,17 +648,22 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # Learn Node js & Express with Project | Node.js, Express & MongoDB Project | Node js Ecommerce App (Techinfo YT: 8 hours content)
 - https://www.youtube.com/watch?v=AxcCilviM-c 
 
-
-
-
 - Note: remember (req.body)  data is provided by the client and we destructure that data in to the backend  use
 
 <!--================================================ LEGAL: HERE ALL ABOUT THIS BACKEND API DOCS ================================================-->
+# Cloudinary :
+- google account: developer.smu.forall@gmail.com
+- cloudname : do8ozalhb
+- Api key : 196661788574769
+- Api Secret key: Gj59IXpwrg53PrsrwDvl_kRDgUs
 
+# mongodb : 
+# github : 
+# 
 
 
 <!--=============================1-USER===================================-->
-# (done) general api: http://localhost:8080/                                         {Get}
+# (done) general api: http://localhost:8080/                                        {Get}
 # (done) register api: http://localhost:8080/api/v1/user/register                   {Post}   
 # (done) login/admin  api: http://localhost:8080/api/v1/user/login                  {Post}
 # (done) User Profile api: http://localhost:8080/api/v1/user/profile                {Get}
@@ -665,21 +673,21 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 
 <!--=============================2-PLATFORMS===================================-->
-# () Image upload, cloudinary:                          {}
+# (done) Image upload, cloudinary:                        
 
 
 <!--=============================3-PRODUCTS===================================-->
-# (done) get all products as admin, api: http://localhost:8080/api/v1/product/get-all         {get}
-# (done, but it shows when product are been created) get single product as admin, api:http://localhost:8080/api/v1/product/paramsValueId  {get}
-# (work in progress) create product api:                {}
-# () update product api:                                {}
-# () update product image api:                          {}
-# () delete product api:                                {}
-# () categories api:                                    {}
+# (done) get all products as admin, api: http://localhost:8080/api/v1/product/get-all                               {get}
+# (done, ) get single product as admin, api:http://localhost:8080/api/v1/product/paramsValueId                      {get}
+# (done) create product api: http://localhost:8080/api/v1/product/create                                            {post}
+# (done) update product api through product id: http://localhost:8080/api/v1/product/678f7885d7bcded6e9faecb1       {put}
+# (done) update product image api:  http://localhost:8080/api/v1/product/image/678f7885d7bcded6e9faecb1             {put}
+# (done) delete product api:                                {delete}
+# (pending) categories api:                                    {post}
 
 
 <!--=============================4-ORDERS===================================-->
-# () order api:                                       {}
+# (tomorrow) order api:                                       {}
 # () my orders api:                                   {}
 # () product reviews and rating api:                  {}
 # () filters api:                                     {}

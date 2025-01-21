@@ -7,6 +7,8 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import connectDB from "./config/db.js";
 import cookieParser from 'cookie-parser';
+import cloudinary from "cloudinary";
+
 
 //=========================================================> dot env config 
 dotenv.config();
@@ -14,13 +16,16 @@ dotenv.config();
 //=========================================================> database connection call to execute
 connectDB();
 
-
+//=========================================================> cloudinary Config/setup
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //create rest object because we can not use express directly, so we create copy of that , we use express in "app" named variable ,so all the express functionalities comes into app var, then now you can create routes with the help of app and we have lots of methods in express, most famous is get() method
 //rest object
 const app = express();
-
-
 
 
 //======================================================> MiddleWares

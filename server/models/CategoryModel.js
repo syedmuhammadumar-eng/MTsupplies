@@ -1,7 +1,7 @@
 // /CategoryModel.js
 
 import mongoose from "mongoose";
-import productModel from "./ProductModel";
+// import productModel from "./ProductModel";
 
 const categorySchema = new mongoose.Schema({
     category:{

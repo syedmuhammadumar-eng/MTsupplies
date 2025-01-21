@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+import CategoryModel from "./CategoryModel.js";
 
 
 // productSchema

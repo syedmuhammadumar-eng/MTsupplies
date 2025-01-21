@@ -12,14 +12,14 @@ export const registerControler = async (req,res) => {
         // get data from the user, all those data  that we define in models> user schema and names should be same like name: in schema so name: in also same in controller
         //destructue data from the req 
         // const {name,email,password,address,city,country,phone,profilepic} = req.body
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
 
         //1- validation to check all data is coming or not
         // if(!name | !email || !password || !city || !address || !country){
         if (!name || !email || !password) {
             return res.json({
                 success: false,
-                message: "please Fill all Fields"
+                message: "Please Fill all Fields"
             });
         };
 
@@ -37,7 +37,9 @@ export const registerControler = async (req,res) => {
         };
 
         if (password.length < 8) {
-            return res.json({success: false, message: "password length should be greater than 6 character"});            
+            return res.json({
+                success: false,
+                message: "password length should be greater than 6 character"});            
         }
         
         //3- check exising password
@@ -58,6 +60,7 @@ export const registerControler = async (req,res) => {
             name,
             email,
             password,
+            role,
         });
 
         res.json({

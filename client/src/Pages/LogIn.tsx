@@ -7,9 +7,11 @@ import DangerToast from "../global/DangerToast";
 import { useDispatch } from "react-redux";
 import { setLoginData, setToken } from "../redux/credentialReducer";
 import { authService } from "../global/GeneralService";
+import ResponsiveDialog from "../global/Modal";
 const LogIn = () => {
     const [isPasswordIcon, setPasswordIcon] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
+    const [openModal, setModalOpen] = useState(false);
     const [warningMessage, setWarningMessage] = useState<string>('');
     const [form, setForm] = useState({
         email: '',
@@ -47,6 +49,7 @@ const LogIn = () => {
 
     return (
         <>
+            <ResponsiveDialog open={openModal} setOpen={setModalOpen} />
             <DangerToast
                 open={open}
                 setOpen={setOpen}
@@ -73,7 +76,9 @@ const LogIn = () => {
                     </div>
                     <div className='mt-5 flex justify-between items-center' >
                         <div className="text-xl font-medium" >Password</div>
-                        <div className="font-medium text-base text-[#0082E7] cursor-pointer hover:underline">forget password?</div>
+                        <div
+                            onClick={() => setModalOpen(true)}
+                            className="font-medium text-base text-[#0082E7] cursor-pointer hover:underline">forget password?</div>
                     </div>
 
                     <div className='mt-2' >

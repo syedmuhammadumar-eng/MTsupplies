@@ -24,9 +24,9 @@ const Hero = () => {
 			<Slider {...settings}>
 				<div>
 				<div className="relative">
-						<Image imgSrc={bannerImage} />
+						<Image className={'w-full'} imgSrc={bannerImage} />
 						<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-							<label className="text-white font-bold text-4xl sm:text-5xl md:text-6xl">
+							<label className="text-white font-bold text-4xl sm:text-4xl md:text-6xl">
 								SHOP PARTY DECORATIONS
 							</label>
 						</div>
@@ -34,9 +34,9 @@ const Hero = () => {
 				</div>
 				<div>
 				<div className="relative">
-						<Image imgSrc={bannerImage2} />
+						<Image className={'w-full'} imgSrc={bannerImage2} />
 						<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-							<label className="text-white font-bold text-4xl sm:text-5xl md:text-6xl">
+							<label className="text-white font-bold text-4xl sm:text-4xl md:text-6xl">
 								SHOP PARTY DECORATIONS
 							</label>
 						</div>
@@ -44,9 +44,9 @@ const Hero = () => {
 				</div>
 				<div>
 				<div className="relative">
-						<Image imgSrc={bannerImage3} />
+						<Image className={'w-full'} imgSrc={bannerImage3} />
 						<div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
-							<label className="text-white font-bold text-4xl sm:text-5xl md:text-6xl">
+							<label className="text-white font-bold text-4xl sm:text-4xl md:text-6xl">
 								SHOP PARTY DECORATIONS
 							</label>
 						</div>

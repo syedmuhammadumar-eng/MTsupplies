@@ -1,7 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
 import CustomInput from "../Global/CustomInput";
-import { useState } from "react";
-// import { useState } from "react";
+import { useRef, useState } from "react";
+import { IoCloudUploadOutline } from "react-icons/io5";
+import { CiFileOn } from "react-icons/ci";
 
 type Props = {
     slug: string,
@@ -11,6 +12,7 @@ type Props = {
     isAddEdit: string,
     form: formDataInterface,
     setFormData: React.Dispatch<React.SetStateAction<formDataInterface>>,
+    handleAddProduct(): void
 };
 
 type formDataInterface = {
@@ -22,12 +24,13 @@ type formDataInterface = {
     category: Array<Icategory>,
     bestSeller: boolean,
     categoryValue: string,
+    imageFile: { name: string },
 };
 
 type Icategory = {
     name: string,
     value: string,
-}
+};
 
 // {
 //     id: '1',
@@ -48,16 +51,43 @@ type Icategory = {
 
 const Add = (props: Props) => {
 
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [imageFile, setImageFile] = useState({
+        name: ''
+    });
+
     const handleChange = (field: string, value: string | boolean) => {
         const newFormState = { ...props?.form, [field]: value };
         props?.setFormData(newFormState);
+    };
+
+    const handleImageFileChange = (event) => {
+        const selectedFile = event.target.files?.[0];
+        console.log(selectedFile);
+
+        if (selectedFile) {
+            props?.setFormData((prev) => ({
+                ...prev,
+                imageFile: selectedFile,
+            }));
+        }
+    };
+    const handleRemoveImage = () => {
+        props?.setFormData((prev) => ({
+            ...prev,
+            imageFile: { name: '' },
+        }));
+        if (inputRef.current) {
+            inputRef.current.value = "";
+        }
     };
 
     return (
         <div className="add w-screen h-screen absolute top-0 left-0 bg-[rgba(0,0,0,0.724)] flex items-center justify-center" >
             <div className="modal p-12 rounded-xl bg-white relative w-[30rem]">
                 <span className="close absolute top-3 right-3 cursor-pointer text-mainBg font-extrabold text-xl" onClick={() => props?.setOpen(false)} >X</span>
-                <div className="text-3xl font-bold mb-10 text-mainBg" >{props?.isAddEdit} {props?.isAddEdit === 'Add' ? 'New' : ''} {props?.slug}</div>
+                <div className="text-3xl font-bold text-mainBg" >{props?.isAddEdit} {props?.isAddEdit === 'Add' ? 'New' : ''} {props?.slug}</div>
+
                 <form
                     className=""
                     onSubmit={props?.handleSubmit} >
@@ -119,7 +149,33 @@ const Add = (props: Props) => {
                             onChange={() => handleChange('bestSeller', !props?.form?.bestSeller)}
                         />
                     </div>
-                    <button className="w-full p-3 cursor-pointer bg-softColor rounded-md text-mainBg font-semibold ">{props?.isAddEdit}</button>
+                    <div className="text-black" >
+                        <input
+                            id={"image-upload"}
+                            type={"file"}
+                            className="hidden"
+                            ref={inputRef}
+                            onChange={(event) => handleImageFileChange(event)}
+                        // disabled={isEditMode}
+                        />
+                        {/* ${isEditMode ? "cursor-not-allowed" : ""} */}
+                        {!props?.form?.imageFile?.name ? (
+                            <label
+                                htmlFor="image-upload"
+                                className={`flex flex-col items-center justify-center h-32 cursor-pointer`}
+                            >
+                                <IoCloudUploadOutline className="w-10 h-10 text-muted-foreground mb-2" />
+                                <span>Upload image</span>
+                            </label>
+                        ) : (
+                            <div className="flex justify-center items-center gap-8 mb-5" >
+                                <div><CiFileOn size={24} /></div>
+                                <div><p className="font-medium" >{props?.form?.imageFile?.name}</p></div>
+                                <div><span className="cursor-pointer text-mainBg font-extrabold text-lg" onClick={() => handleRemoveImage()} >X</span></div>
+                            </div>
+                        )}
+                    </div>
+                    <button className="w-full p-3 cursor-pointer bg-softColor rounded-md text-mainBg font-semibold " onClick={props?.handleAddProduct}>{props?.isAddEdit}</button>
                 </form>
             </div>
         </div>

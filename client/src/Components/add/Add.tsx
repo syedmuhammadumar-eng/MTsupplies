@@ -19,12 +19,13 @@ type formDataInterface = {
     title: string,
     desc: string,
     isSpecial: boolean,
-    specialText: string,
-    price: string,
+    specialText: number,
+    price: number,
     category: Array<Icategory>,
     bestSeller: boolean,
     categoryValue: string,
-    imageFile: { name: string },
+    imageFile: any,
+    stock: number,
 };
 
 type Icategory = {
@@ -52,9 +53,6 @@ type Icategory = {
 const Add = (props: Props) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
-    const [imageFile, setImageFile] = useState({
-        name: ''
-    });
 
     const handleChange = (field: string, value: string | boolean) => {
         const newFormState = { ...props?.form, [field]: value };
@@ -118,7 +116,8 @@ const Add = (props: Props) => {
                         <input
                             hidden={!props?.form?.isSpecial}
                             className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
-                            placeholder={'Special offer name'}
+                            placeholder={'Special offer price'}
+                            type={'number'}
                             value={props?.form?.specialText}
                             onChange={(event) => handleChange('specialText', event.target.value)}
                         />
@@ -126,8 +125,17 @@ const Add = (props: Props) => {
                         <input
                             className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             placeholder={'Price'}
+                            type="number"
                             value={props?.form?.price}
                             onChange={(event) => handleChange('price', event.target.value)}
+                        />
+                        <label className="text-sm font-medium text-mainBg">Stock</label>
+                        <input
+                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            placeholder={'Stock'}
+                            type="number"
+                            value={props?.form?.stock}
+                            onChange={(event) => handleChange('stock', event.target.value)}
                         />
                         <label className="text-sm font-medium text-mainBg">Category</label>
                         <select

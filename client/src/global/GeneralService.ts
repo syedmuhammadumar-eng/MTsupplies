@@ -39,6 +39,20 @@ export const PostService = (url, data, userToken) => {
     );
 };
 
+export const FormPostService = (url, data, userToken) => {
+    return axios.post(
+        `${localHost}${url}`,
+        data,
+        {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `${userToken}`,
+
+            },
+        }
+    );
+};
+
 export const GetService = (url, userToken) => {
     return axios.get(
         `${localHost}${url}`,
@@ -48,5 +62,18 @@ export const GetService = (url, userToken) => {
                 Authorization: `${userToken}`,
             },
         }
+    );
+};
+
+export const DeleteService = (url, id, userToken) => {
+    return axios.delete(
+        `${localHost}${url}${id}`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${userToken}`,
+
+            },
+        },
     );
 };

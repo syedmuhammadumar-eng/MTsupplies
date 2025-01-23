@@ -3,7 +3,7 @@ import DataTable from "../../../Components/dataTable/DataTable";
 import Add from "../../../Components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
 import { products } from "../../../data";
-import { AllProductsGetService, PostService } from "../../../global/GeneralService";
+import { AllProductsGetService, DeleteService, FormPostService } from "../../../global/GeneralService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
@@ -66,7 +66,7 @@ const initialFormData = [
 
 const AdminProduct = () => {
   const [open, setOpen] = useState(false);
-  const [users, setUsers] = useState(products);
+  const [users, setUsers] = useState([]);
   const [formField, setFormField] = useState(initialFormData);
   const [isAddEdit, setIsAddEdit] = useState('Add');
   const [editRowId, setEditRowId] = useState(0);
@@ -76,8 +76,8 @@ const AdminProduct = () => {
     title: '',
     desc: '',
     isSpecial: false,
-    specialText: '',
-    price: '',
+    specialText: 0,
+    price: 0,
     categoryValue: '6',
     category: [
       { name: 'Parties Decor', value: '1' },
@@ -87,20 +87,50 @@ const AdminProduct = () => {
       { name: 'Art & Craft', value: '5' },
       { name: 'School Stationary', value: '6' },
     ],
+    stock: 0,
     bestSeller: false,
-    imageFile: { name: '' },
+    imageFile: '',
   });
 
-
+  // {
+  //     id: '1',
+  //     productId: 1,
+  //     imgSrc: product1,
+  //     specialText: 'Special',
+  //     isSpecial: true,
+  //     paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
+  //     price: '1.12',
+  //     Name: 'Pencil',
+  //     quantity: 0,
+  //     isDiscount: false,
+  //     categoryName: 'Pencils',
+  //     isBestSelling: false
+  // },
 
   useEffect(() => {
     getProductList();
   }, []);
 
-  const getProductList = () => {
-    AllProductsGetService('/product/get-all')
+  const getProductList = async () => {
+    await AllProductsGetService('/product/get-all')
       .then((response) => {
         console.log(response);
+        // setUsers(response?.data?.products);
+        const allProducts = response.data?.products.map((item) => ({
+          id: item?._id,
+          productId: 7,
+          imgSrc: item?.images[0]?.url,
+          specialText: 0,
+          isSpecial: true,
+          paragraph: item?.description,
+          price: item?.price,
+          Name: item?.name,
+          quantity: 0,
+          isDiscount: false,
+          categoryName: 'Brushes',
+          stock: item?.stock,
+        }));
+        setUsers(allProducts);
       })
       .catch((error) => {
         console.log(error);
@@ -108,55 +138,33 @@ const AdminProduct = () => {
   };
 
   const handleAddProduct = () => {
-    
-    const payload = {
-      
-    };
 
-    PostService('/product/create', payload, token)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('formField', formField);
-    if (isAddEdit === 'Add') {
-      const user = [...users];
-      const newUser = {
-        id: Math.floor(Math.random() * 1000),
-        productId: Number(form?.categoryValue),
-        imgSrc: "https://store.sony.com.au/on/demandware.static/-/Sites-sony-master-catalog/default/dw1b537bbb/images/PLAYSTATION5W/PLAYSTATION5W.png",
-        specialText: form?.specialText,
-        isSpecial: form?.isSpecial,
-        paragraph: form?.desc,
-        price: form?.price,
-        Name: form?.title,
-        quantity: 0,
-        isDiscount: false,
-        categoryName: form?.category[5].name
-      };
 
-      user.unshift(newUser);
-      setUsers(user);
-      setOpen(false);
-    };
+    const formData = new FormData();
+
+    formData.append('name', form?.title);
+    formData.append('description', form?.title);
+    formData.append('price', String(form?.price));
+    formData.append('isSpecial', String(form?.isSpecial));
+    formData.append('specialoffer', String(form?.specialText));
+    formData.append('stock', String(form?.stock));
+    formData.append('category', form?.categoryValue)
+    formData.append('file', form?.imageFile as string | Blob);
+
+    FormPostService('/product/create', formData, token)
+      .then((response) => {
+        console.log(response);
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   };
-
-
-  // TEST THE API
-
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ["allproducts"],
-  //   queryFn: () =>
-  //     fetch("http://localhost:8800/api/products").then(
-  //       (res) => res.json()
-  //     ),
-  // });
 
   const addNewuserButton = () => {
     setIsAddEdit('Add');
@@ -164,8 +172,13 @@ const AdminProduct = () => {
     setOpen(true);
   };
 
-  const saveChanges = () => {
-    //API will be integrated.
+  const handleDelete = (id: string) => {
+    DeleteService('/product/delete-product/', id, token)
+      .then((response) => {
+        console.log(response);
+        getProductList();
+      })
+      .catch((error) => { console.log(error); })
   };
 
   return (
@@ -176,10 +189,6 @@ const AdminProduct = () => {
           className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
           onClick={addNewuserButton}
         >Add New Product</button>
-        <button
-          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
-          onClick={saveChanges}
-        >Save Changes</button>
       </div>
       <DataTable
         slug="product"
@@ -191,6 +200,7 @@ const AdminProduct = () => {
         formField={formField}
         setIsAddEdit={setIsAddEdit}
         setEditRowId={setEditRowId}
+        handleDelete={handleDelete}
       />
       {open &&
         <Add

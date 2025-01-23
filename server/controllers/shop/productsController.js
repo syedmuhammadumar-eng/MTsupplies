@@ -6,19 +6,23 @@ import cloudinary from 'cloudinary';
 
 //import datauri
 import {getDataUri} from '../../utils/features.js';
+
+//import userModel schema
 import userModel from "../../models/UserModel.js";
 
+//import category model schema
+import categoryModel from "../../models/CategoryModel.js";
 
 // 1- Get all products
 export const getAllProductsController = async (req, res) => {
     try{
-        //get all procuts
+        //get all products
         const products = await productModel.find({});
         res.status(200).send({
             success:true,
             message:'all products fetched successfully',
             products,
-        })
+        });
 
     } catch (error){
         console.log(error)
@@ -154,7 +158,7 @@ export const updateProductController = async (req, res) => {
             success: true,
             message: 'product details updated',
             product
-        })
+        });
 
     } catch (error){
         console.log(error);
@@ -170,7 +174,7 @@ export const updateProductController = async (req, res) => {
             message: "Error In Update Product Api",
             error,
 
-        })
+        });
     }
 };
 
@@ -187,7 +191,7 @@ export const updateProductImageController = async (req, res) => {
             return res.status(404).send({
                 success: false,
                 message: 'Product not found'
-            })
+            });
         }
           
         // 3- 
@@ -195,7 +199,7 @@ export const updateProductImageController = async (req, res) => {
             return res.status(404).send({
                 success: false,
                 message: "Product Image Not found"
-            })
+            });
         }
 
         // 4- 
@@ -212,7 +216,7 @@ export const updateProductImageController = async (req, res) => {
         res.status(200).send({
             success: true,
             message: 'Product image updated',
-        })
+        });
 
     }catch (error){
         console.log(error);
@@ -242,7 +246,7 @@ export const deleteProductImageController = async (req,res) => {
             return res.status(404).send({
                 success: false,
                 message: 'Product not found'
-            })
+            });
         }
 
         //3- find image id
@@ -265,7 +269,7 @@ export const deleteProductImageController = async (req,res) => {
             return res.status(404).send({
                 success: false,
                 message: "Image not found"
-        })
+            });
         }
 
         //Delete product image
@@ -309,7 +313,7 @@ export const deleteProductController = async (req, res) => {
                 success: false,
                 message: "Product Not Found",
                 error
-            })
+            });
         }
 
         //find and delete image cloudinary , bcz we also delete whole product with image too.
@@ -331,18 +335,68 @@ export const deleteProductController = async (req, res) => {
             return res.status(500).send({
                 success: false,
                 message: "Invalid Id"
-            })
+            });
         }
 
         res.status(500).send({
             success: false,
             message: "Error in Delete whole Product"
-        })
+        });
     }
 }
 
 
+// 8- Create Product Categories controller
+export const createProductCategoriesController = async (req, res) =>{
+    try{
 
+        const { category } = req.body;
+
+        //validation
+        if(!category){
+            return res.status(404).send({
+                success: false,
+                message: "Please provide Category Name"
+            });
+        }
+
+        //this function is for try and test, and will be removed it later on, if not work properly by smu
+        const categories = await categoryModel.find({});
+        if(categories === category){
+            return res.status(500).send({
+                success: false,
+                message: "this name is already exist, try with different name"
+            });
+        }
+
+        //save this category name into category
+        await categoryModel.create({
+            category
+        });
+
+        res.status(200).send({
+            success: true,
+            message: ` ${category} Category Created successfully `,
+            category    
+        });
+
+
+    } catch (error){
+        console.log(error)
+        if(error.name === "CastError"){
+            return res.status(500).send({
+                success: false,
+                message: "Invalid id"
+            });
+        }
+
+        return res.status(500).send({
+            success: false,
+            message: "Error in Create Categories Api",
+            error
+        });
+    }
+}
 
 
 

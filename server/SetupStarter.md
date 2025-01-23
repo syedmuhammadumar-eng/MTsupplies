@@ -683,15 +683,14 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (done) update product api through product id: http://localhost:8080/api/v1/product/678f7885d7bcded6e9faecb1       {put}
 # (done) update product image api:  http://localhost:8080/api/v1/product/image/678f7885d7bcded6e9faecb1             {put}
 # (done) delete product api: http://localhost:8080/api/v1/product/delete-product/67910fc496a4e93672d0e97b           {delete}
-# (working) categories api:                                    {post}
+# (doen) categories api: http://localhost:8080/api/v1/product/create-category                                       {post}
 # (done) delete product image api: http://localhost:8080/api/v1/product/delete-image/678f7885d7bcded6e9faecb1?id=678f7885d7bcded6e9faecb2            {delete}
 
 
 <!--=============================4-ORDERS===================================-->
-# (working) order api:                                       {}
+# (working) order api:                                {}
 # () my orders api:                                   {}
 # () product reviews and rating api:                  {}
-
 # () filters api:                                     {}
 
 <!--=============================5-PAYMENT/ADMIN===================================-->

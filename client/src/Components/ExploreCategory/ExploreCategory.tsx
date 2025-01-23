@@ -12,10 +12,9 @@ const ExploreCategory = () => {
     };
     return (
         <>
-            <div className="flex justify-center gap-10 mt-8 py-8 flex-wrap">
-                <div className="">
-                    <label className="font-bold font-quicksand text-4xl" >Explore popular categories</label>
-                </div>
+            <div className="flex justify-center items-center gap-2 mt-8 py-8 flex-wrap">
+                <div className='bg-gray-600 w-[2rem] h-[0.14rem]' ></div>
+                <div className="font-medium lg:text-4xl md:text-3xl sm:text-2xl" ><span className='text-gray-600' >Explore </span>Popular Categories</div>
             </div>
             <div className='flex flex-row justify-center gap-10 flex-wrap mt-8 py-8' >
                 <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >

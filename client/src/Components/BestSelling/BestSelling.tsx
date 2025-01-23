@@ -74,12 +74,9 @@ const BestSelling = () => {
     ];
     return (
         <>
-            <div className="flex flex-row justify-center flex-wrap py-20" >
-                <div className='' >
-                    <label className='font-normal font-quicksand text-4xl'>
-                        Best selling
-                    </label>
-                </div>
+            <div className="flex justify-center items-center gap-2 py-20" >
+                <div className='bg-gray-600 w-[2rem] h-[0.14rem]' ></div>
+                <div className='font-medium text-4xl'><span className='text-gray-600' >Best</span> Selling</div>
 
             </div>
             <div className="flex flex-row justify-center gap-10 flex-wrap mx-40">

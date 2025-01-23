@@ -43,15 +43,15 @@ const SearchCard = ({ id, specialText, isSpecial, price, imgSrc, name, paragraph
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, delay: 0.3 }}
-            className='flex w-full h-1/2 bg-white hover:bg-blue-100 rounded-xl cursor-pointer'
+            className='flex gap-5 w-full h-1/2 bg-white hover:bg-[#e0e0e0] rounded-xl cursor-pointer px-2'
             onClick={() => handleNavigation()}
         >
-            <img src={imgSrc} className='w-36 h-36 object-contain' ></img>
-            <div className='ml-4 flex flex-col justify-start' >
-                <div className='text-xl font-semibold py-2' >
-                    {categoryName}
+            <img src={imgSrc} className='w-24 object-contain' ></img>
+            <div className='flex flex-col justify-evenly' >
+                <div className='text-base font-semibold' >
+                    {name}
                 </div>
-                <div className='text-lg py-4' >
+                <div className='text-xs' >
                     {paragraph}.
                 </div>
             </div>

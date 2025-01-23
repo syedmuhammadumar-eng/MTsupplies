@@ -68,7 +68,7 @@ const Footer = () => {
             )}
 
 
-            <div className='flex flex-row mt-4'>
+            <div className='flex flex-row justify-center mt-4'>
               <div className="pt-4"><img src={instagram} alt="ig" className="px-3" /></div>
               <div className="pt-4"><img src={twitter} alt="twitter" className="px-3" /></div>
               <div className="pt-4"><img src={facebook} alt="fb" className="px-3" /></div>

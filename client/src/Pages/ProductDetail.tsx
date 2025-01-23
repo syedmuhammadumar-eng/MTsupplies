@@ -323,84 +323,86 @@ const ProductDetail = () => {
                         <div>
                             <BreadCrumb />
                         </div>
-                        <div className="flex flex-wrap mt-6">
-                            <label
-                                className="text-xl md:text-2xl font-semibold"
-                                dangerouslySetInnerHTML={{
-                                    __html: form && form[0]?.paragraph,
-                                }}
-                            ></label>
-                        </div>
-                        <div className="flex items-center gap-4 mt-6">
-                            <label className="text-2xl md:text-3xl font-bold">
-                                £ {form && form[0]?.price}
-                            </label>
-                            {form && form[0]?.isDiscount && (
-                                <>
-                                    <label className="line-through text-gray-500">3.00</label>
-                                </>
-                            )}
-                        </div>
-                        <div className="mt-1">
-                            {form && form[0]?.isDiscount && (
-                                <label className="text-green-700 font-medium">(33% off)</label>
-                            )}
-                        </div>
-                        <div className="flex gap-4 mt-4 items-center">
-                            <button
-                                onClick={() => decreaseProductDetailQuantity()}
-                                className="w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300"
-                            >
-                                -
-                            </button>
-                            <label className="font-medium text-lg">
-                                {form && form[0]?.quantity}
-                            </label>
-                            <button
-                                onClick={() => increaseProductDetailQuantity()}
-                                className="w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300"
-                            >
-                                +
-                            </button>
-                            <Button
-                                className="bg-gradient-to-r from-[#0082E7] to-[#0053A5] p-3 md:px-8 font-medium rounded-xl text-gray-200 hover:text-white"
-                                placeholder={undefined}
-                                onPointerEnterCapture={undefined}
-                                onPointerLeaveCapture={undefined}
-                                onClick={() => handleAddCart()}
-                            >
-                                Add to Cart
-                            </Button>
-                        </div>
-                        <div className="mt-8">
-                            <label className="text-base md:text-lg font-medium">
+                        <div className='xl:w-[32rem] lg:w-[30rem] md:w-[26rem] sm:w-[29rem] p-2' >
+                            <div className="flex flex-wrap mt-6">
+                                <label
+                                    className="text-xl md:text-2xl font-semibold"
+                                    dangerouslySetInnerHTML={{
+                                        __html: form && form[0]?.paragraph,
+                                    }}
+                                ></label>
+                            </div>
+                            <div className="flex items-center gap-4 mt-6">
+                                <label className="text-2xl md:text-3xl font-bold">
+                                    £ {form && form[0]?.price}
+                                </label>
+                                {form && form[0]?.isDiscount && (
+                                    <>
+                                        <label className="line-through text-gray-500">3.00</label>
+                                    </>
+                                )}
+                            </div>
+                            <div className="mt-1">
+                                {form && form[0]?.isDiscount && (
+                                    <label className="text-green-700 font-medium">(33% off)</label>
+                                )}
+                            </div>
+                            <div className="flex gap-4 mt-4 items-center">
+                                <button
+                                    onClick={() => decreaseProductDetailQuantity()}
+                                    className="w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300"
+                                >
+                                    -
+                                </button>
+                                <label className="font-medium text-lg">
+                                    {form && form[0]?.quantity}
+                                </label>
+                                <button
+                                    onClick={() => increaseProductDetailQuantity()}
+                                    className="w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300"
+                                >
+                                    +
+                                </button>
+                                <Button
+                                    className="bg-gradient-to-r from-[#0082E7] to-[#0053A5] p-3 md:px-8 font-medium rounded-xl text-gray-200 hover:text-white"
+                                    placeholder={undefined}
+                                    onPointerEnterCapture={undefined}
+                                    onPointerLeaveCapture={undefined}
+                                    onClick={() => handleAddCart()}
+                                >
+                                    Add to Cart
+                                </Button>
+                            </div>
+                            <div className="mt-8 ">
+                                {/* <label className="text-base md:text-lg font-medium">
                                 SKU: 8901425031926
-                            </label>
-                        </div>
-                        <div className="flex mt-8 justify-between w-full md:w-1/2">
-                            <label className="text-base md:text-lg font-medium">
-                                Estimated Delivery
-                            </label>
-                            <label className="text-base md:text-lg font-bold">
-                                Within a Week
-                            </label>
-                        </div>
-                        <div className="mt-4 flex justify-between w-full md:w-1/2">
-                            <select
-                                className="p-1 w-20 outline-none text-gray-500"
-                                value={"UK"}
-                            >
-                                <option value={"1"}>UK</option>
-                            </select>
-                            <select
-                                className="p-1 w-full md:w-64 outline-none text-gray-500"
-                                value={"Brimingham Other"}
-                            >
-                                <option value={"1"}>Brimingham Other</option>
-                            </select>
-                        </div>
-                        <div className="mt-6">
-                            <Collapse />
+                            </label> */}
+                            </div>
+                            <div className="flex flex-wrap mt-8 justify-between w-full rounded-sm p-1">
+                                <label className="text-base md:text-lg font-medium">
+                                    Estimated Delivery
+                                </label>
+                                <label className="text-base md:text-lg font-bold">
+                                    Within a Week
+                                </label>
+                            </div>
+                            {/* <div className="mt-4 flex flex-wrap justify-between w-full p-1">
+                                <select
+                                    className="p-1 w-20 outline-none rounded-sm border border-gray-400 text-gray-500"
+                                    value={"UK"}
+                                >
+                                    <option value={"1"}>UK</option>
+                                </select>
+                                <select
+                                    className="p-1 w-[11rem] md:w-64 outline-none rounded-sm border border-gray-400 text-gray-500"
+                                    value={"Brimingham Other"}
+                                >
+                                    <option value={"1"}>Brimingham Other</option>
+                                </select>
+                            </div> */}
+                            <div className="mt-6">
+                                <Collapse />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -417,22 +419,6 @@ const ProductDetail = () => {
                         </div>
                         <div>
                             <label className='text-lg text-gray-500' >Black</label>
-                        </div>
-                    </div>
-                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                        <div>
-                            <label className='text-lg font-medium' >MATERIAL:</label>
-                        </div>
-                        <div>
-                            <label className='text-lg text-gray-500' >Recycled Paper</label>
-                        </div>
-                    </div>
-                    <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
-                        <div>
-                            <label className='text-lg font-medium' >DIMENSIONS:</label>
-                        </div>
-                        <div>
-                            <label className='text-lg text-gray-500' >16 (H) x 20.5 (W) x 5.5 (D) cm</label>
                         </div>
                     </div>
                     <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
@@ -461,7 +447,7 @@ const ProductDetail = () => {
                         <label className='text-3xl font-semibold' >Related Products</label>
                     </div>
                 </div>
-                <div className="ml-52 mt-10 flex snap-x overflow-x-auto scroll-smooth space-x-4">
+                <div className="ml-52 mt-10 flex justify-center snap-x overflow-x-auto scroll-smooth space-x-4">
                     {relatedSearchData &&
                         relatedSearchData.map((item, index) => (
                             <div
@@ -488,7 +474,7 @@ const ProductDetail = () => {
 
             <Footer />
         </>
-    )
-}
+    );
+};
 
-export default ProductDetail
+export default ProductDetail;

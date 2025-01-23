@@ -3,6 +3,7 @@ import logoblack from '../../assets/logoblack.png';
 import Search from '../../assets/Search.svg';
 import person from '../../assets/person.svg';
 import heart from '../../assets/heart.svg';
+import { TbMenuDeep } from "react-icons/tb";
 import cart from '../../assets/cart.svg';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { useEffect, useRef, useState } from 'react';
@@ -12,18 +13,19 @@ import { Product, setBreadCrumb } from '../../redux/mtSupplies';
 import { motion, AnimatePresence } from 'framer-motion';
 import { product1, product2, Brush1 } from '../../assets/index';
 import SearchCard from '../Searchcard/SearchCard';
-import { setLogout, setRemoveToken } from '../../redux/credentialReducer';
+import { setRemoveToken } from '../../redux/credentialReducer';
 import { GetService } from '../../global/GeneralService';
+import CustomDrawer from '../../global/Drawer';
 
 const Header = () => {
   const [chevron, setChevron] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const Products = useSelector((state: RootState) => state.mtSupplies.products);
   const user = useSelector((state: RootState) => state?.credentialReducer?.login);
-  const isLoginSuccessFull = useSelector((state: RootState) => state?.credentialReducer?.isLoginSuccessFull);
   const token = useSelector((state: RootState) => state.credentialReducer.userToken);
 
   useEffect(() => {
@@ -83,6 +85,34 @@ const Header = () => {
       categoryName: 'Brushes',
       isBestSelling: false
     },
+    {
+      id: '4',
+      imgSrc: Brush1,
+      specialText: '',
+      isSpecial: false,
+      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
+      price: '7.66',
+      Name: 'Brush',
+      quantity: 0,
+      isDiscount: false,
+      productId: 0,
+      categoryName: 'Brushes',
+      isBestSelling: false
+    },
+    {
+      id: '5',
+      imgSrc: Brush1,
+      specialText: '',
+      isSpecial: false,
+      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
+      price: '7.66',
+      Name: 'Brush',
+      quantity: 0,
+      isDiscount: false,
+      productId: 0,
+      categoryName: 'Brushes',
+      isBestSelling: false
+    },
   ];
 
   const [formData, setFormData] = useState(searchData);
@@ -127,24 +157,28 @@ const Header = () => {
         .catch((error) => {
           console.log(error);
         })
-
     }
   };
-
   return (
     <>
+      <CustomDrawer open={open} setOpen={setOpen} />
       <div className='sticky top-0 z-50' >
-        <div className="bg-[#FFF] flex justify-around items-center w-full py-6 flex-wrap">
+        <div className="bg-[#FFF] flex lg:justify-evenly md:justify-evenly sm:justify-start items-center w-full py-3 flex-wrap">
           {/* <!-- Logo Section --> */}
-          <div className="">
+          <div
+            className="flex items-center lg:w-48 md:w-48 sm:w-full lg:justify-center md:justify-center sm:justify-between lg:px-0 md:px-0 sm:px-2"
+          >
             <Link to={'/'}>
-              <img src={logoblack} alt="MTSUPPLIES LOGO" />
+              <img className='lg:w-48 md:w-48 sm:w-36' src={logoblack} alt="MTSUPPLIES LOGO" />
             </Link>
+            <div className='hover:bg-[#e0e0e0] p-1 rounded-md'>
+              <TbMenuDeep className='lg:hidden md:hidden sm:block' size={28} onClick={() => setOpen(true)} />
+            </div>
           </div>
 
           {/* <!-- Search Bar Section --> */}
-          <div className="ml-3 mt-2 w-[40em]">
-            <div className="relative py-2 px-3 border border-gray-300 rounded-lg flex items-center w-full">
+          <div className="ml-3 mt-2 lg:w-[40rem] md:w-[20rem]">
+            <div className="relative py-2 px-3 border border-gray-300 rounded-sm items-center w-full lg:flex md:flex sm:hidden">
               <img src={Search} alt="search" className='w-5' />
               <input
                 className="inner-form flex-1 px-3 bg-transparent outline-none"
@@ -158,7 +192,7 @@ const Header = () => {
               <AnimatePresence>
                 {isSearchMenuOpen &&
                   <motion.div
-                    className="flex flex-col snap-x overflow-x-auto scroll-smooth space-y-4 absolute top-14 right-0 h-96 py-2 px-3 border border-[#0082E7] bg-white rounded-xl w-full mt-2 z-30"
+                    className="absolute top-11 left-0 right-0 bg-white border border-[#e0e0e0] rounded-sm shadow-lg max-h-[20rem] overflow-y-scroll p-2 space-y-3 z-50"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
@@ -172,11 +206,11 @@ const Header = () => {
                         name={item?.Name}
                         paragraph={item?.paragraph}
                         id={item?.id}
-                        specialText={'Special'}
-                        isSpecial={true}
-                        price={'7.66'}
+                        specialText={item?.specialText}
+                        isSpecial={item?.isSpecial}
+                        price={item?.price}
                         quantity={0}
-                        isDiscount={false}
+                        isDiscount={item?.isDiscount}
                         categoryName={item?.categoryName}
                       />
                     ))}
@@ -188,13 +222,13 @@ const Header = () => {
           </div>
 
           {/* <!-- Icons Section --> */}
-          <div className="flex justify-evenly items-center py-4 space-x-4">
+          <div className="flex justify-evenly items-center space-x-4">
             {/* <motion.div whileTap={{ scale: 0.8 }} >
               <img src={location} alt="search" className='cursor-pointer w-6' />
             </motion.div> */}
 
             {token ? (
-              <div className="user flex gap-3 relative" ref={dropdownRef}>
+              <div className="user gap-3 relative lg:flex md:flex sm:hidden" ref={dropdownRef}>
                 {/* <RxAvatar size={32} className="opacity-50" onClick={() => setIsDropDown(!isDropDown)} /> */}
                 <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => setIsDropDown(!isDropDown)} />
                 {isDropDown &&
@@ -223,7 +257,7 @@ const Header = () => {
             ) : (
               <motion.div className='relative' ref={dropdownRef} >
                 <motion.div whileTap={{ scale: 0.8 }} >
-                  <img src={person} alt="search" className='cursor-pointer w-6' onClick={() => handleAuthNavigation('login')} /></motion.div>
+                  <img src={person} alt="search" className='cursor-pointer w-6 lg:block md:block sm:hidden' onClick={() => handleAuthNavigation('login')} /></motion.div>
                 {/* {isDropDown &&
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -239,13 +273,14 @@ const Header = () => {
 
             )}
 
-            <motion.div whileTap={{ scale: 0.8 }} >
+            {/* <motion.div whileTap={{ scale: 0.8 }} >
               <img src={heart} alt="search" className='cursor-pointer w-6' />
-            </motion.div>
+            </motion.div> */}
             <motion.div whileTap={{ scale: 0.8 }} className='relative' onClick={() => handleClickCart()}>
-              <img src={cart} alt="search" className='cursor-pointer w-6' />
+              <img src={cart} alt="search" className='cursor-pointer w-6 lg:block md:block sm:hidden' />
               {Products.length > 0 &&
-                <div className='absolute -top-1 left-3 w-4 h-4 flex bg-gradient-to-r from-[#0082E7] to-[#0053A5] rounded-xl text-white items-center justify-center text-sm font-medium' >
+                <div
+                  className='absolute -top-1 left-3 w-4 h-4 flex bg-gradient-to-r from-[#0082E7] to-[#0053A5] rounded-xl text-white items-center justify-center text-sm font-medium' >
                   {Products.length}
                 </div>
               }
@@ -258,11 +293,13 @@ const Header = () => {
             <div
               className={chevron ? "hidden" : "flex items-center justify-around py-4"}
             >
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium"><Link to={'/'}>Home</Link></motion.div>
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium"><Link to={'/about'} >About Us</Link></motion.div>
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className="text-white lg:text-xl md:text-base sm:text-base font-medium"><Link to={'/'}>Home</Link></motion.div>
+              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium"><Link to={'/about'} >About Us</Link></motion.div>
               {/* <div className="text-white">Blog</div> */}
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium cursor-pointer"><div onClick={() => handleNavigation()} >Shop</div></motion.div>
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white text-xl font-medium cursor-pointer"><Link to={'/Contact'} >Contact</Link></motion.div>
+              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium cursor-pointer"><div onClick={() => handleNavigation()} >Shop</div></motion.div>
+              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium cursor-pointer"><Link to={'/Contact'} >Contact</Link></motion.div>
             </div>
             <div className="flex justify-center items-center">
               <div

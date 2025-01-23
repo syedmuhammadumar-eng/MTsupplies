@@ -94,12 +94,6 @@ const categoryInitialData: categoryDataProps[] = [
     },
 ];
 
-// const categoryInitialData: categoryList[] = [
-//     { id: 1, productLabel: 'Pencil', isChecked: false },
-//     { id: 2, productLabel: 'Pen', isChecked: false },
-//     { id: 3, productLabel: 'Brush', isChecked: false },
-// ];
-
 const initialData: ProductInterface[] = [
     {
         id: '1',
@@ -304,9 +298,6 @@ const Product = () => {
             const filterGrid = initialData.filter(item => item.categoryName.toLowerCase() === searchedProduct[0].categoryName.toLowerCase());
             setData(filterGrid);
         }
-        // return (() => {
-        //     dispatch(clearSearchedProduct());
-        // })
     }, [searchedProduct]);
 
     const handleClick = (item: any) => {
@@ -368,19 +359,6 @@ const Product = () => {
         return `${value}°C`;
     };
 
-    // const handleFilter = () => {
-    //     const productsData = [...initialData];
-    //     const categoryData = [...category];
-    //     const categoryIds = categoryData.filter(item => item.isChecked === true).map(item => item.id);
-    //     let filteredData: ProductInterface[] = [];
-    //     const filterproductData = productsData.filter(item => categoryIds.includes(item.productId));
-    //     if (filterproductData.length > 0) {
-    //         filteredData = filterproductData.filter(item => Number(item.price) >= value[0] && Number(item.price) < value[1]);
-    //     } else {
-    //         filteredData = initialData.filter(item => Number(item.price) >= value[0] && Number(item.price) < value[1]);
-    //     }
-    //     setData(filteredData);
-    // };
 
     const handleFilter = () => {
         // Get a copy of the initial data and category data

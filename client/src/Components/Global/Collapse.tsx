@@ -22,7 +22,7 @@ const Collapse = () => {
     ];
     return (
 
-        <div className="w-full max-w-md mt-10">
+        <div className="w-full mt-10">
             {/* Header */}
             {data && data.map((item, index) => (
                 <div key={index} >

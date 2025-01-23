@@ -13,6 +13,7 @@ type Props = {
   setIsAddEdit: React.Dispatch<React.SetStateAction<string>>;
   setEditRowId: React.Dispatch<React.SetStateAction<number>>;
   formField: any;
+  handleDelete(id: string): void;
 };
 
 type formDataInterface = {
@@ -48,7 +49,7 @@ const DataTable = (props: Props) => {
     renderCell: (params) => {
       return (
         <div className="action flex gap-4 mt-4">
-          <div className="delete" onClick={() => handleDelete(params?.row?.id)} >
+          <div className="delete" onClick={() => props?.handleDelete(params?.row?.id)} >
             <RiDeleteBin5Line size={20} cursor={'pointer'} color='red' />
           </div>
         </div>
@@ -59,15 +60,15 @@ const DataTable = (props: Props) => {
     setRowData(props?.rows);
   }, [props?.rows]);
 
-  const handleDelete = (id: number) => {
-    //delete API
-    //axios.delete(`api/${slug}/id`);
-    const data = rowData;
-    const deleteData = data.filter(item => item.id !== id);
-    setRowData(deleteData);
-    props?.setUsers(deleteData);
-    console.log(deleteData + ' record has been deleted');
-  };
+  // const handleDelete = (id: number) => {
+  //   //delete API
+  //   //axios.delete(`api/${slug}/id`);
+  //   const data = rowData;
+  //   const deleteData = data.filter(item => item.id !== id);
+  //   setRowData(deleteData);
+  //   props?.setUsers(deleteData);
+  //   console.log(deleteData + ' record has been deleted');
+  // };
 
   const handleEdit = (row: any) => {
     props?.setOpen(true);

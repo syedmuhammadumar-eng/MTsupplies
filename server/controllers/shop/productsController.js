@@ -400,26 +400,32 @@ export const createProductCategoriesController = async (req, res) =>{
 
 
 //10- Get all categories
-export const GetAllCategories = async (req, res) => {
-    try {
-        // Get all categories
-        const categories = await categoryModel.find({}); 
-        res.status(200).send({
-            success: true,
-            message: "Categories Fetched successfully",
-            categories
-        });
+// export const GetAllCategories = async (req, res) => {
+//     try {
+//         // Get all categories
+//         const categories = await categoryModel.find(); 
+//         res.status(200).send({
+//             success: true,
+//             message: "Categories Fetched successfully",
+//             categories
+//         });
         
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({
-            success: false,
-            message: "Error in Get all Categories",
-            error
-        });
-    }
-};
-
+//     } catch (error) {
+//         console.log(error);
+//         //cast error handling
+//         if(error.name === "CastError"){
+//             return res.status(500).send({
+//                 success: false,
+//                 message: "Invalid Id"
+//                 });
+//             }
+//         res.status(500).send({
+//             success: false,
+//             message: "Error in Get all Categories",
+//             error
+//         });
+//     }
+// };
 
 
 

@@ -10,6 +10,7 @@ import { deleteProductImageController } from "../../controllers/shop/productsCon
 //here we do dstructure, means we can only acess certain function inside the productscontroller file
 import { deleteProductController } from "../../controllers/shop/productsController.js"
 import { createProductCategoriesController } from "../../controllers/shop/productsController.js"
+import { GetAllCategories } from "../../controllers/shop/productsController.js"
 
 const router = express.Router()
 
@@ -30,7 +31,6 @@ router.post('/create', isAuth, singleUpload, createProductController );
 //Note: here we update the product on the basis on product id
 router.put('/:id', isAuth, updateProductController);
 
-
 // 5- Update Product Image Api
 // all images are stack each after another in the array and singleUpload is middleweare that i created,  
 router.put('/image/:id', isAuth, singleUpload, updateProductImageController);
@@ -41,11 +41,18 @@ router.delete('/delete-image/:id', isAuth, deleteProductImageController );
 // 7 - Delete entire Product
 router.delete('/delete-product/:id', isAuth, deleteProductController);
 
-// 8- Product Categories
+// 8- Craete Product Categories
 //we use isauth middleware because of only authenticated person can create category
 //this is private route 
 router.post('/create-category', isAuth, createProductCategoriesController);
 
-//Note : we will create admin middleware in the end
+// 9- Get all categories
+router.get('/getallCategories', GetAllCategories);
 
+// 10- delete single category
+
+
+
+
+//Note : we will create admin middleware in the end
 export default router;

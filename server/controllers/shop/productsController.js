@@ -229,3 +229,122 @@ export const updateProductImageController = async (req, res) => {
         });
     }
 }
+
+
+// 6- delete product image
+export const deleteProductImageController = async (req,res) => {
+    try{
+        //1- find product
+        const product = await productModel.findById(req.params.id)
+
+        //2- vaidation
+        if(!product){
+            return res.status(404).send({
+                success: false,
+                message: 'Product not found'
+            })
+        }
+
+        //3- find image id
+        //use ? in url for query
+        const id = req.query.id
+        if(!id){
+            return res.status(404).send({
+                success: false,
+                message: 'product image not found'
+            });
+        }
+
+        //image ocject
+        let isExist = -1;
+        product.images.forEach((item, index) => {
+            if(item._id.toString() === id.toString()) isExist = index 
+        })
+
+        if(isExist < 0){
+            return res.status(404).send({
+                success: false,
+                message: "Image not found"
+        })
+        }
+
+        //Delete product image
+        await cloudinary.v2.uploader.destroy(product.images[isExist].public_id)
+        product.images.splice(isExist, 1);
+        await product.save()
+        return res.status(200).send({
+            success: true,
+            message: "Product Image deleted successfully",
+        });
+
+
+    } catch (error){
+        console.log(error);
+        //cast error
+        if(error.name === "CastError"){
+            return res.status(500).send({
+                success: false,
+                message: "Invalid Id"
+            });
+        }
+        res.status(500).send({
+            success: false,
+            message: "Error in  Delete Product Image Api",
+            error
+        });
+    };
+};
+
+
+// 7- delete product 
+export const deleteProductController = async (req, res) => {
+    try{
+
+        //find product
+        const product = await productModel.findById(req.params.id);
+
+        //validation
+        if(!product){
+            return res.status(404).send({
+                success: false,
+                message: "Product Not Found",
+                error
+            })
+        }
+
+        //find and delete image cloudinary , bcz we also delete whole product with image too.
+        for(let index = 0; index < product.images.length; index++){
+            await cloudinary.v2.uploader.destroy(product.images[index].public_id);
+        }
+
+        //
+        await product.deleteOne();
+        res.status(200).send({
+            success: true,
+            message: 'Product Deleted Succfully',
+        });
+        
+    } catch(error){
+        console.log(error)
+        //cast error handling
+        if(error.name === "CastError"){
+            return res.status(500).send({
+                success: false,
+                message: "Invalid Id"
+            })
+        }
+
+        res.status(500).send({
+            success: false,
+            message: "Error in Delete whole Product"
+        })
+    }
+}
+
+
+
+
+
+
+
+//Note: we can run query in url through question mark? 

@@ -6,6 +6,9 @@ import { isAuth } from "../../middleware/authMiddleware.js";
 import { singleUpload } from "../../middleware/multer.js";
 import { updateProductController } from "../../controllers/shop/productsController.js";
 import { updateProductImageController } from "../../controllers/shop/productsController.js"
+import { deleteProductImageController } from "../../controllers/shop/productsController.js"
+//here we do dstructure, means we can only acess certain function inside the productscontroller file
+import { deleteProductController } from "../../controllers/shop/productsController.js"
 
 const router = express.Router()
 
@@ -24,11 +27,20 @@ router.post('/create', isAuth, singleUpload, createProductController );
 
 // 4- Update Product(exclude image) Api
 //Note: here we update the product on the basis on product id
-router.put('/:id', isAuth, updateProductController );
+router.put('/:id', isAuth, updateProductController);
 
 
 // 5- Update Product Image Api
+// all images are stack each after another,  
 router.put('/image/:id', isAuth, singleUpload, updateProductImageController);
+
+// 6- Delete product Image
+router.delete('/delete-image/:id', isAuth, deleteProductImageController );
+
+// 7 - Delete entire Product
+router.delete('/delete-product/:id', isAuth, deleteProductController);
+
+
 
 //Note : we will create admin middleware in the end
 

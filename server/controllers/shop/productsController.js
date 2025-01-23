@@ -21,14 +21,14 @@ export const getAllProductsController = async (req, res) => {
         res.status(200).send({
             success:true,
             message:'all products fetched successfully',
-            products,
+            products
         });
 
     } catch (error){
-        console.log(error)
+        console.log(error);
         res.status(500).send({
             success:false,
-            message: 'Error In Get All Products A Pi',
+            message: 'Error In Get All Products APi',
             error,
         })
     }
@@ -361,7 +361,7 @@ export const createProductCategoriesController = async (req, res) =>{
         }
 
         //this function is for try and test, and will be removed it later on, if not work properly by smu
-        const categories = await categoryModel.find({});
+        const categories = await categoryModel.find({category});
         if(categories === category){
             return res.status(500).send({
                 success: false,
@@ -386,7 +386,7 @@ export const createProductCategoriesController = async (req, res) =>{
         if(error.name === "CastError"){
             return res.status(500).send({
                 success: false,
-                message: "Invalid id"
+                message: "Invalid"
             });
         }
 
@@ -397,6 +397,31 @@ export const createProductCategoriesController = async (req, res) =>{
         });
     }
 }
+
+
+//10- Get all categories
+export const GetAllCategories = async (req, res) => {
+    try {
+        // Get all categories
+        const categories = await categoryModel.find({}); 
+        res.status(200).send({
+            success: true,
+            message: "Categories Fetched successfully",
+            categories
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            success: false,
+            message: "Error in Get all Categories",
+            error
+        });
+    }
+};
+
+
+
 
 
 

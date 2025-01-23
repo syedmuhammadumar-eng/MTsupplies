@@ -685,6 +685,8 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (done) delete product api: http://localhost:8080/api/v1/product/delete-product/67910fc496a4e93672d0e97b           {delete}
 # (doen) categories api: http://localhost:8080/api/v1/product/create-category                                       {post}
 # (done) delete product image api: http://localhost:8080/api/v1/product/delete-image/678f7885d7bcded6e9faecb1?id=678f7885d7bcded6e9faecb2            {delete}
+# (working) get all categories:   {get}
+# (working) delete categories:    {delete}
 
 
 <!--=============================4-ORDERS===================================-->

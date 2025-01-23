@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DataTable from "../../../Components/dataTable/DataTable";
 import Add from "../../../Components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
 import { products } from "../../../data";
+import { AllProductsGetService, PostService } from "../../../global/GeneralService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -67,6 +70,7 @@ const AdminProduct = () => {
   const [formField, setFormField] = useState(initialFormData);
   const [isAddEdit, setIsAddEdit] = useState('Add');
   const [editRowId, setEditRowId] = useState(0);
+  const token = useSelector((state: RootState) => state?.credentialReducer?.userToken);
 
   const [form, setFormData] = useState({
     title: '',
@@ -84,9 +88,39 @@ const AdminProduct = () => {
       { name: 'School Stationary', value: '6' },
     ],
     bestSeller: false,
+    imageFile: { name: '' },
   });
 
 
+
+  useEffect(() => {
+    getProductList();
+  }, []);
+
+  const getProductList = () => {
+    AllProductsGetService('/product/get-all')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
+  const handleAddProduct = () => {
+    
+    const payload = {
+      
+    };
+
+    PostService('/product/create', payload, token)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -110,28 +144,7 @@ const AdminProduct = () => {
       user.unshift(newUser);
       setUsers(user);
       setOpen(false);
-    }
-    else {
-      // const editUsers = [...users];
-      // const newEditUser = {
-      //   id: editRowId,
-      //   imgSrc: "",
-      //   title: formField[0]?.value,
-      //   color: formField[1]?.value,
-      //   producer: formField[2]?.value,
-      //   price: formField[3]?.value,
-      //   createdAt: formField[4]?.value,
-      //   inStock: formField[5]?.value === 'yes' ? true : false,
-      // };
-      // const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
-      // if (findEditedRowIndex !== -1) {
-      //   editUsers.splice(findEditedRowIndex, 1, newEditUser);
-      // }
-      // setUsers(editUsers);
-      // setOpen(false);
-    }
-    //add new item
-    //axios.post(`/api/${slug}s`, {})
+    };
   };
 
 
@@ -188,6 +201,7 @@ const AdminProduct = () => {
           setOpen={setOpen}
           form={form}
           setFormData={setFormData}
+          handleAddProduct={handleAddProduct}
         />
       }
     </div>

@@ -46,7 +46,7 @@ const SearchCard = ({ id, specialText, isSpecial, price, imgSrc, name, paragraph
             className='flex gap-5 w-full h-1/2 bg-white hover:bg-[#e0e0e0] rounded-xl cursor-pointer px-2'
             onClick={() => handleNavigation()}
         >
-            <img src={imgSrc} className='w-24 object-contain' ></img>
+            <img src={imgSrc} className='w-14 object-contain' ></img>
             <div className='flex flex-col justify-evenly' >
                 <div className='text-base font-semibold' >
                     {name}

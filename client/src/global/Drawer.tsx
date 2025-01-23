@@ -38,7 +38,7 @@ const CustomDrawer = ({ open, setOpen }) => {
     const user = useSelector((state: RootState) => state?.credentialReducer?.login);
 
     const [drawerData, setDrawerData] = useState([
-        { text: 'Person', url: '/login', image: <PersonIcon sx={{ color: 'black' }} /> },
+        { text: 'Login', url: '/login', image: <PersonIcon sx={{ color: 'black' }} /> },
         { text: 'Cart', url: '/Cart', image: <ShoppingCartIcon sx={{ color: 'black' }} /> }
     ]);
 
@@ -50,7 +50,7 @@ const CustomDrawer = ({ open, setOpen }) => {
             ]);
         } else {
             setDrawerData([
-                { text: 'Person', url: '/login', image: <PersonIcon sx={{ color: 'black' }} /> },
+                { text: 'Login', url: '/login', image: <PersonIcon sx={{ color: 'black' }} /> },
                 { text: 'Cart', url: '/Cart', image: <ShoppingCartIcon sx={{ color: 'black' }} /> }
             ]);
         }

@@ -14,6 +14,17 @@ export const authService = (url, data) => {
     );
 };
 
+export const AllProductsGetService = (url) => {
+    return axios.get(
+        `${localHost}${url}`,
+        {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
+};
+
 export const PostService = (url, data, userToken) => {
     return axios.post(
         `${localHost}${url}`,

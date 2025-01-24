@@ -33,16 +33,17 @@ const app = express();
 app.use(morgan("dev"));
 
 //Json middleware
-app.use(express.json())
+app.use(express.json());
 
 //cors middleware
-app.use(cors())
+app.use(cors());
 
 //cookie parser middleware
 app.use(cookieParser());
 
 
-//===================================================================>All Routes import in main
+//===================================================================> Import All Routes  in main to call them and execute 
+
 // Note:we must define .js with rotes because we are using import export , Esc
 
 
@@ -56,7 +57,9 @@ app.use("/api/v1/user", userRoutes );
 import productRoutes from './routes/shop/productsRoutes.js';
 app.use('/api/v1/product', productRoutes);
 
-//3- import Route file
+//3- import category Route file
+import categoryRoutes from './routes/shop/categoryRoutes.js';
+app.use("/api/v1/cat", categoryRoutes );
  
 //4- import Route file
 
@@ -75,7 +78,7 @@ const PORT = process.env.PORT || 8080;
 //here there is a callback function so we can send any reponse 
 //Listen
 //before deploy our application first remove the 0.0.0.0 other wise it could be acessalbe for all , here i bind the our application with our local ip address
-app.listen( PORT ,  () => {
+app.listen( PORT , () => {
     console.log(`Server Running on Port ${process.env.PORT || 8080} on ${process.env.NODE_ENV} Mode`)
 })
 

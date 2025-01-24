@@ -10,8 +10,7 @@ import {getDataUri} from '../../utils/features.js';
 //import userModel schema
 import userModel from "../../models/UserModel.js";
 
-//import category model schema
-import categoryModel from "../../models/CategoryModel.js";
+
 
 // 1- Get all products
 export const getAllProductsController = async (req, res) => {

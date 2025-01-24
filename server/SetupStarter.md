@@ -679,7 +679,7 @@ process.exit(1) ensures that if the connection fails, the application stops.
 <!--=============================3-PRODUCTS===================================-->
 # (done) get all products as admin, api: http://localhost:8080/api/v1/product/get-all                               {get}
 # (done, ) get single product as admin, api:http://localhost:8080/api/v1/product/paramsValueId                      {get}
-# (done) create product api: http://localhost:8080/api/v1/product/create                                            {post}
+# (done) create product api: http://localhost:8080/api/v1/product/create                                            {post} (note: in category fied we pass cat id 679238421d3f0b4c9eac55a5 instead of category name)
 # (done) update product api through product id: http://localhost:8080/api/v1/product/678f7885d7bcded6e9faecb1       {put}
 # (done) update product image api:  http://localhost:8080/api/v1/product/image/678f7885d7bcded6e9faecb1             {put}
 # (done) delete product api: http://localhost:8080/api/v1/product/delete-product/67910fc496a4e93672d0e97b           {delete}
@@ -689,6 +689,11 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (working) delete categories:    {delete}
 
 
+<!-- new apis of the category -->
+
+# (done) create product category: http://localhost:8080/api/v1/cat/create      {post}
+# (done) get all categories:  http://localhost:8080/api/v1/cat/get-all      {get}
+# (done) get category throgh id: http://localhost:8080/api/v1/cat/delete/67921a77a2c9849fb8f2fb6d {delete}
 <!--=============================4-ORDERS===================================-->
 # (working) order api:                                {}
 # () my orders api:                                   {}

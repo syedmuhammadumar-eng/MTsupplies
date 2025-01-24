@@ -9,8 +9,8 @@ import { updateProductImageController } from "../../controllers/shop/productsCon
 import { deleteProductImageController } from "../../controllers/shop/productsController.js"
 //here we do dstructure, means we can only acess certain function inside the productscontroller file
 import { deleteProductController } from "../../controllers/shop/productsController.js"
-import { createProductCategoriesController } from "../../controllers/shop/productsController.js"
-import { GetAllCategories } from "../../controllers/shop/productsController.js"
+// import { createProductCategoriesController } from "../../controllers/shop/productsController.js"
+// import { GetAllCategories } from "../../controllers/shop/productsController.js"
 
 const router = express.Router()
 
@@ -44,10 +44,10 @@ router.delete('/delete-product/:id', isAuth, deleteProductController);
 // 8- Craete Product Categories
 //we use isauth middleware because of only authenticated person can create category
 //this is private route 
-router.post('/create-category', isAuth, createProductCategoriesController);
+// router.post('/create-category', isAuth, createProductCategoriesController);
 
 // 9- Get all categories
-router.get('/getallCategories', GetAllCategories);
+// router.get('/getallCategories', GetAllCategories);
 
 // 10- delete single category
 

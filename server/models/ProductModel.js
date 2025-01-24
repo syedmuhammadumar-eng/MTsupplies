@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 
-import CategoryModel from "./CategoryModel.js";
+import categoryModel from "./CategoryModel.js";
+
+
 
 
 // productSchema
@@ -24,7 +26,7 @@ const productSchema = new mongoose.Schema({
     //we built relashion ship here in category
     category:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category'
+        ref: 'Category',
     },
     //here we use cloudinary for images
     images:[

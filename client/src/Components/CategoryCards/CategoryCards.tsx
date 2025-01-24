@@ -1,3 +1,4 @@
+import { product1 } from '../../assets';
 import circle1 from '../../assets/categoryCircle/c1.png';
 import circle2 from '../../assets/categoryCircle/c2.png';
 import circle3 from '../../assets/categoryCircle/c3.png';

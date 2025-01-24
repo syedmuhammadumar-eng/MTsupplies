@@ -14,7 +14,7 @@ const columns: GridColDef[] = [
     headerName: "Image",
     width: 100,
     renderCell: (params) => {
-      return <img src={params.row.imgSrc || "/noavatar.png"} alt="" />;
+      return <img className="w-10 object-cover" src={params.row.imgSrc || "/noavatar.png"} alt="" />;
     },
   },
   {
@@ -153,7 +153,7 @@ const AdminProduct = () => {
     formData.append('isSpecial', String(form?.isSpecial));
     formData.append('specialoffer', String(form?.specialText));
     formData.append('stock', String(form?.stock));
-    formData.append('category', form?.categoryValue)
+    // formData.append('category', form?.categoryValue)
     formData.append('file', form?.imageFile as string | Blob);
 
     FormPostService('/product/create', formData, token)

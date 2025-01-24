@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router';
 import blueLine from '../../assets/icons/blueline.png';
 import { motion } from 'framer-motion';
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 interface cardProps {
     imgSrc: any,
     label: string,
@@ -22,7 +25,8 @@ const Card: React.FC<cardProps> = ({ imgSrc, label, id }) => {
             }}
             onClick={() => handleNavigation()}
         >
-            <img src={imgSrc} alt="Parties Decor" className="w-[8em] self-center mt-4" />
+            {/* <img src={imgSrc} alt="Parties Decor" className="w-[12rem] self-center mt-4 rounded-full" /> */}
+            <div className='place-self-center'><Avatar sx={{ width: 130, height: 130 }} alt="Remy Sharp" src={imgSrc} /></div>
             <h2 className="text-center font-bold mt-4 group-hover:text-white">{label}</h2>
             <img src={blueLine} alt="blueline" className="mt-4 self-center" />
             <div className="relative">

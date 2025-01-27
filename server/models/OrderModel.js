@@ -32,7 +32,7 @@ const orderSchema = new mongoose.Schema(
                 },
                 image:{
                     type:String,
-                    requied:[true,'product image is required']
+                    requied:[true,'product image is required']  
                 },
                 product:{
                     type:mongoose.Schema.Types.ObjectId,
@@ -74,11 +74,11 @@ const orderSchema = new mongoose.Schema(
         },
         orderStatus:{
             type:String,
-            enum:['prcessing', 'shipped', 'delivered'],
-            default: 'processing'
+            enum:["processing", "shipped", "delivered"],
+            default: "processing"
         },
-        deliveredAt:Date
-
+        deliveredAt:Date,
+    
     },
     { timestamps: true }
 );

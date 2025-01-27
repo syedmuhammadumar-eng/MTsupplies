@@ -691,19 +691,20 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 <!-- new apis of the category -->
 
-# (done) create product category: http://localhost:8080/api/v1/cat/create      {post}
-# (done) get all categories:  http://localhost:8080/api/v1/cat/get-all      {get}
-# (done) get category throgh id: http://localhost:8080/api/v1/cat/delete/67921a77a2c9849fb8f2fb6d {delete}
+# (done) create product category: http://localhost:8080/api/v1/cat/create                                         {post}
+# (done) get all categories:  http://localhost:8080/api/v1/cat/get-all                                            {get}
+# (done) get category throgh id: http://localhost:8080/api/v1/cat/delete/67921a77a2c9849fb8f2fb6d                 {delete}
 <!--=============================4-ORDERS===================================-->
-# (working) order api:                                {}
-# () my orders api:                                   {}
-# () product reviews and rating api:                  {}
-# () filters api:                                     {}
+# (done) order api: http://localhost:8080/api/v1/order/create                                                     {post}
+# (done) get user, all orders: http://localhost:8080/api/v1/order/my-orders                                       {get}
+# (working) get single order thourhg id: http://localhost:8080/api/v1/order/my-orders/67974f2436f7fc8e08daa225    {get}
+# (working) product reviews and rating api:                  {}
+# (working) filters api:                                     {}
 
 <!--=============================5-PAYMENT/ADMIN===================================-->
 # () payment gateway integration api:                     {}
 # () forget password reset api:                           {}
-
+  
 <!--=============================6-SECURITY===================================-->
 # () security api:                                      {}
 

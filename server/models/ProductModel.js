@@ -23,10 +23,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required:[true, 'product stock required']
     },
-    quantity:{
-        type: Number,
-        required:[true, 'product quantity required']
-    },
+    // quantity:{
+    //     type: Number,
+    //     required:[true, 'product quantity required']
+    // },
     //we built relashion ship here in category
     category:{
         type: mongoose.Schema.Types.ObjectId,

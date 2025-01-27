@@ -177,11 +177,11 @@ const Header = () => {
           </div>
 
           {/* <!-- Search Bar Section --> */}
-          <div className="ml-3 mt-2 lg:w-[40rem] md:w-[20rem]">
-            <div className="relative py-2 px-3 border border-gray-300 rounded-sm items-center w-full lg:flex md:flex sm:hidden">
+          <div className="ml-3 mt-2 lg:w-[40rem] md:w-[20rem] bg-gray-200 rounded-sm">
+            <div className="relative py-2 px-3 border rounded-sm items-center w-full lg:flex md:flex sm:hidden">
               <img src={Search} alt="search" className='w-5' />
               <input
-                className="inner-form flex-1 px-3 bg-transparent outline-none"
+                className="inner-form flex-1 px-3 outline-none bg-gray-200"
                 type="search"
                 placeholder="Search for products, categories, etc."
                 aria-label="Search"
@@ -192,7 +192,7 @@ const Header = () => {
               <AnimatePresence>
                 {isSearchMenuOpen &&
                   <motion.div
-                    className="absolute top-11 left-0 right-0 bg-white border border-[#e0e0e0] rounded-sm shadow-lg max-h-[20rem] overflow-y-scroll p-2 space-y-3 z-50"
+                    className="absolute top-11 left-0 right-0 border border-[#e0e0e0] rounded-sm shadow-lg max-h-[20rem] overflow-y-scroll p-2 space-y-3 z-50 bg-gray-200"
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}

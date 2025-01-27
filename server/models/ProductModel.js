@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-import categoryModel from "./CategoryModel.js";
+// import categoryModel from "./CategoryModel.js";
 
 
 
@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
     stock:{
         type: Number,
         required:[true, 'product stock required']
+    },
+    quantity:{
+        type: Number,
+        required:[true, 'product quantity required']
     },
     //we built relashion ship here in category
     category:{

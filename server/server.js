@@ -61,7 +61,9 @@ app.use('/api/v1/product', productRoutes);
 import categoryRoutes from './routes/shop/categoryRoutes.js';
 app.use("/api/v1/cat", categoryRoutes );
  
-//4- import Route file
+//4- import Order Route file
+import orderRoutes from './routes/shop/orderRoutes.js';
+app.use("/api/v1/order", orderRoutes);
 
 
 //0- dummy route, will be removed later on

@@ -90,6 +90,8 @@ const AdminProduct = () => {
     stock: 0,
     bestSeller: false,
     imageFile: '',
+    discountedPrice: 0,
+    discountPercentage: 0,
   });
 
   // {
@@ -148,18 +150,22 @@ const AdminProduct = () => {
     const formData = new FormData();
 
     formData.append('name', form?.title);
-    formData.append('description', form?.title);
+    formData.append('description', form?.desc);
     formData.append('price', String(form?.price));
     formData.append('isSpecial', String(form?.isSpecial));
     formData.append('specialoffer', String(form?.specialText));
+    formData.append('discountprice', String(form?.discountedPrice));
+    formData.append('discountpercent', String(form?.discountPercentage));
     formData.append('stock', String(form?.stock));
-    // formData.append('category', form?.categoryValue)
+    formData.append('category', form?.categoryValue)
+    formData.append('bestSeller', String(form?.bestSeller))
     formData.append('file', form?.imageFile as string | Blob);
 
     FormPostService('/product/create', formData, token)
       .then((response) => {
         console.log(response);
         setOpen(false);
+        getProductList();
       })
       .catch((error) => {
         console.log(error);
@@ -170,6 +176,27 @@ const AdminProduct = () => {
     setIsAddEdit('Add');
     setFormField(initialFormData);
     setOpen(true);
+    setFormData({
+      title: '',
+      desc: '',
+      isSpecial: false,
+      specialText: 0,
+      price: 0,
+      categoryValue: '6',
+      category: [
+        { name: 'Parties Decor', value: '1' },
+        { name: 'Home Decor', value: '2' },
+        { name: 'Office Stationary', value: '3' },
+        { name: 'DIY households', value: '4' },
+        { name: 'Art & Craft', value: '5' },
+        { name: 'School Stationary', value: '6' },
+      ],
+      stock: 0,
+      bestSeller: false,
+      imageFile: '',
+      discountedPrice: 0,
+      discountPercentage: 0,
+    })
   };
 
   const handleDelete = (id: string) => {

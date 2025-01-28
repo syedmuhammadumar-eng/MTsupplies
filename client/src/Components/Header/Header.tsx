@@ -55,7 +55,9 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Pencils',
-      isBestSelling: false
+      isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0
     },
     {
       id: '2',
@@ -69,7 +71,9 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Pens',
-      isBestSelling: false
+      isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0
     },
     {
       id: '3',
@@ -83,7 +87,9 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Brushes',
-      isBestSelling: false
+      isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0
     },
     {
       id: '4',
@@ -97,7 +103,9 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Brushes',
-      isBestSelling: false
+      isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0
     },
     {
       id: '5',
@@ -111,7 +119,9 @@ const Header = () => {
       isDiscount: false,
       productId: 0,
       categoryName: 'Brushes',
-      isBestSelling: false
+      isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0
     },
   ];
 

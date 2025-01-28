@@ -3,6 +3,8 @@ import CustomInput from "../Global/CustomInput";
 import { useRef, useState } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { CiFileOn } from "react-icons/ci";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import Tooltip from '@mui/material/Tooltip';
 
 type Props = {
     slug: string,
@@ -26,6 +28,8 @@ type formDataInterface = {
     categoryValue: string,
     imageFile: any,
     stock: number,
+    discountedPrice: number,
+    discountPercentage: number,
 };
 
 type Icategory = {
@@ -70,6 +74,7 @@ const Add = (props: Props) => {
             }));
         }
     };
+
     const handleRemoveImage = () => {
         props?.setFormData((prev) => ({
             ...prev,
@@ -78,6 +83,26 @@ const Add = (props: Props) => {
         if (inputRef.current) {
             inputRef.current.value = "";
         }
+    };
+
+    const handleBlur = (value: string) => {
+        const specialPrice = parseFloat(value);
+        const originalPrice = props?.form?.price;
+        let discountPrice = 0;
+        let discountPercent = 0;
+
+        if (specialPrice && originalPrice) {
+            const discount = originalPrice - specialPrice;
+            const percentage = (discount / originalPrice) * 100;
+
+            discountPrice = discount > 0 ? discount : 0;
+            discountPercent = percentage > 0 ? percentage : 0;
+        } else {
+            discountPrice = 0;
+            discountPercent = 0;
+        }
+        const newFormState = { ...props?.form, discountedPrice: discountPrice, discountPercentage: discountPercent, specialText: Number(value) };
+        props?.setFormData(newFormState);
     };
 
     return (
@@ -104,10 +129,18 @@ const Add = (props: Props) => {
                             value={props?.form?.desc}
                             onChange={(event) => handleChange('desc', event.target.value)}
                         />
+                        <label className="text-sm font-medium text-mainBg">Price</label>
+                        <input
+                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            placeholder={'Price'}
+                            type="number"
+                            value={props?.form?.price}
+                            onChange={(event) => handleChange('price', event.target.value)}
+                        />
                         <CustomInput
                             type={'checkbox'}
                             id={'isSpecial'}
-                            productLabel={'Add to Special Offer'}
+                            productLabel={'Add Special Offer'}
                             textColor={'text-mainBg'}
                             size={"text-base"}
                             checked={props?.form?.isSpecial}
@@ -120,15 +153,14 @@ const Add = (props: Props) => {
                             type={'number'}
                             value={props?.form?.specialText}
                             onChange={(event) => handleChange('specialText', event.target.value)}
+                            onBlur={(event) => handleBlur(event.target.value)}
                         />
-                        <label className="text-sm font-medium text-mainBg">Price</label>
-                        <input
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
-                            placeholder={'Price'}
-                            type="number"
-                            value={props?.form?.price}
-                            onChange={(event) => handleChange('price', event.target.value)}
-                        />
+                        {props?.form?.isSpecial && props?.form?.discountedPrice !== null && props?.form?.discountPercentage !== null && (
+                            <div className="text-sm text-green-500">
+                                Discount: £ {props?.form?.discountedPrice.toFixed(2)} (
+                                {props?.form?.discountPercentage.toFixed(2)}%) <span><Tooltip title="Add Special price and focus out to update discount."><ErrorOutlineIcon className="text-gray-900" sx={{ fontSize: 14 }} /></Tooltip></span>
+                            </div>
+                        )}
                         <label className="text-sm font-medium text-mainBg">Stock</label>
                         <input
                             className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"

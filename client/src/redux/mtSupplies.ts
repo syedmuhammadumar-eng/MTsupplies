@@ -12,6 +12,8 @@ export interface Product {
   isDiscount: boolean,
   categoryName: string,
   isBestSelling: boolean,
+  discountpercent: number,
+  discountprice: number,
 }
 
 export interface State {
@@ -38,6 +40,8 @@ const initialState: State = {
       isDiscount: false,
       categoryName: '',
       isBestSelling: false,
+      discountpercent: 0,
+      discountprice: 0,
     },
   ],
   productDetails: [],

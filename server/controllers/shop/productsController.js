@@ -75,7 +75,7 @@ export const createProductController = async (req, res) => {
     try{
         //get product info from the admin
         // flow-1, here we destructure the data 
-        const {name, description, price, stock, category} = req.body;
+        const {name, description, price, stock, category, isSpecial, specialoffer, discountprice, discountpercent} = req.body;
         //validation for products//check all, products data are coming or not from the admin
         if(!name || !description || !price || !stock){
             return res.status(500).send({
@@ -105,7 +105,7 @@ export const createProductController = async (req, res) => {
 
         //create
         await productModel.create({
-            name,description,price,category,stock,images:[image]
+            name,description,price,category,stock,isSpecial,specialoffer,discountprice,discountpercent,images:[image]
         });
 
         res.status(201).send({

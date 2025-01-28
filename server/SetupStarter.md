@@ -679,7 +679,7 @@ process.exit(1) ensures that if the connection fails, the application stops.
 <!--=============================3-PRODUCTS===================================-->
 # (done) get all products as admin, api: http://localhost:8080/api/v1/product/get-all                               {get}
 # (done, ) get single product as admin, api:http://localhost:8080/api/v1/product/paramsValueId                      {get}
-# (done) create product api: http://localhost:8080/api/v1/product/create                                            {post} (note: in category fied we pass cat id 679238421d3f0b4c9eac55a5 instead of category name)
+# (done) create product api: http://localhost:8080/api/v1/product/create                                            {post} (note: in category field we pass cat id 679238421d3f0b4c9eac55a5 instead of category name)
 # (done) update product api through product id: http://localhost:8080/api/v1/product/678f7885d7bcded6e9faecb1       {put}
 # (done) update product image api:  http://localhost:8080/api/v1/product/image/678f7885d7bcded6e9faecb1             {put}
 # (done) delete product api: http://localhost:8080/api/v1/product/delete-product/67910fc496a4e93672d0e97b           {delete}
@@ -697,14 +697,17 @@ process.exit(1) ensures that if the connection fails, the application stops.
 <!--=============================4-ORDERS===================================-->
 # (done) order api: http://localhost:8080/api/v1/order/create                                                     {post}
 # (done) get user, all orders: http://localhost:8080/api/v1/order/my-orders                                       {get}
-# (working) get single order thourhg id: http://localhost:8080/api/v1/order/my-orders/67974f2436f7fc8e08daa225    {get}
-# (working) product reviews and rating api:                  {}
-# (working) filters api:                                     {}
+# (done) get single order thourhg id: http://localhost:8080/api/v1/order/my-orders/67974f2436f7fc8e08daa225       {get}
+# (no need..) product reviews and rating api:                  {}
+# (working) filters api: http://localhost:8080/api/v1          {}
 
 <!--=============================5-PAYMENT/ADMIN===================================-->
 # () payment gateway integration api:                     {}
 # () forget password reset api:                           {}
-  
+# payment docs:                                           {}
+
+
+
 <!--=============================6-SECURITY===================================-->
 # () security api:                                      {}
 

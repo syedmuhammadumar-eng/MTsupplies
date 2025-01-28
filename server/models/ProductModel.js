@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 
-// import categoryModel from "./CategoryModel.js";
-
-
-
 
 // productSchema
 const productSchema = new mongoose.Schema({
@@ -28,6 +24,7 @@ const productSchema = new mongoose.Schema({
     //     required:[true, 'product quantity required']
     // },
     // we built relashion ship here in category
+    //during reference Category must be same with "Category" in export in categoryModel.js
     category:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',

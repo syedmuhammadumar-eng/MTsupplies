@@ -1,5 +1,11 @@
 import categoryModel from "../../models/CategoryModel.js";
-import productModel from "../../models/ProductModel.js"
+import productModel from "../../models/ProductModel.js";
+
+
+//import cloudnary
+import cloudinary from 'cloudinary';
+//import datauri
+import {getDataUri} from '../../utils/features.js';
 
 // 1- create category
 // api: http://localhost:8080/api/v1/categories/createCategory
@@ -15,12 +21,37 @@ export const createCategory = async (req, res) => {
         //     })
         // }
 
-        //
-        await categoryModel.create({category})
+
+
+        //flow-2 if validation success then we work on save
+        const file = getDataUri(req.file);
+        
+        //use  clouidinary images
+        const cdb = await cloudinary.v2.uploader.upload(file.content);
+        const image = {
+            public_id: cdb.public_id,
+            url: cdb.secure_url
+        };
+                
+        //flow-
+        if(!req.file){
+            return res.status(500).send({
+                success: false,
+                message: "please provide product images"
+            })
+        };
+        
+
+        // create category
+        await categoryModel.create({
+            category,
+            images:[image]
+        });
+
         res.status(200).send({
             success: true,
-            message: `${category} category created successfully`,
-        })
+            message: `${category} category created successfully`
+        });
 
     } catch (error){
         console.log(error)
@@ -28,12 +59,12 @@ export const createCategory = async (req, res) => {
             success: false,
             message: 'Error In Create Cat API',
             error
-        })
+        });
     }
     
 };
 
-// 2- get al categories
+// 2- get all categories
 export const getallCatogoriesController = async ( req, res) => {
     try{
         const categories = await categoryModel.find({});

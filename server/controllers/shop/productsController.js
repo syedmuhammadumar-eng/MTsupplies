@@ -116,9 +116,9 @@ export const createProductController = async (req, res) => {
                 success: false,
                 message: "please provide product images"
             })
-        }
+        };
 
-        //create
+        //create product
         await productModel.create({
             name,
             description,
@@ -136,15 +136,12 @@ export const createProductController = async (req, res) => {
             images:[image]
         });
 
-        res.status(201).send({
+        res.status(200).send({
             success: true,
             message:'product Created Successfully'
-
         });
 
-
-
-    }catch (error){
+    } catch (error){
         console.log(error);
         res.status(500).send({
             success: false,

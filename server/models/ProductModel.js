@@ -35,16 +35,11 @@ const productSchema = new mongoose.Schema({
     //     type: Number,
     //     required:[true, 'product quantity required']
     // },
-<<<<<<< HEAD
     // we built relashion ship here in category
     //during reference Category must be same with "Category" in export in categoryModel.js
-=======
-    //we built relashion ship here in category
->>>>>>> 01cf449a9ee0420f7521db393006ccbbcc2569eb
     category:{
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: 'Category',
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
         required:[true, 'category required']
     },
     //here we use cloudinary for images

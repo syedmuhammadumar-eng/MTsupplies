@@ -11,6 +11,9 @@ import {getDataUri} from '../../utils/features.js';
 import userModel from "../../models/UserModel.js";
 
 
+//import category mnodel schema
+import CategoryModel from "../../models/CategoryModel.js";
+
 
 // 1- Get all products
 export const getAllProductsController = async (req, res) => {
@@ -75,14 +78,26 @@ export const createProductController = async (req, res) => {
     try{
         //get product info from the admin
         // flow-1, here we destructure the data 
+        //here category id is provided by the user
         const {name, description, price, stock, category, isSpecial, specialoffer, discountprice, discountpercent} = req.body;
+
         //validation for products//check all, products data are coming or not from the admin
-        if(!name || !description || !price || !stock){
+        if(!name || !description || !price || !stock || !category){
             return res.status(500).send({
                 success: false,
                 message: "please provide all fields"
             })
         }
+
+        //find category id and name to populate the product that given in req body
+        // here we  Fetch category details in the database
+        // const categorydb = await CategoryModel.findById(category);
+        // if (!categorydb) {
+        //     return res.status(404).send({
+        //         success: false,
+        //         message: "Category not found",
+        //     });
+        // }
 
 
         //flow-2 if validation success then we work on save
@@ -105,7 +120,20 @@ export const createProductController = async (req, res) => {
 
         //create
         await productModel.create({
-            name,description,price,category,stock,isSpecial,specialoffer,discountprice,discountpercent,images:[image]
+            name,
+            description,
+            price,
+            category,
+            stock,
+            // categorydb: {
+            //     id: categorydb._id,
+            //     name: categorydb.category,
+            // },
+            isSpecial,
+            specialoffer,
+            discountprice,
+            discountpercent,
+            images:[image]
         });
 
         res.status(201).send({
@@ -113,6 +141,8 @@ export const createProductController = async (req, res) => {
             message:'product Created Successfully'
 
         });
+
+
 
     }catch (error){
         console.log(error);

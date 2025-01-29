@@ -100,7 +100,7 @@ export const createProductController = async (req, res) => {
         // }
 
 
-        //flow-2 if validation success then we work on save
+        //
         const file = getDataUri(req.file);
 
         //use  clouidinary images

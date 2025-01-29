@@ -65,7 +65,11 @@ app.use("/api/v1/cat", categoryRoutes);
 import orderRoutes from './routes/shop/orderRoutes.js';
 app.use("/api/v1/order", orderRoutes);
 
-//0- dummy route, will be removed later on
+//5- import contact form Route file
+import contact from './routes/auth/contactRoutes.js';
+app.use("/api/v1/form", contact);
+
+//0- dummy route + controller, will be removed later on
 //we can write , routes, controller and even model in server.js file, but it is not good idea as professional
 app.get("/", (req, res) => {
     return res.status(200).send("<h1> Welcome to node server </h1>");

@@ -689,21 +689,26 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (working) delete categories:    {delete}
 
 
-<!-- new apis of the category -->
-
+<!--=============================4-CATEGORY ===================================-->
 # (done) create product category: http://localhost:8080/api/v1/cat/create                                         {post}
 # (done) get all categories:  http://localhost:8080/api/v1/cat/get-all                                            {get}
 # (done) get category throgh id: http://localhost:8080/api/v1/cat/delete/67921a77a2c9849fb8f2fb6d                 {delete}
+
+
+
 <!--=============================4-ORDERS===================================-->
 # (done) order api: http://localhost:8080/api/v1/order/create                                                     {post}
 # (done) get user, all orders: http://localhost:8080/api/v1/order/my-orders                                       {get}
 # (done) get single order thourhg id: http://localhost:8080/api/v1/order/my-orders/67974f2436f7fc8e08daa225       {get}
-# (no need..) product reviews and rating api:                  {}
-# (working) filters api: http://localhost:8080/api/v1          {}
+
+
+<!--=============================5-CONTACT FORM ===================================-->
+# ()  contact form api :         {}
+
 
 <!--=============================5-PAYMENT/ADMIN===================================-->
-# () payment gateway integration api:                     {}
-# () forget password reset api:                           {}
+# (after deployment) payment gateway integration api:                     {}
+# (?) forget password reset api:                           {}
 # payment docs:                                           {}
 
 

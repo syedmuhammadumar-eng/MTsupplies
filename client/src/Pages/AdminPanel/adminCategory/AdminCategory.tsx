@@ -2,10 +2,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../../Components/dataTable/DataTable";
 import { userRows } from "../../../data";
 import { RxAvatar } from "react-icons/rx";
-import { useState } from "react";
-import Add from "../../../Components/add/Add";
-import AddOrder from "../../../Components/addOrder/AddOrder";
+import { useEffect, useState } from "react";
 import AddCategory from "../../../Components/addCategory/AddCategory";
+import { AllProductsGetService, DeleteService, FormPostService, PostService } from "../../../global/GeneralService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 const columns: GridColDef<(typeof userRows)[number]>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -16,7 +17,7 @@ const columns: GridColDef<(typeof userRows)[number]>[] = [
     }
   },
   {
-    field: 'categoryName',
+    field: 'category',
     headerName: 'Category Name',
     type: 'string',
     width: 150,
@@ -39,49 +40,57 @@ const initialFormData = [
 ];
 
 const AdminCategory = () => {
+
   const [open, setOpen] = useState(false);
-  const [users, setUsers] = useState(userRows);
+  const [users, setUsers] = useState([]);
   const [formField, setFormField] = useState(initialFormData);
   const [isAddEdit, setIsAddEdit] = useState('Add');
   const [editRowId, setEditRowId] = useState(0);
+  const token = useSelector((state: RootState) => state?.credentialReducer?.userToken);
+
+  const [form, setFormData] = useState({
+    category: '',
+    explorePopular: false,
+  });
+
+  useEffect(() => {
+    getCategoryList();
+  }, []);
+
+  const getCategoryList = async () => {
+    await AllProductsGetService('/cat/get-all')
+      .then((response) => {
+        console.log(response);
+        if (response.data.categories.length > 0) {
+          const category = response.data?.categories.map((item) => ({
+            category: item?.category,
+            id: item?._id,
+          }));
+          setUsers(category);
+          // const newFormState = { ...form, category: category };
+          // setFormData(newFormState);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('formField', formField);
-    if (isAddEdit === 'Add') {
-      const user = [...users];
-      const newUser = {
-        id: user.length,
-        img: "https://images.pexels.com/photos/8405873/pexels-photo-8405873.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-        categoryName: 'Prime Decor',
-        isPopular: false,
-      };
-
-      user.unshift(newUser);
-      setUsers(user);
-      setOpen(false);
+    const payload = {
+      ...form,
     }
-    // else {
-    //   const editUsers = [...users];
-    //   const newEditUser = {
-    //     id: editRowId,
-    //     img: "",
-    //     firstName: formField[0]?.value,
-    //     lastName: formField[1]?.value,
-    //     email: formField[2]?.value,
-    //     phone: formField[3]?.value,
-    //     createdAt: formField[4]?.value,
-    //     verified: formField[5]?.value === 'yes' ? true : false,
-    //   };
-    //   const findEditedRowIndex = editUsers.findIndex(item => item.id === editRowId);
-    //   if (findEditedRowIndex !== -1) {
-    //     editUsers.splice(findEditedRowIndex, 1, newEditUser);
-    //   }
-    //   setUsers(editUsers);
-    //   setOpen(false);
-    // }
-    //add new item
-    //axios.post(`/api/${slug}s`, {})
+
+    PostService('/cat/create', payload, token)
+      .then((response) => {
+        console.log(response);
+        setOpen(false);
+        getCategoryList();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const addNewuserButton = () => {
@@ -90,9 +99,14 @@ const AdminCategory = () => {
     setOpen(true);
   };
 
-  const saveChanges = () => {
-    // API will be integrated.
-  };
+  const handleDelete = (id: string) => {
+    DeleteService('/cat/delete/', id, token)
+          .then((response) => {
+            console.log(response);
+            getCategoryList();
+          })
+          .catch((error) => { console.log(error); })
+   };
 
   return (
     <div className="users">
@@ -101,11 +115,9 @@ const AdminCategory = () => {
         <button
           className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
           onClick={addNewuserButton}
-        >Add New Category</button>
-        <button
-          className="p-2 cursor-pointer bg-mainBg text-softColor font-medium rounded-md"
-          onClick={saveChanges}
-        >Save Changes</button>
+        >
+          Add New Category
+        </button>
       </div>
 
       <DataTable
@@ -118,6 +130,7 @@ const AdminCategory = () => {
         formField={formField}
         setIsAddEdit={setIsAddEdit}
         setEditRowId={setEditRowId}
+        handleDelete={handleDelete}
       />
 
       {open &&
@@ -127,6 +140,8 @@ const AdminCategory = () => {
           slug="category"
           columns={columns}
           setOpen={setOpen}
+          form={form}
+          setFormData={setFormData}
         />}
     </div>
   );

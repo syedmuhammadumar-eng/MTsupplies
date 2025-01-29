@@ -287,7 +287,7 @@ const Product = () => {
     const [value, setValue] = useState<number[]>([1, 20]);
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [globalData, setData] = useState<ProductInterface[]>([]);
-    const [category, setCategory] = useState(categoryInitialData);
+    const [category, setCategory] = useState<categoryDataProps[]>([]);
     const searchedProduct = useSelector((state: RootState) => state.mtSupplies.searchedProduct);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -304,7 +304,26 @@ const Product = () => {
 
     useEffect(() => {
         getProductList();
+        getCategoryList();
     }, []);
+
+    const getCategoryList = async () => {
+        await AllProductsGetService('/cat/get-all')
+            .then((response) => {
+                console.log(response);
+                if (response.data.categories.length > 0) {
+                    const category = response.data?.categories.map((item) => ({
+                        categoryLabel: item?.category,
+                        id: item?._id,
+                        isChecked: false
+                    }));
+                    setCategory(category);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
 
     const getProductList = async () => {
         await AllProductsGetService('/product/get-all')
@@ -413,7 +432,7 @@ const Product = () => {
         setUniqueData(data);
         setIsDisabled(false);
         const categoryArray = [...category];
-        categoryArray[row.id-1].isChecked = !row.isChecked;
+        categoryArray[row.id - 1].isChecked = !row.isChecked;
         setCategory(categoryArray);
     };
 
@@ -550,12 +569,13 @@ const Product = () => {
                     </div>
 
                 </div>
+                {/* shadow-[#979995] */}
                 <div className="flex justify-center gap-10 flex-wrap basis-4/5 h-[50%]">
                     {displayedProducts && displayedProducts.map(item => (
                         <div className='h-[27rem]' key={item?.id} >
-                            <div className="w-[18rem] flex flex-col shadow-lg mt-4 cursor-pointer hover:bg-gray-200" onClick={() => handleClick(item)}>
+                            <div className="w-[18rem] flex flex-col shadow-lg hover:shadow-testShadow2 duration-500 mt-4 cursor-pointer hover:bg-gray-200" onClick={() => handleClick(item)}>
                                 <div className="relative h-72">
-                                    <img className='rounded-t-md w-full h-full object-cover cursor-pointer opacity-100 hover:opacity-80' src={item.imgSrc} alt="product5" />
+                                    <img className='rounded-t-md w-full h-full object-cover cursor-pointer ' src={item.imgSrc} alt="product5" />
                                     <div className="absolute top-0 left-0 ml-8">
                                         {item.isSpecial && (
                                             <div className='bg-light-green-600 p-2 rounded-b-md ' >
@@ -569,11 +589,11 @@ const Product = () => {
                                 </div>
                                 <div className="px-2 py-1 flex flex-col justify-between items-start h-[7rem]">
                                     <div>
-                                        <p className="text-sm text-black overflow-hidden">{item?.Name} - {item.paragraph}</p>
+                                        <p className="text-base font-semibold text-black overflow-hidden">{item?.Name} - {item.paragraph}</p>
                                     </div>
                                     <div className='flex flex-col items-start' >
-                                        <h3 className="text-lg font-semibold">{item?.isSpecial ? `£ ${Number(item?.specialText).toFixed(2)}` : `£ ${Number(item.price).toFixed(2)}`}</h3>
                                         {item?.isSpecial && <div className='flex gap-2 text-sm font-medium' ><div className='text-gray-500 line-through' >£ {Number(item.price).toFixed(2)}</div><div className='text-blue-900' >({(item?.discountpercent)}% off)</div></div>}
+                                        <h3 className="text-lg font-semibold">{item?.isSpecial ? `£ ${Number(item?.specialText).toFixed(2)}` : `£ ${Number(item.price).toFixed(2)}`}</h3>
                                     </div>
                                 </div>
                             </div>

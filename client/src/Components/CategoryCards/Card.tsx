@@ -16,13 +16,9 @@ const Card: React.FC<cardProps> = ({ imgSrc, label, id }) => {
         navigate('/shop')
     };
     return (
-        <motion.div
+        <div
             id={id}
-            className="shadow-md cursor-pointer group h-[24em] w-[13em] border border-gray-300 border-t-0 rounded-3xl overflow-hidden flex flex-col py-8 hover:bg-[#006fcc]"
-            whileHover={{
-                scale: 1.1,
-                transition: { duration: 0.2 },
-            }}
+            className="shadow-md cursor-pointer group h-[24em] w-[13em] border border-gray-300 border-t-0 rounded-3xl overflow-hidden flex flex-col py-8 hover:bg-[#006fcc] duration-500 ease-linear"
             onClick={() => handleNavigation()}
         >
             {/* <img src={imgSrc} alt="Parties Decor" className="w-[12rem] self-center mt-4 rounded-full" /> */}
@@ -34,7 +30,7 @@ const Card: React.FC<cardProps> = ({ imgSrc, label, id }) => {
                     <div className="h-[100px] w-[100px] bg-white group-hover:bg-[#006fcc] rounded-full absolute right-0 bottom-0"></div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     )
 }
 

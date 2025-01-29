@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import DataTable from "../../../Components/dataTable/DataTable";
 import Add from "../../../Components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
-import { products } from "../../../data";
 import { AllProductsGetService, DeleteService, FormPostService } from "../../../global/GeneralService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -21,37 +20,42 @@ const columns: GridColDef[] = [
     field: "Name",
     type: "string",
     headerName: "Title",
-    width: 200,
+    width: 150,
   },
   {
     field: "paragraph",
     type: "string",
     headerName: "Description",
-    width: 400,
+    width: 300,
+    sortable: false,
   },
   {
     field: "price",
     type: "string",
     headerName: "Price",
     width: 150,
+    sortable: false,
   },
   {
     field: "isSpecial",
     headerName: "Special Offer",
     type: "boolean",
     width: 200,
+    sortable: false,
   },
   {
     field: "categoryName",
     headerName: "Category",
-    width: 200,
+    width: 150,
     type: "string",
+    sortable: false,
   },
   {
     field: "isDiscount",
     headerName: "Discount",
     width: 150,
     type: "boolean",
+    sortable: false,
   },
 ];
 
@@ -79,6 +83,7 @@ const AdminProduct = () => {
     specialText: 0,
     price: 0,
     categoryValue: '6',
+    categoryName: 'School Stationary',
     category: [
       { name: 'Parties Decor', value: '1' },
       { name: 'Home Decor', value: '2' },
@@ -111,25 +116,43 @@ const AdminProduct = () => {
 
   useEffect(() => {
     getProductList();
+    getCategoryList();
   }, []);
+
+  const getCategoryList = async () => {
+    await AllProductsGetService('/cat/get-all')
+      .then((response) => {
+        console.log(response);
+        if (response.data.categories.length > 0) {
+          const category = response.data?.categories.map((item) => ({
+            name: item?.category,
+            value: item?._id,
+          }));
+          const newFormState = { ...form, category: category };
+          setFormData(newFormState);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
 
   const getProductList = async () => {
     await AllProductsGetService('/product/get-all')
       .then((response) => {
         console.log(response);
-        // setUsers(response?.data?.products);
         const allProducts = response.data?.products.map((item) => ({
           id: item?._id,
           productId: 7,
           imgSrc: item?.images[0]?.url,
-          specialText: 0,
-          isSpecial: true,
+          specialText: item?.specialoffer,
+          isSpecial: item?.isSpecial,
           paragraph: item?.description,
           price: item?.price,
           Name: item?.name,
           quantity: 0,
-          isDiscount: false,
-          categoryName: 'Brushes',
+          isDiscount: item?.isSpecial,
+          categoryName: item?.category,
           stock: item?.stock,
         }));
         setUsers(allProducts);
@@ -157,7 +180,8 @@ const AdminProduct = () => {
     formData.append('discountprice', String(form?.discountedPrice));
     formData.append('discountpercent', String(form?.discountPercentage));
     formData.append('stock', String(form?.stock));
-    formData.append('category', form?.categoryValue)
+    formData.append('category', form?.categoryValue);
+    formData.append('categoryname', form?.categoryName);
     formData.append('bestSeller', String(form?.bestSeller))
     formData.append('file', form?.imageFile as string | Blob);
 
@@ -169,34 +193,28 @@ const AdminProduct = () => {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   const addNewuserButton = () => {
     setIsAddEdit('Add');
     setFormField(initialFormData);
     setOpen(true);
-    setFormData({
+    setFormData((prev) => ({
+      ...prev,
       title: '',
       desc: '',
       isSpecial: false,
       specialText: 0,
       price: 0,
-      categoryValue: '6',
-      category: [
-        { name: 'Parties Decor', value: '1' },
-        { name: 'Home Decor', value: '2' },
-        { name: 'Office Stationary', value: '3' },
-        { name: 'DIY households', value: '4' },
-        { name: 'Art & Craft', value: '5' },
-        { name: 'School Stationary', value: '6' },
-      ],
+      categoryValue: form?.category[0].value,
+      categoryName: form?.category[0].name,
       stock: 0,
       bestSeller: false,
       imageFile: '',
       discountedPrice: 0,
       discountPercentage: 0,
-    })
+    }))
   };
 
   const handleDelete = (id: string) => {

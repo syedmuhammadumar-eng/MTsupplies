@@ -707,8 +707,8 @@ process.exit(1) ensures that if the connection fails, the application stops.
 
 
 <!--=============================5-PAYMENT/ADMIN===================================-->
-# (after deployment) payment gateway integration api:                     {}
-# (?) forget password reset api:                           {}
+# (after deployment) payment gateway integration api:                                                   {}
+# (done) forget password reset api:  http://localhost:8080/api/v1/user/reset-password                   {post}
 # payment docs:                                           {}
 
 

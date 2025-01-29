@@ -7,6 +7,7 @@ import { isAdmin } from '../../middleware/authMiddleware.js';
 import { logoutController ,updateProfileController} from '../../controllers/auth/auth-controller.js';
 import {updatePasswordController} from '../../controllers/auth/auth-controller.js'
 import {adminAcessController} from '../../controllers/auth/admin_controller.js'
+import { passwordResetController } from '../../controllers/auth/auth-controller.js'
 //router object, use to create rotes with the help of express
 const router = express.Router();
 
@@ -31,14 +32,16 @@ router.get('/logout', isAuth, logoutController);
 router.put('/profile-update', isAuth, updateProfileController )
 
 // 6- Password change , private route,
+// only login user can change and update the passwrd and its work through token and cookies 
 router.put('/update-password', isAuth, updatePasswordController  )
-
 
 // 7- Admin route
 // here only admin can acess the admin routes
 router.get('/admin', adminAcessController )
 
 
+// 8- forget password,
+router.post('/reset-password', passwordResetController)
 
 
 

@@ -124,6 +124,9 @@ export const loginController = async (req, res) => {
         //token call 
         const token = user.generateToken();
 
+        //empty cart for array, we sent empty array thorugh success message
+        let cart = [ ]
+
         res.status(200).cookie('token', token, {
             expires: new Date(Date.now() + 15 * 24 * 60 * 1000),
             secure: process.env.NODE_ENV === "development" ? true: false,
@@ -134,6 +137,7 @@ export const loginController = async (req, res) => {
             message:'login successfully',
             token,
             user,
+            cart
         })
 
     } catch(error){
@@ -337,3 +341,63 @@ export const updatePasswordController = async (req, res) => {
     }
     
 };
+
+
+
+
+//forgot password
+export const passwordResetController = async (req, res) => {
+    try {
+        //get user email
+        const { email, newPassword } = req.body;
+
+        //validation
+        if(!email || !newPassword){
+            return res.status(500).send({
+                success: false,
+                message: "Please provide All fields "
+            })
+        }
+
+        //find user
+        const user = await userModel.findOne({email})
+
+        //user validation
+        if(!user){
+            return res.status(404).send({
+                success: false,
+                message: "Invalid User"
+            })
+        }
+
+        //find password
+        const password = await userModel.findOne({newPassword})
+
+        //password validation
+        if(password === newPassword){
+            return res.status(404).send({
+                success: false,
+                message: "password already exist, Please Try again"
+            })
+        }
+ 
+        //update old password with new password
+        user.password = newPassword
+
+        //hash this password
+        await user.save()
+
+        res.status(200).send({
+            success: true,
+            message: "Password Reset Successfully"
+        })
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: "Error in Forget api"
+        })
+    }
+}

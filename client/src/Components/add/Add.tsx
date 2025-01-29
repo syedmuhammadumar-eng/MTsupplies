@@ -30,6 +30,7 @@ type formDataInterface = {
     stock: number,
     discountedPrice: number,
     discountPercentage: number,
+    categoryName: string,
 };
 
 type Icategory = {
@@ -58,8 +59,15 @@ const Add = (props: Props) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleChange = (field: string, value: string | boolean) => {
-        const newFormState = { ...props?.form, [field]: value };
+    const handleChange = (field: string, value: string | boolean, event?: React.ChangeEvent<HTMLSelectElement>) => {
+        let text = '';
+        let newFormState = { ...props?.form, [field]: value };
+        if (event !== undefined) {
+            text = event.target.options[event.target.options.selectedIndex].text;
+        }
+        if (field === 'categoryValue') {
+            newFormState = { ...props?.form, [field]: value as string, ['categoryName']: text };
+        }
         props?.setFormData(newFormState);
     };
 
@@ -117,21 +125,21 @@ const Add = (props: Props) => {
                     <div className="item flex flex-col gap-3 mb-5">
                         <label className="text-sm font-medium text-mainBg">Title</label>
                         <input
-                            className="p-2 bg-transparent outline-none border border-solid border-mainBg rounded-md text-mainBg placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent outline-none border border-solid border-mainBg rounded-md text-mainBg placeholder-mainBg"
                             placeholder={'Title'}
                             value={props?.form?.title}
                             onChange={(event) => handleChange('title', event.target.value)}
                         />
                         <label className="text-sm font-medium text-mainBg">Description</label>
                         <input
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             placeholder={'Description'}
                             value={props?.form?.desc}
                             onChange={(event) => handleChange('desc', event.target.value)}
                         />
                         <label className="text-sm font-medium text-mainBg">Price</label>
                         <input
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             placeholder={'Price'}
                             type="number"
                             value={props?.form?.price}
@@ -142,13 +150,13 @@ const Add = (props: Props) => {
                             id={'isSpecial'}
                             productLabel={'Add Special Offer'}
                             textColor={'text-mainBg'}
-                            size={"text-base"}
+                            size={"text-sm"}
                             checked={props?.form?.isSpecial}
                             onChange={() => handleChange('isSpecial', !props?.form?.isSpecial)}
                         />
                         <input
                             hidden={!props?.form?.isSpecial}
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             placeholder={'Special offer price'}
                             type={'number'}
                             value={props?.form?.specialText}
@@ -156,14 +164,14 @@ const Add = (props: Props) => {
                             onBlur={(event) => handleBlur(event.target.value)}
                         />
                         {props?.form?.isSpecial && props?.form?.discountedPrice !== null && props?.form?.discountPercentage !== null && (
-                            <div className="text-sm text-green-500">
+                            <div className="text-xs font-semibold text-green-500">
                                 Discount: £ {props?.form?.discountedPrice.toFixed(2)} (
                                 {props?.form?.discountPercentage.toFixed(2)}%) <span><Tooltip title="Add Special price and focus out to update discount."><ErrorOutlineIcon className="text-gray-900" sx={{ fontSize: 14 }} /></Tooltip></span>
                             </div>
                         )}
-                        <label className="text-sm font-medium text-mainBg">Stock</label>
+                        <label className="text-sm text-mainBg">Stock</label>
                         <input
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             placeholder={'Stock'}
                             type="number"
                             value={props?.form?.stock}
@@ -171,9 +179,9 @@ const Add = (props: Props) => {
                         />
                         <label className="text-sm font-medium text-mainBg">Category</label>
                         <select
-                            className="p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
                             value={props?.form?.categoryValue}
-                            onChange={(event) => handleChange('categoryValue', event.target.value)}
+                            onChange={(event) => handleChange('categoryValue', event.target.value, event)}
                         >
                             {props?.form?.category && props?.form?.category.map((item, index) => (
                                 <option key={index} value={item?.value} >{item?.name}</option>
@@ -185,7 +193,7 @@ const Add = (props: Props) => {
                             productLabel={'Add to BestSeller'}
                             checked={props?.form?.bestSeller}
                             textColor={'text-mainBg'}
-                            size={"text-base"}
+                            size={"text-sm"}
                             onChange={() => handleChange('bestSeller', !props?.form?.bestSeller)}
                         />
                     </div>
@@ -205,7 +213,7 @@ const Add = (props: Props) => {
                                 className={`flex flex-col items-center justify-center h-32 cursor-pointer`}
                             >
                                 <IoCloudUploadOutline className="w-10 h-10 text-muted-foreground mb-2" />
-                                <span>Upload image</span>
+                                <span className="text-sm" >Upload image</span>
                             </label>
                         ) : (
                             <div className="flex justify-center items-center gap-8 mb-5" >

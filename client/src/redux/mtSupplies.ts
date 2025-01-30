@@ -14,6 +14,9 @@ export interface Product {
   isBestSelling: boolean,
   discountpercent: number,
   discountprice: number,
+  category: string,
+  isChecked: boolean,
+  subCategory: string,
 }
 
 export interface State {
@@ -42,6 +45,9 @@ const initialState: State = {
       isBestSelling: false,
       discountpercent: 0,
       discountprice: 0,
+      category: '',
+      isChecked: false,
+      subCategory: '',
     },
   ],
   productDetails: [],

@@ -1,25 +1,10 @@
 
-import Search from '../../assets/Search.svg';
 import CustomInput from '../Global/CustomInput';
-import WishlistHeart from '../../assets/icons/WishlistHeart.png';
 import Whitebluebordercart from '../../assets/icons/whitebluebordercart.png';
-import {
-    Brush1,
-    Brush2,
-    Brush3,
-    Brush4,
-    Brush5,
-    product1,
-    product2,
-    product3,
-    product4,
-    product5,
-}
-    from '../../assets/index';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, clearSearchedProduct, Product as ProductInterface, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
+import { addToCart, Product as ProductInterface, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
 import BreadCrumb from '../Global/BreadCrumb';
 import { motion } from 'framer-motion';
 import Button from '@mui/material/Button';
@@ -36,6 +21,9 @@ type categoryDataProps = {
 
 type IuniqueProps = {
     name: string,
+    isIncluded: boolean,
+    id: string,
+    isChecked: boolean,
 };
 
 const categoryInitialData: categoryDataProps[] = [
@@ -69,7 +57,6 @@ const categoryInitialData: categoryDataProps[] = [
         categoryLabel: 'School Stationary',
         isChecked: false
     },
-
 ];
 
 // const initialData: ProductInterface[] = [
@@ -285,7 +272,6 @@ const categoryInitialData: categoryDataProps[] = [
 
 const Product = () => {
     const [value, setValue] = useState<number[]>([1, 20]);
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
     const [globalData, setData] = useState<ProductInterface[]>([]);
     const [category, setCategory] = useState<categoryDataProps[]>([]);
     const searchedProduct = useSelector((state: RootState) => state.mtSupplies.searchedProduct);
@@ -293,6 +279,7 @@ const Product = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [visibleProductsCount, setVisibleProductsCount] = useState(12);
     const [uniqueData, setUniqueData] = useState<IuniqueProps[]>([]);
+    const [initialData, setInitialData] = useState<ProductInterface[]>([]);
     const productsPerPage = 12;
 
     const totalPages = Math.ceil(globalData.length / productsPerPage);
@@ -341,15 +328,16 @@ const Product = () => {
                     Name: item?.name,
                     quantity: 0,
                     isDiscount: false,
-                    categoryName: 'Brushes',
+                    // categoryName: item?.categoryName,
+                    category: item?.category,
                     stock: item?.stock,
                     discountpercent: item?.discountpercent,
                     discountprice: item?.discountprice,
+                    subCategory: item?.subCategory,
+                    isChecked: false,
                 }));
                 setData(allProducts);
-                const uniqueNames: IuniqueProps[] = Array.from(new Set(response.data?.products.map((item) => ({ name: item?.name }))));
-
-                setUniqueData(uniqueNames);
+                setInitialData(allProducts);
             })
             .catch((error) => {
                 console.log(error);
@@ -426,51 +414,33 @@ const Product = () => {
         dispatch(addToCart(counterCartState));
     };
 
-    const handleUpdateForm = (row) => {
-        const filterData = globalData.filter(item => item.categoryName === row.categoryLabel);
-        const data = Array.from(new Set(filterData.map((item) => ({ name: item?.Name }))));
-        setUniqueData(data);
-        setIsDisabled(false);
-        const categoryArray = [...category];
-        categoryArray[row.id - 1].isChecked = !row.isChecked;
+    const handleUpdateForm = (row, isChecked) => {
+        const typeData = uniqueData.map((item) => ({
+            ...item,
+            isIncluded: isChecked ? item.id === row.id : true,
+        }));
+
+        const categoryArray = category.map((item) => ({
+            ...item,
+            isChecked: isChecked ? item.id === row.id : false,
+        }));
         setCategory(categoryArray);
+        setUniqueData(typeData);
+
+        if (isChecked) {
+            const filteredData = initialData.filter(item => item?.category === row?.id);
+            setData(filteredData);
+        } else {
+            setData(initialData);
+        }
     };
 
     const handleChange = (event: Event, newValue: number | number[]) => {
-        setIsDisabled(false);
         setValue(newValue as number[]);
     };
 
     function valuetext(value: number) {
         return `${value}°C`;
-    };
-
-    const handleFilter = () => {
-        // Get a copy of the initial data and category data
-        const productsData = [...globalData];
-        const selectedCategories = category
-            .flatMap((cat) => cat.categoryContent) // Flatten all categoryContent
-            .filter((item) => item.isChecked) // Filter checked items
-            .map((item) => item.id); // Extract IDs of checked items
-
-        // Filter products by category
-        const categoryFilteredData = selectedCategories.length
-            ? productsData.filter((product) => selectedCategories.includes(product.productId))
-            : productsData; // If no categories are selected, use all products
-
-        // Filter products by price range
-        const filteredData = categoryFilteredData.filter(
-            (product) => Number(product.price) >= value[0] && Number(product.price) < value[1]
-        );
-
-        // Update the state with filtered data
-        setData(filteredData);
-    };
-
-    const handleResetFilter = () => {
-        setData(globalData);
-        setCategory(categoryInitialData);
-        setValue([1, 20]);
     };
 
     const handlePaginationChange = (event, value) => {
@@ -481,7 +451,22 @@ const Product = () => {
         setVisibleProductsCount((prevCount) => prevCount + productsPerPage);
     };
 
+    const handleTypeForm = (row, isChecked) => {
+        const updatedData = uniqueData.map(item =>
+            item.name === row.name ? { ...item, isChecked } : item
+        );
 
+        const data = initialData.map(item =>
+            item.Name === row.name ? { ...item, isChecked } : item
+        );
+
+        
+
+        const filteredData = data.filter(item => item.isChecked || item.isChecked === undefined);
+        
+        setData(filteredData);
+        setUniqueData(updatedData);
+    };
 
     return (
         <div className="">
@@ -497,36 +482,32 @@ const Product = () => {
                     {category && category.map((item, index) => (
                         <>
                             <div className="exp-reg ml-4">
-                                {/* <div className="text-lg text-gray-800 font-medium cursor-pointer">{item?.categoryLabel}</div> */}
                                 <CustomInput
                                     key={index}
                                     type={'checkbox'}
                                     id={String(item?.id)}
                                     productLabel={item?.categoryLabel}
                                     checked={item?.isChecked}
-                                    onChange={() => handleUpdateForm(item)}
+                                    onChange={() => handleUpdateForm(item, !item?.isChecked)}
                                 />
                             </div>
-                            {/* <hr className="w-[60%] h-0 border-1 border-solid border-gray-300 mx-0 xl:block lg:block md:hidden sm:hidden" /> */}
                         </>
                     ))}
-                    <div hidden={uniqueData.length > 0 ? false : true} className="text-xl font-medium text-blue-900 mt-4">Type</div>
-                    {uniqueData && uniqueData.map((item, index) => (
+                    {/* <div hidden={globalData.length > 0 ? false : true} className="text-xl font-medium text-blue-900 mt-4">Type</div>
+                    {globalData && globalData.map((item, index) => (
                         <>
-                            <div className="exp-reg ml-4">
-                                {/* <div className="text-lg text-gray-800 font-medium cursor-pointer">{item?.categoryLabel}</div> */}
+                            <div className="exp-reg ml-4" >
                                 <CustomInput
                                     key={index}
                                     type={'checkbox'}
                                     id={String(index + 'type')}
-                                    productLabel={item?.name}
-                                // checked={item?.isChecked}
-                                // onChange={() => handleUpdateForm(item)}
+                                    productLabel={item?.subCategory}
+                                    checked={item?.isChecked}
+                                    onChange={() => handleTypeForm(item, !item?.isChecked)}
                                 />
                             </div>
-                            {/* <hr className="w-[60%] h-0 border-1 border-solid border-gray-300 mx-0 xl:block lg:block md:hidden sm:hidden" /> */}
                         </>
-                    ))}
+                    ))} */}
                     <div className="flex flex-col items-center">
                         <div className='w-[15rem] mt-10' >
                             <div className='flex justify-between font-medium text-center'><div className='text-blue-900'>Price</div> <span className='font-medium text-gray-500' >£ 1.00 - 20.00</span></div>
@@ -543,36 +524,11 @@ const Product = () => {
                                 className='mt-5'
                             />
                         </div>
-                        <div className='flex gap-5 mt-10 ml-2' >
-                            <motion.button>
-                                <Button
-                                    variant={'outlined'}
-                                    fullWidth
-                                    disabled={isDisabled}
-                                    className="bg-[#0082E7] font-titleFont"
-                                    children={'Filter'}
-                                    onClick={handleFilter}
-                                />
-                            </motion.button>
-                            <motion.button>
-                                <Button
-                                    variant={'contained'}
-                                    color='error'
-                                    fullWidth
-                                    disabled={isDisabled}
-                                    children={'Reset Filter'}
-                                    onClick={handleResetFilter}
-                                />
-                            </motion.button>
-                        </div>
-
                     </div>
-
                 </div>
-                {/* shadow-[#979995] */}
                 <div className="flex justify-center gap-10 flex-wrap basis-4/5 h-[50%]">
                     {displayedProducts && displayedProducts.map(item => (
-                        <div className='h-[27rem]' key={item?.id} >
+                        <div className='h-[27rem]' key={item?.id}>
                             <div className="w-[18rem] flex flex-col shadow-lg hover:shadow-testShadow2 duration-500 mt-4 cursor-pointer hover:bg-gray-200" onClick={() => handleClick(item)}>
                                 <div className="relative h-72">
                                     <img className='rounded-t-md w-full h-full object-cover cursor-pointer ' src={item.imgSrc} alt="product5" />
@@ -584,12 +540,11 @@ const Product = () => {
 
                                         )}
                                     </div>
-                                    {/* <motion.div whileTap={{ scale: 0.9 }} className="absolute top-0 left-40 ml-8"><img src={WishlistHeart} alt="" /> </motion.div> */}
                                     <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-[12.5rem] ml-10" onClick={() => handleCartClick(item)} ><img src={Whitebluebordercart} alt="" /></motion.div>
                                 </div>
                                 <div className="px-2 py-1 flex flex-col justify-between items-start h-[7rem]">
                                     <div>
-                                        <p className="text-base font-semibold text-black overflow-hidden">{item?.Name} - {item.paragraph}</p>
+                                        <p className="text-base font-medium text-gray-700 overflow-hidden">{item?.Name} - {item.paragraph}</p>
                                     </div>
                                     <div className='flex flex-col items-start' >
                                         {item?.isSpecial && <div className='flex gap-2 text-sm font-medium' ><div className='text-gray-500 line-through' >£ {Number(item.price).toFixed(2)}</div><div className='text-blue-900' >({(item?.discountpercent)}% off)</div></div>}

@@ -31,6 +31,7 @@ type formDataInterface = {
     discountedPrice: number,
     discountPercentage: number,
     categoryName: string,
+    subCategory: string,
 };
 
 type Icategory = {
@@ -187,6 +188,14 @@ const Add = (props: Props) => {
                                 <option key={index} value={item?.value} >{item?.name}</option>
                             ))}
                         </select>
+                        <label className="text-sm text-mainBg">Sub Category <span><Tooltip title="Ensure that products of the same type retain the same sub-category."><ErrorOutlineIcon className="text-gray-900" sx={{ fontSize: 14 }} /></Tooltip></span></label>
+                        <input
+                            className="text-sm p-2 bg-transparent text-mainBg outline-none border border-solid border-mainBg rounded-md placeholder-mainBg"
+                            placeholder={'Sub Category'}
+                            type="text"
+                            value={props?.form?.subCategory}
+                            onChange={(event) => handleChange('subCategory', event.target.value)}
+                        />
                         <CustomInput
                             type={'checkbox'}
                             id={'bestSeller'}

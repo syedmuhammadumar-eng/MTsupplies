@@ -97,6 +97,7 @@ const AdminProduct = () => {
     imageFile: '',
     discountedPrice: 0,
     discountPercentage: 0,
+    subCategory: '',
   });
 
   // {
@@ -182,7 +183,8 @@ const AdminProduct = () => {
     formData.append('stock', String(form?.stock));
     formData.append('category', form?.categoryValue);
     formData.append('categoryname', form?.categoryName);
-    formData.append('bestSeller', String(form?.bestSeller))
+    formData.append('subCategory', form?.subCategory);
+    formData.append('bestSeller', String(form?.bestSeller));
     formData.append('file', form?.imageFile as string | Blob);
 
     FormPostService('/product/create', formData, token)
@@ -214,6 +216,7 @@ const AdminProduct = () => {
       imageFile: '',
       discountedPrice: 0,
       discountPercentage: 0,
+      subCategory: ''
     }))
   };
 

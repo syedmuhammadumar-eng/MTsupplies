@@ -79,7 +79,7 @@ export const createProductController = async (req, res) => {
         //get product info from the admin
         // flow-1, here we destructure the data 
         //here category id is provided by the user
-        const {name, description, price, stock, category, isSpecial, specialoffer, discountprice, discountpercent} = req.body;
+        const {name, description, price, stock, category, isSpecial, specialoffer, discountprice, discountpercent, subCategory} = req.body;
 
         //validation for products//check all, products data are coming or not from the admin
         if(!name || !description || !price || !stock || !category){
@@ -133,6 +133,7 @@ export const createProductController = async (req, res) => {
             specialoffer,
             discountprice,
             discountpercent,
+            subCategory,
             images:[image]
         });
 

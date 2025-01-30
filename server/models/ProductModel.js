@@ -42,6 +42,10 @@ const productSchema = new mongoose.Schema({
         ref: 'Category',
         required:[true, 'category required']
     },
+    subCategory: {
+        type: String,
+        required: [true, 'category is required'],
+    },
     //here we use cloudinary for images
     images:[
         {

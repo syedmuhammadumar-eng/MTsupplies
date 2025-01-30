@@ -15,7 +15,7 @@ router.post("/create", isAuth, singleUpload, createCategory);
 
 
 // 2- Get All Categories
-router.get("/get-all", isAuth, getallCatogoriesController );
+router.get("/get-all", getallCatogoriesController );
 
 
 // 3- Delete Category

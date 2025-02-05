@@ -3,6 +3,14 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
     {
         shippingInfo:{
+            fullName: {
+                type: String,
+                required: [true, 'fullName is required']
+            },
+            Phone: {
+                type: String,
+                required: [true, 'Phone is required']
+            },
             address:{
                 type: String,
                 required: [true, 'address is required']
@@ -50,6 +58,10 @@ const orderSchema = new mongoose.Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:'Users',
             required:[true, 'user id is required']
+        },
+        userName:{
+            type:String,
+            required:[true, 'user name is required']
         },
         paidAt:Date,
         paymentInfo:{

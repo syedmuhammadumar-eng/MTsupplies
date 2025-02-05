@@ -18,6 +18,9 @@ const productSchema = new mongoose.Schema({
     isSpecial :{
         type: Boolean,
     },
+    bestseller: {
+        type: Boolean,
+    },
     specialoffer: {
         type: Number,
     },
@@ -31,6 +34,10 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required:[true, 'product stock required']
     },
+    categoryname:{
+        type: String,
+        required:[true, 'category name required']
+    },
     // quantity:{
     //     type: Number,
     //     required:[true, 'product quantity required']
@@ -40,11 +47,10 @@ const productSchema = new mongoose.Schema({
     category:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
-        required:[true, 'category required']
+        required:[true, 'category Id required']
     },
     subCategory: {
         type: String,
-        required: [true, 'category is required'],
     },
     //here we use cloudinary for images
     images:[
@@ -52,7 +58,8 @@ const productSchema = new mongoose.Schema({
             public_id:String,
             url:String
         }
-    ]
+    ],
+    
 
 }, {timestamps:true})
 

@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setLoginData, setToken } from "../redux/credentialReducer";
 import { authService } from "../global/GeneralService";
 import ResponsiveDialog from "../global/Modal";
+import { resetCart } from "../redux/mtSupplies";
 const LogIn = () => {
     const [isPasswordIcon, setPasswordIcon] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
@@ -34,7 +35,8 @@ const LogIn = () => {
                 console.log(response);
                 if (response.status === 200) {
                     const respData = response?.data?.user;
-                    const newRespData = { ...respData, isLoginSuccessFull: response?.data?.success };
+                    const newRespData = { ...respData, isLoginSuccessFull: response?.data?.success, userId: response?.data?.user?._id };
+                    dispatch(resetCart());
                     dispatch(setToken(response?.data?.token));
                     dispatch(setLoginData(newRespData));
                     navigate('/');

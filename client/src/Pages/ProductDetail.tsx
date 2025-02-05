@@ -7,277 +7,39 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { addToCart, Product } from '../redux/mtSupplies';
-import { motion } from 'framer-motion';
-import {
-    Brush1,
-    Brush2,
-    Brush3,
-    Brush4,
-    Brush5,
-    product1,
-    product2,
-    product3,
-    product4,
-    product5,
-}
-    from '../assets/index';
-import { Product as ProductInterface } from '../redux/mtSupplies';
 import { Button } from '@material-tailwind/react';
 
-const bestSelling = [
-    {
-        id: '1',
-        imgSrc: product1,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-        price: '7.66',
-        name: 'Brand Name',
-    },
-    {
-        id: '2',
-        imgSrc: product2,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-        price: '7.66',
-        name: 'Brand Name',
-    },
-    {
-        id: '3',
-        imgSrc: product3,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-        price: '7.66',
-        name: 'Brand Name',
-    },
-    {
-        id: '4',
-        imgSrc: product4,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-        price: '7.66',
-        name: 'Brand Name',
-    },
-    {
-        id: '5',
-        imgSrc: product5,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-        price: '7.66',
-        name: 'Brand Name',
-    },
-];
-
-const initialData: ProductInterface[] = [
-    {
-        id: '1',
-        productId: 1,
-        imgSrc: product1,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-        price: '1.12',
-        Name: 'Pencil',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pencils',
-        isBestSelling: false
-    },
-    {
-        id: '2',
-        productId: 2,
-        imgSrc: product2,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-        price: '2.14',
-        Name: 'Pen',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pens',
-        isBestSelling: false
-    },
-    {
-        id: '3',
-        imgSrc: product3,
-        productId: 2,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-        price: '3.16',
-        Name: 'Pen',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pens',
-        isBestSelling: false
-    },
-    {
-        id: '4',
-        productId: 2,
-        imgSrc: product4,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-        price: '4.22',
-        Name: 'Pen',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pens',
-        isBestSelling: false
-    },
-    {
-        id: '5',
-        productId: 1,
-        imgSrc: product5,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-        price: '5.24',
-        Name: 'Pencil',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pencils',
-        isBestSelling: false
-    },
-    {
-        id: '6',
-        productId: 1,
-        imgSrc: product1,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-        price: '6.26',
-        Name: 'Pencil',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pencils',
-        isBestSelling: false
-    },
-    {
-        id: '7',
-        productId: 2,
-        imgSrc: product2,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-        price: '7.32',
-        Name: 'Pen',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Pens',
-        isBestSelling: false
-    },
-    {
-        id: '8',
-        productId: 3,
-        imgSrc: Brush1,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '8.34',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-    {
-        id: '9',
-        imgSrc: Brush2,
-        productId: 3,
-        specialText: '',
-        isSpecial: false,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '9.36',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-    {
-        id: '10',
-        productId: 3,
-        imgSrc: Brush3,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '10.42',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-    {
-        id: '11',
-        productId: 3,
-        imgSrc: Brush4,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '11.44',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-    {
-        id: '12',
-        productId: 3,
-        imgSrc: Brush5,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '12.46',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-    {
-        id: '13',
-        imgSrc: Brush4,
-        productId: 3,
-        specialText: 'Special',
-        isSpecial: true,
-        paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-        price: '13.52',
-        Name: 'Brush',
-        quantity: 0,
-        isDiscount: false,
-        categoryName: 'Brushes',
-        isBestSelling: false
-    },
-];
-
 const ProductDetail = () => {
-    const { productDetails } = useSelector((state: RootState) => state.mtSupplies);
+    const { productDetails, searchedProduct, relatedProductData } = useSelector((state: RootState) => state.mtSupplies);
     const [form, setForm] = useState<Product[]>([]);
     const dispatch = useDispatch<AppDispatch>();
-    const [relatedSearchData, setRelatedSearchData] = useState<Product[]>(initialData);
+    const [relatedSearchData, setRelatedSearchData] = useState<Product[]>([]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        // if (form.length === 0) {
-        const products = [...productDetails];
-        if (products.length > 0) {
-            const splitArray = products[0].paragraph?.split(',') || [];
-            if (splitArray.length > 1 && !splitArray[1].includes('<br />')) {
-                products[0] = { ...products[0], paragraph: `${splitArray[0]}, <br />${splitArray[1]}` }
+        if (!searchedProduct.length) {
+            const products = [...productDetails];
+            if (products.length > 0) {
+                const splitArray = products[0].paragraph?.split(',') || [];
+                if (splitArray.length > 1 && !splitArray[1].includes('<br />')) {
+                    products[0] = { ...products[0], paragraph: `${splitArray[0]}, <br />${splitArray[1]}` }
+                };
             };
-        };
-        const filteredData = initialData.filter(item => item?.categoryName?.toLowerCase() === products[0]?.categoryName?.toLowerCase() && item?.id !== products[0]?.id);
-        setRelatedSearchData(filteredData);
-        setForm(products);
-        // }
-    }, [productDetails]);
+            const filteredData = relatedProductData && relatedProductData.filter(item => item?.categoryName?.toLowerCase() === products[0]?.categoryName?.toLowerCase() && item?.id !== products[0]?.id);
+            setRelatedSearchData(filteredData);
+            setForm(products);
+        } else {
+            const filteredData = relatedProductData && relatedProductData.filter(item => item?.categoryName?.toLowerCase() === searchedProduct[0]?.categoryName?.toLowerCase() && item?.id !== searchedProduct[0]?.id);
+            setRelatedSearchData(filteredData);
+            setForm(searchedProduct);
+        }
+
+    }, [productDetails, searchedProduct, relatedProductData]);
+
+    useEffect(() => {
+        console.log(searchedProduct);
+    }, [searchedProduct])
+
 
 
     const handleAddCart = () => {
@@ -302,6 +64,8 @@ const ProductDetail = () => {
 
         setForm(newForm);
     };
+    console.log('product Detail Data', form);
+
     return (
         <>
             <Header />
@@ -324,9 +88,10 @@ const ProductDetail = () => {
                             <BreadCrumb />
                         </div>
                         <div className='xl:w-[32rem] lg:w-[30rem] md:w-[26rem] sm:w-[29rem] p-2' >
-                            <div className="flex flex-wrap mt-6">
+                            <div className="flex flex-col flex-wrap mt-6">
+                                <label className='lg:text-2xl md:text-2xl font-semibold'>{form[0]?.Name}</label>
                                 <label
-                                    className="text-xl md:text-2xl font-semibold"
+                                    className="lg:text-xl md:text-3xl mt-2 font-medium text-gray-500"
                                     dangerouslySetInnerHTML={{
                                         __html: form && form[0]?.paragraph,
                                     }}
@@ -334,17 +99,17 @@ const ProductDetail = () => {
                             </div>
                             <div className="flex items-center gap-4 mt-6">
                                 <label className="text-2xl md:text-3xl font-bold">
-                                    £ {form && form[0]?.price}
+                                    £ {form && form[0]?.isSpecial ? Number(form[0]?.specialText).toFixed(2) : form[0]?.price}
                                 </label>
-                                {form && form[0]?.isDiscount && (
+                                {form && form[0]?.isSpecial && (
                                     <>
-                                        <label className="line-through text-gray-500">3.00</label>
+                                        <label className="line-through text-gray-500">£ {form && (Number(form[0].price).toFixed(2))}</label>
                                     </>
                                 )}
                             </div>
                             <div className="mt-1">
-                                {form && form[0]?.isDiscount && (
-                                    <label className="text-green-700 font-medium">(33% off)</label>
+                                {form && form[0]?.isSpecial && (
+                                    <label className="text-green-700 font-medium">({form && (Number(form[0].discountpercent).toFixed(0))}% off)</label>
                                 )}
                             </div>
                             <div className="flex gap-4 mt-4 items-center">
@@ -358,13 +123,14 @@ const ProductDetail = () => {
                                     {form && form[0]?.quantity}
                                 </label>
                                 <button
+                                    disabled={form && form[0]?.quantity === form[0]?.stock}
                                     onClick={() => increaseProductDetailQuantity()}
-                                    className="w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300"
+                                    className={`w-8 h-8 bg-gray-100 text-xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-gray-300 hover:border-gray-300`}
                                 >
                                     +
                                 </button>
                                 <Button
-                                    className="bg-gradient-to-r from-[#0082E7] to-[#0053A5] p-3 md:px-8 font-medium rounded-xl text-gray-200 hover:text-white"
+                                    className="bg-gradient-to-r from-[#0082E7] to-[#0053A5] p-3 md:px-8 font-medium rounded-sm text-gray-200 hover:text-white"
                                     placeholder={undefined}
                                     onPointerEnterCapture={undefined}
                                     onPointerLeaveCapture={undefined}
@@ -438,7 +204,6 @@ const ProductDetail = () => {
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div className='mt-40 flex justify-center flex-wrap' >
@@ -466,6 +231,8 @@ const ProductDetail = () => {
                                     categoryName={item?.categoryName}
                                     isDiscount={item?.isDiscount}
                                     productId={item?.productId}
+                                    discountpercent={item?.discountpercent}
+                                    bestSeller={item?.isBestSelling}
                                 />
                             </div>
                         ))}

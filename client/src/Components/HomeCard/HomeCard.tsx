@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import WishlistHeart from '../../assets/icons/WishlistHeart.png';
 import Whitebluebordercart from '../../assets/icons/whitebluebordercart.png';
 import { useNavigate } from 'react-router';
-import { addToCart, removeProductDetail, resetCart, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
+import { addToCart, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
 import { motion } from 'framer-motion';
 
 interface homeCardProps {

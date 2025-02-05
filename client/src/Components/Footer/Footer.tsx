@@ -4,7 +4,6 @@ import twitter from '../../assets/icons/twitter.png';
 import instagram from '../../assets/icons/instagram.png';
 import whatsapp from '../../assets/icons/whatsapp.png';
 import phoneWhite from '../../assets/icons/phonewhite.png';
-import pointerwhite from '../../assets/icons/pointerwhite.png';
 import cash from '../../assets/icons/cash.png';
 import bankTransfer from '../../assets/icons/banktransfer.png';
 import visa from '../../assets/icons/visa.png';
@@ -68,7 +67,7 @@ const Footer = () => {
             )}
 
 
-            <div className='flex flex-row justify-center mt-4'>
+            <div className='flex flex-row justify-start mt-4'>
               <div className="pt-4"><img src={instagram} alt="ig" className="px-3" /></div>
               <div className="pt-4"><img src={twitter} alt="twitter" className="px-3" /></div>
               <div className="pt-4"><img src={facebook} alt="fb" className="px-3" /></div>

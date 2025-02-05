@@ -17,6 +17,16 @@ export interface Product {
   category: string,
   isChecked: boolean,
   subCategory: string,
+  stock: number,
+  bestseller: boolean,
+}
+
+export interface IselectCategory {
+  id: string,
+  category: string,
+  categoryLabel: string,
+  images: [{ url: string, }]
+  isChecked: boolean,
 }
 
 export interface State {
@@ -25,6 +35,9 @@ export interface State {
   productDetails: Product[],
   BreadValue: Array<[]>,
   searchedProduct: Product[],
+  selectedCategory: IselectCategory,
+  searchProductData: Product[],
+  relatedProductData: Product[],
 }
 const initialState: State = {
   userInfo: [],
@@ -48,10 +61,21 @@ const initialState: State = {
       category: '',
       isChecked: false,
       subCategory: '',
+      stock: 0,
+      bestseller: false,
     },
   ],
   productDetails: [],
   searchedProduct: [],
+  searchProductData: [],
+  relatedProductData: [],
+  selectedCategory: {
+    id: '',
+    category: '',
+    categoryLabel: '',
+    images: [{ url: '', }],
+    isChecked: false,
+  },
 };
 
 export const mtSupplies = createSlice({
@@ -69,14 +93,18 @@ export const mtSupplies = createSlice({
         state.products.push(action.payload);
       }
     },
+
     increaseQuantity: (state, action) => {
       const item = state.products.find(
         (item) => item.id === action.payload.id
       );
       if (item) {
-        item.quantity++;
+        if (item.stock > item.quantity) {
+          item.quantity++;
+        }
       }
     },
+
     drecreaseQuantity: (state, action) => {
       const item = state.products.find(
         (item) => item.id === action.payload.id
@@ -89,18 +117,22 @@ export const mtSupplies = createSlice({
         }
       }
     },
+
     deleteItem: (state, action) => {
       state.products = state.products.filter(
         (item) => item.id !== action.payload
       );
     },
+
     resetCart: (state) => {
       state.products = [];
     },
+
     setProductDetail: (state, action) => {
       const actionArray = JSON.parse(JSON.stringify(action.payload));
       state.productDetails = [actionArray];
     },
+
     increaseProductDetailQuantity: (state, action) => {
       const item = state.productDetails.find(
         (item) => item.id === action.payload.id
@@ -109,6 +141,7 @@ export const mtSupplies = createSlice({
         item.quantity++;
       }
     },
+
     drecreaseProductDetailQuantity: (state, action) => {
       const item = state.productDetails.find(
         (item) => item.id === action.payload.id
@@ -121,17 +154,33 @@ export const mtSupplies = createSlice({
         }
       }
     },
+
     removeProductDetail: (state) => {
       state.productDetails = [];
     },
+
     setBreadCrumb: (state, action) => {
       state.BreadValue = action.payload;
     },
+
     setSearchItem: (state, action) => {
       state.searchedProduct = action.payload;
     },
+
     clearSearchedProduct(state) {
       state.searchedProduct = [];
+    },
+
+    setSelectedCategory: (state, action) => {
+      state.selectedCategory = action.payload;
+    },
+
+    setSearchProductData: (state, action) => {
+      state.searchProductData = action.payload;
+    },
+
+    setRelatedProductData: (state, action) => {
+      state.relatedProductData = action.payload;
     },
   },
 });
@@ -149,5 +198,8 @@ export const {
   setBreadCrumb,
   setSearchItem,
   clearSearchedProduct,
+  setSelectedCategory,
+  setSearchProductData,
+  setRelatedProductData,
 } = mtSupplies.actions;
 export default mtSupplies.reducer;

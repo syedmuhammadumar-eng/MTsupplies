@@ -11,7 +11,6 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setFormField: React.Dispatch<React.SetStateAction<formDataInterface[]>>;
   setIsAddEdit: React.Dispatch<React.SetStateAction<string>>;
-  setEditRowId: React.Dispatch<React.SetStateAction<number>>;
   formField: any;
   handleDelete(id: string): void;
 };
@@ -70,21 +69,21 @@ const DataTable = (props: Props) => {
   //   console.log(deleteData + ' record has been deleted');
   // };
 
-  const handleEdit = (row: any) => {
-    props?.setOpen(true);
-    props?.setIsAddEdit('Edit');
-    props?.setEditRowId(row?.id);
-    const editFormFieldState = props?.formField;
-    const mappedHeaders = editFormFieldState.map(header => {
-      const key = header.headerName.toLowerCase(); // Match key names (case insensitive)
-      if (row[key] !== undefined) {
-        return { ...header, value: row[key] };
-      }
-      return header;
-    });
+  // const handleEdit = (row: any) => {
+  //   props?.setOpen(true);
+  //   props?.setIsAddEdit('Edit');
+  //   props?.setEditRowId(row?.id);
+  //   const editFormFieldState = props?.formField;
+  //   const mappedHeaders = editFormFieldState.map(header => {
+  //     const key = header.headerName.toLowerCase(); // Match key names (case insensitive)
+  //     if (row[key] !== undefined) {
+  //       return { ...header, value: row[key] };
+  //     }
+  //     return header;
+  //   });
 
-    props?.setFormField(mappedHeaders);
-  };
+  //   props?.setFormField(mappedHeaders);
+  // };
 
 
   return (

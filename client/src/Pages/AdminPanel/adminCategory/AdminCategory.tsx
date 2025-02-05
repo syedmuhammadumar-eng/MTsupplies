@@ -1,19 +1,17 @@
 import { GridColDef } from "@mui/x-data-grid";
 import DataTable from "../../../Components/dataTable/DataTable";
-import { userRows } from "../../../data";
-import { RxAvatar } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import AddCategory from "../../../Components/addCategory/AddCategory";
-import { AllProductsGetService, DeleteService, FormPostService, PostService } from "../../../global/GeneralService";
+import { AllProductsGetService, DeleteService, FormPostService } from "../../../global/GeneralService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
-const columns: GridColDef<(typeof userRows)[number]>[] = [
+const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
   {
-    field: 'img', headerName: 'Image', width: 100,
+    field: 'imgSrc', headerName: 'Image', width: 100,
     renderCell: (params) => {
-      return (params?.row.img ? <img className="w-8 h-8 rounded-full object-cover" src={params?.row?.img} alt='' /> : <RxAvatar size={32} className="opacity-50" />)
+      return <img className="w-10 object-cover" src={params.row.imgSrc || "/noavatar.png"} alt="" />;
     }
   },
   {
@@ -45,12 +43,12 @@ const AdminCategory = () => {
   const [users, setUsers] = useState([]);
   const [formField, setFormField] = useState(initialFormData);
   const [isAddEdit, setIsAddEdit] = useState('Add');
-  const [editRowId, setEditRowId] = useState(0);
   const token = useSelector((state: RootState) => state?.credentialReducer?.userToken);
 
   const [form, setFormData] = useState({
     category: '',
     explorePopular: false,
+    imageFile: '',
   });
 
   useEffect(() => {
@@ -65,10 +63,9 @@ const AdminCategory = () => {
           const category = response.data?.categories.map((item) => ({
             category: item?.category,
             id: item?._id,
+            imgSrc: item?.images[0]?.url,
           }));
           setUsers(category);
-          // const newFormState = { ...form, category: category };
-          // setFormData(newFormState);
         }
       })
       .catch((error) => {
@@ -78,11 +75,14 @@ const AdminCategory = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const payload = {
-      ...form,
-    }
 
-    PostService('/cat/create', payload, token)
+    const formData = new FormData();
+
+    formData.append('category', form?.category);
+    formData.append('explorePopular', String(form?.explorePopular));
+    formData.append('file', form?.imageFile as string | Blob);
+
+    FormPostService('/cat/create', formData, token)
       .then((response) => {
         console.log(response);
         setOpen(false);
@@ -101,12 +101,12 @@ const AdminCategory = () => {
 
   const handleDelete = (id: string) => {
     DeleteService('/cat/delete/', id, token)
-          .then((response) => {
-            console.log(response);
-            getCategoryList();
-          })
-          .catch((error) => { console.log(error); })
-   };
+      .then((response) => {
+        console.log(response);
+        getCategoryList();
+      })
+      .catch((error) => { console.log(error); })
+  };
 
   return (
     <div className="users">
@@ -129,7 +129,6 @@ const AdminCategory = () => {
         setFormField={setFormField}
         formField={formField}
         setIsAddEdit={setIsAddEdit}
-        setEditRowId={setEditRowId}
         handleDelete={handleDelete}
       />
 

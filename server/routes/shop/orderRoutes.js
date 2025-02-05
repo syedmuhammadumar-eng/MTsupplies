@@ -1,5 +1,5 @@
 import { isAuth } from "../../middleware/authMiddleware.js";
-import { createOrderController } from "../../controllers/shop/orderController.js";
+import { createOrderController, getAllOrdersController } from "../../controllers/shop/orderController.js";
 import { getMyOrdersController } from "../../controllers/shop/orderController.js";
 import { getSingleOrderController } from "../../controllers/shop/orderController.js";
 
@@ -16,6 +16,8 @@ router.post("/create", isAuth, createOrderController);
 
 // 2- get user all orders
 router.get("/my-orders", isAuth, getMyOrdersController);
+
+router.get("/all-orders", getAllOrdersController);
 
 // 3- get single order
 router.get("/my-orders/:id", isAuth, getSingleOrderController )

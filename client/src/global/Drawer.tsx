@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { GetService } from './GeneralService';
 import { setRemoveToken } from '../redux/credentialReducer';
+import { resetCart } from '../redux/mtSupplies';
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -64,6 +65,7 @@ const CustomDrawer = ({ open, setOpen }) => {
                     navigate(url);
                     setOpen(false);
                     dispatch(setRemoveToken());
+                    dispatch(resetCart());
                 })
                 .catch((error) => {
                     console.log(error);

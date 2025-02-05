@@ -15,8 +15,10 @@ const Shop = () => {
 
     return (
         <>
-            <Header />
-            <EStore />
+            <div className='min-h-screen' >
+                <Header />
+                <EStore />
+            </div>
             <Footer />
         </>
     )

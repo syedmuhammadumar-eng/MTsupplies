@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import Slider from "react-slick";
 import {
@@ -17,7 +17,7 @@ const Banner = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    beforeChange: (prev: any, next: any) => {
+    beforeChange: (next: any) => {
       setDocActive(next);
     },
     appendDots: (dots: any) => (

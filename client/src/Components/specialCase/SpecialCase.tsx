@@ -1,7 +1,6 @@
 import { Link } from "react-router";
 import { RiShoppingCart2Fill } from "react-icons/ri";
 import { MdSwitchAccount } from "react-icons/md";
-import { useSelector } from "react-redux";
 
 const SpecialCase = () => {
 //   const products = useSelector((state: any) => state.orebiReducer.products);

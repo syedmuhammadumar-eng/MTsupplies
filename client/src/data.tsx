@@ -1,7 +1,6 @@
-import { GoPerson } from "react-icons/go";
-import { MdProductionQuantityLimits } from "react-icons/md";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
-import { BsFillSignpost2Fill } from "react-icons/bs";
+import { FaGift } from "react-icons/fa";
+import { FaTags  } from "react-icons/fa";
+import { FaShoppingBag } from "react-icons/fa";
 
 
 export const menu = [
@@ -13,7 +12,7 @@ export const menu = [
         id: 1,
         title: "Products",
         url: "/",
-        icon: <MdProductionQuantityLimits color="black" />,
+        icon: <FaGift color="black" />,
       },
       // {
       //   id: 2,
@@ -25,13 +24,13 @@ export const menu = [
         id: 3,
         title: "Orders",
         url: "/orders",
-        icon: <MdOutlineFavoriteBorder color="black" />,
+        icon: <FaShoppingBag color="black" />,
       },
       {
         id: 4,
         title: "Categories",
         url: "/category",
-        icon: <BsFillSignpost2Fill color="black" />,
+        icon: <FaTags  color="black" />,
       },
     ],
   },

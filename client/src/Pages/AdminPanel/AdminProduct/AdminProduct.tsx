@@ -73,7 +73,6 @@ const AdminProduct = () => {
   const [users, setUsers] = useState([]);
   const [formField, setFormField] = useState(initialFormData);
   const [isAddEdit, setIsAddEdit] = useState('Add');
-  const [editRowId, setEditRowId] = useState(0);
   const token = useSelector((state: RootState) => state?.credentialReducer?.userToken);
 
   const [form, setFormData] = useState({
@@ -153,7 +152,7 @@ const AdminProduct = () => {
           Name: item?.name,
           quantity: 0,
           isDiscount: item?.isSpecial,
-          categoryName: item?.category,
+          categoryName: item?.categoryname,
           stock: item?.stock,
         }));
         setUsers(allProducts);
@@ -184,7 +183,7 @@ const AdminProduct = () => {
     formData.append('category', form?.categoryValue);
     formData.append('categoryname', form?.categoryName);
     formData.append('subCategory', form?.subCategory);
-    formData.append('bestSeller', String(form?.bestSeller));
+    formData.append('bestseller', String(form?.bestSeller));
     formData.append('file', form?.imageFile as string | Blob);
 
     FormPostService('/product/create', formData, token)
@@ -247,7 +246,6 @@ const AdminProduct = () => {
         setFormField={setFormField}
         formField={formField}
         setIsAddEdit={setIsAddEdit}
-        setEditRowId={setEditRowId}
         handleDelete={handleDelete}
       />
       {open &&

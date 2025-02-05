@@ -1,4 +1,3 @@
-import React from "react";
 import { MdLocalShipping } from "react-icons/md";
 import { CgRedo } from "react-icons/cg";
 

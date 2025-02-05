@@ -1,15 +1,21 @@
 import { useNavigate } from 'react-router';
-import Rectangle1 from '../../assets/Rectangle1.png';
-import Rectangle2 from '../../assets/Rectangle2.png';
-import Rectangle3 from '../../assets/Rectangle3.png';
-import Rectangle4 from '../../assets/Rectangle4.png';
-import Rectangle5 from '../../assets/Rectangle5.png';
 import { motion } from 'framer-motion';
-const ExploreCategory = () => {
+import { setSelectedCategory } from '../../redux/mtSupplies';
+import { useDispatch } from 'react-redux';
+
+const ExploreCategory = ({ category }) => {
+
     const navigate = useNavigate();
-    const handleNavigation = () => {
-        navigate('/shop')
+    const dispatch = useDispatch();
+
+    const handleNavigation = (item) => {
+        const payload = {
+            ...item,
+        };
+        dispatch(setSelectedCategory(payload))
+        navigate('/shop');
     };
+
     return (
         <>
             <div className="flex justify-center items-center gap-2 mt-8 py-8 flex-wrap">
@@ -17,26 +23,12 @@ const ExploreCategory = () => {
                 <div className="font-medium lg:text-4xl md:text-3xl sm:text-2xl" ><span className='text-gray-600' >Explore </span>Popular Categories</div>
             </div>
             <div className='flex flex-row justify-center gap-10 flex-wrap mt-8 py-8' >
-                <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >
-                    <div className=""><img src={Rectangle1} alt="pencil" className="h-60" /></div>
-                    <div className="text-start mt-4 font-semibold"><p>Paints And Brushes</p></div>
-                </motion.div>
-                <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >
-                    <div className=""><img src={Rectangle2} alt="pencil" className="h-60" /></div>
-                    <div className="text-start mt-4 font-semibold"><p>Clay Sand And Glitter</p></div>
-                </motion.div>
-                <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >
-                    <div className=""><img src={Rectangle3} alt="pencil" className="h-60" /></div>
-                    <div className="text-start mt-4 font-semibold"><p>Canvas and Artist Pads</p></div>
-                </motion.div>
-                <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >
-                    <div className=""><img src={Rectangle4} alt="pencil" className="h-60" /></div>
-                    <div className="text-start mt-4 font-semibold"><p>Costumes and Coats</p></div>
-                </motion.div>
-                <motion.div className='cursor-pointer' whileHover={{ scale: 1.1 }} onClick={handleNavigation} >
-                    <div className=""><img src={Rectangle5} alt="pencil" className="h-60" /></div>
-                    <div className="text-start mt-4 font-semibold"><p>Gifting</p></div>
-                </motion.div>
+                {category && category.map((item, index) => (
+                    <motion.div key={index} className='cursor-pointer' whileHover={{ y: -10, transition: { duration: 0.3 } }} onClick={() => handleNavigation(item)} >
+                        <div className=""><img src={item.images[0].url} alt="pencil" className="h-60" /></div>
+                        <div className="text-center mt-4 font-semibold"><p>{item?.category}</p></div>
+                    </motion.div>
+                ))}
             </div>
 
         </>

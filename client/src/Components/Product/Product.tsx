@@ -1,6 +1,5 @@
 
 import Search from '../../assets/Search.svg';
-import CustomInput from '../Global/CustomInput';
 import product1 from '../../assets/bestSellingproducts/product1.png';
 import product2 from '../../assets/bestSellingproducts/product2.png'
 import product3 from '../../assets/bestSellingproducts/product3.png';

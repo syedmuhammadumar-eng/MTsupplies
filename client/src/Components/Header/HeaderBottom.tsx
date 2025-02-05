@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { FaSearch, FaUser, FaCaretDown } from "react-icons/fa";
+import { Link } from "react-router";
 import Flex from "../Global/Flex";
 import { paginationItems } from "./HeaderData";
 
@@ -11,7 +10,6 @@ const HeaderBottom = () => {
 //   const products = useSelector((state: any) => state.orebiReducer.products);
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
-  const navigate = useNavigate();
   const ref: any = useRef();
   useEffect(() => {
     document.body.addEventListener("click", (e) => {
@@ -25,7 +23,6 @@ const HeaderBottom = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<any>([]);
-  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const handleSearch = (e: any) => {
     setSearchQuery(e.target.value);

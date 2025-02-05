@@ -11,7 +11,7 @@ export const createOrderController = async (req, res) => {
     try {
 
         // 1- dstructure the req body data
-        const {shippingInfo, orderItems, paymentMethod, itemPrice, tax, shippingCharges, totalAmount, orderStatus, quantity} = req.body;
+        const {shippingInfo, orderItems, paymentMethod, itemPrice, tax, shippingCharges, totalAmount, orderStatus, quantity, userName} = req.body;
 
         // 2- validation
         // if(!shippingInfo || !orderItems || !paymentMethod || !paymentInfo || !itemPrice || !tax || !shippingCharges || !totalAmount || !orderStatus  ){
@@ -28,6 +28,7 @@ export const createOrderController = async (req, res) => {
         await orderModel.create({
             user: req.user._id,
             shippingInfo,
+            userName,
             orderItems,
             paymentMethod,
             itemPrice,
@@ -74,6 +75,36 @@ export const getMyOrdersController = async (req, res) => {
          
         //find orders
         const orders = await orderModel.find({user: req.user._id})
+
+        //validation
+        if(!orders){
+            return res.status(404).send({
+               success: false,
+               message: 'no norders found' 
+            })
+        }
+
+        res.status(200).send({
+            success:true,
+            message:"your order data",
+            totalOrder: orders.length,
+            orders,
+        });
+
+    } catch (error){
+        console.log(error)
+        res.status(500).send({
+            success: false,
+            message: "Error in My Ordfers Api"
+        })
+    }
+}
+
+export const getAllOrdersController = async (req, res) => {
+    try{
+         
+        //find orders
+        const orders = await orderModel.find({})
 
         //validation
         if(!orders){

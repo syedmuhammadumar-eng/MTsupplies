@@ -1,8 +1,7 @@
-import WishlistHeart from '../../assets/icons/WishlistHeart.png';
-import whitebluebordercart from '../../assets/icons/whitebluebordercart.png';
+import Whitebluebordercart from '../../assets/icons/whitebluebordercart.png';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { addToCart, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
+import { addToCart, clearSearchedProduct, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
 import { motion } from 'framer-motion';
 interface imgSrc {
     name: string,
@@ -15,10 +14,12 @@ interface imgSrc {
     categoryName: string,
     isDiscount: boolean,
     productId: number
+    discountpercent: number,
+    bestSeller: boolean,
 }
 
 
-const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId }) => {
+const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId, discountpercent, bestSeller }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -35,7 +36,10 @@ const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragr
             categoryName: categoryName,
             isDiscount: isDiscount,
             productId: productId,
+            discountpercent: discountpercent,
+            bestSeller: bestSeller,
         };
+        dispatch(clearSearchedProduct())
         dispatch(setProductDetail(counterCartState));
         // dispatch(removeProductDetail());
         const breadArray = ['Shop', 'ProductDetail'];
@@ -56,16 +60,40 @@ const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragr
         dispatch(addToCart(counterCartState));
         // dispatch(resetCart());
     };
+
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
+
     return (
-        <div id={id} className="mt-4 cursor-pointer hover:bg-softColor rounded-xl w-60" onClick={() => handleClick()}>
-            <div className="relative hover:bg-softColor">
-                <img src={imgSrc} alt="product5" className='object-cover' />
-                <motion.div whileTap={{ scale: 0.9 }} className="absolute top-0 left-40 ml-8"><img src={WishlistHeart} alt="" /> </motion.div>
-                <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-40 ml-10" onClick={() => handleCartCounter()} ><img src={whitebluebordercart} alt="" /></motion.div>
-            </div>
-            <div className=" p-4 w-[15em]">
-                <p className='font-sans'>{paragraph}</p>
-                <h3 className='text-2xl mt-4 font-semibold font-quicksand' >£ {price}</h3>
+        <div className={'h-[27rem]'} key={id} >
+            <div className="w-[18rem] flex flex-col shadow-lg hover:shadow-testShadow2 duration-500 mt-4 cursor-pointer hover:bg-gray-200"
+                onClick={() => handleClick()}
+            >
+                <div className="relative h-72">
+                    <img className='rounded-t-md w-full h-full object-cover cursor-pointer ' src={imgSrc} alt="product5" />
+                    <div className="absolute top-0 left-0 ml-8">
+                        {isSpecial && (
+                            <div className='bg-light-green-600 p-2 rounded-b-md ' >
+                                <div className='text-sm text-white' >{isSpecial ? 'Special' : ''}</div>
+                            </div>
+
+                        )}
+                    </div>
+                    <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-[12.5rem] ml-10" onClick={(e) => { e.stopPropagation(); handleCartCounter(); }} ><img src={Whitebluebordercart} alt="" /></motion.div>
+                </div>
+                <div className="px-2 py-1 flex flex-col justify-between items-start h-[7rem]">
+                    <div>
+                        <p className="text-base font-medium text-gray-700 overflow-hidden">{name} - {truncateText(paragraph, 50)}</p>
+                    </div>
+                    <div className='flex flex-col items-start' >
+                        {isSpecial && <div className='flex gap-2 text-sm font-medium' ><div className='text-gray-500 line-through' >£ {Number(price).toFixed(2)}</div><div className='text-blue-900' >({(discountpercent && discountpercent.toFixed(0))}% off)</div></div>}
+                        <h3 className="text-lg font-semibold">{isSpecial ? `£ ${Number(specialText).toFixed(2)}` : `£ ${Number(price).toFixed(2)}`}</h3>
+                    </div>
+                </div>
             </div>
         </div>
     );

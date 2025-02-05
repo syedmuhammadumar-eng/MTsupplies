@@ -3,7 +3,7 @@ import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 const DangerToast = ({ open, setOpen, warningMessage }) => {
     const handleClose = (
-        event?: React.SyntheticEvent | Event,
+        _event?: React.SyntheticEvent | Event,
         reason?: SnackbarCloseReason,
     ) => {
         if (reason === 'clickaway') {
@@ -19,8 +19,8 @@ const DangerToast = ({ open, setOpen, warningMessage }) => {
                 <Alert
                     onClose={handleClose}
                     severity="error"
-                    variant="standard"
-                    style={{ color: 'black' }}
+                    variant="filled"
+                    style={{ color: 'white' }}
                     sx={{ width: '100%' }}
                 >
                     {warningMessage}

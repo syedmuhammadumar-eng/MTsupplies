@@ -3,10 +3,8 @@ import bannerImage2 from '../../assets/ftwo.jpg';
 import bannerImage3 from '../../assets/fone.jpg';
 import Slider from "react-slick";
 import Image from '../Global/Image';
-import { useState } from 'react';
 
 const Hero = () => {
-	const [dotActive, setDocActive] = useState(0);
 	const settings = {
 		dots: false,
 		infinite: true,
@@ -14,10 +12,6 @@ const Hero = () => {
 		slidesToShow: 1,
 		slidesToScroll: 1,
 		arrows: false,
-		beforeChange: (prev: any, next: any) => {
-			setDocActive(next);
-		},
-
 	};
 	return (
 		<div className="w-full bg-white">

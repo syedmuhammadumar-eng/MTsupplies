@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { AnyAction, combineReducers, configureStore, Reducer } from "@reduxjs/toolkit";
 import {
   persistStore,
   persistReducer,
@@ -11,16 +11,18 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistConfig } from "redux-persist/es/types";
-import mtSupplies from "./redux/mtSupplies";
-import credentialReducer from "./redux/credentialReducer";
+import mtSupplies, { State } from "./redux/mtSupplies";
+import credentialReducer, { CredentialState } from "./redux/credentialReducer";
 
+
+// Combine reducers with explicit typing for partial state
 const rootReducer = combineReducers({
-  mtSupplies: mtSupplies,
-  credentialReducer: credentialReducer,
+  mtSupplies: mtSupplies as Reducer<State, AnyAction>,
+  credentialReducer: credentialReducer as Reducer<CredentialState, AnyAction>,
 });
 
 // Define the persist configuration
-const persistConfig: PersistConfig<any> = {
+const persistConfig: PersistConfig<RootState> = {
   key: "root",
   version: 1,
   storage,

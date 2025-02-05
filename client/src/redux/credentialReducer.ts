@@ -7,6 +7,7 @@ export interface CredentialState {
         email: string;
         password: string;
         role: string,
+        userId: string,
     },
     userToken: string,
 }
@@ -18,6 +19,7 @@ const initialState: CredentialState = {
         email: '',
         password: '',
         role: '',
+        userId: '',
     },
     userToken: '',
 };

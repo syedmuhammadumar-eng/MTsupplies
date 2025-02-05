@@ -4,7 +4,7 @@ import Whitebluebordercart from '../../assets/icons/whitebluebordercart.png';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, Product as ProductInterface, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
+import { addToCart, clearSearchedProduct, Product as ProductInterface, setBreadCrumb, setProductDetail } from '../../redux/mtSupplies';
 import BreadCrumb from '../Global/BreadCrumb';
 import { motion } from 'framer-motion';
 import Button from '@mui/material/Button';
@@ -19,266 +19,23 @@ type categoryDataProps = {
     isChecked: boolean,
 };
 
-type IuniqueProps = {
-    name: string,
-    isIncluded: boolean,
-    id: string,
-    isChecked: boolean,
-};
-
-const categoryInitialData: categoryDataProps[] = [
-    {
-        id: 1,
-        categoryLabel: 'Parties Decor',
-        isChecked: false,
-    },
-    {
-        id: 2,
-        categoryLabel: 'Home Decor',
-        isChecked: false
-    },
-    {
-        id: 3,
-        categoryLabel: 'Office Stationary',
-        isChecked: false
-    },
-    {
-        id: 4,
-        categoryLabel: 'DIY households',
-        isChecked: false
-    },
-    {
-        id: 5,
-        categoryLabel: 'Art & Craft',
-        isChecked: false
-    },
-    {
-        id: 6,
-        categoryLabel: 'School Stationary',
-        isChecked: false
-    },
-];
-
-// const initialData: ProductInterface[] = [
-//     {
-//         id: '1',
-//         productId: 1,
-//         imgSrc: product1,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-//         price: '1.12',
-//         Name: 'Pencil',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pencils',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '2',
-//         productId: 2,
-//         imgSrc: product2,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-//         price: '2.14',
-//         Name: 'Pen',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pens',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '3',
-//         imgSrc: product3,
-//         productId: 2,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-//         price: '3.16',
-//         Name: 'Pen',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pens',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '4',
-//         productId: 2,
-//         imgSrc: product4,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-//         price: '4.22',
-//         Name: 'Pen',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pens',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '5',
-//         productId: 1,
-//         imgSrc: product5,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-//         price: '5.24',
-//         Name: 'Pencil',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pencils',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '6',
-//         productId: 1,
-//         imgSrc: product1,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-//         price: '6.26',
-//         Name: 'Pencil',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pencils',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '7',
-//         productId: 2,
-//         imgSrc: product2,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Pen, its specifications and all other details of it',
-//         price: '7.32',
-//         Name: 'Pen',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Pens',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '8',
-//         productId: 3,
-//         imgSrc: Brush1,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '8.34',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '9',
-//         imgSrc: Brush2,
-//         productId: 3,
-//         specialText: '',
-//         isSpecial: false,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '9.36',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '10',
-//         productId: 3,
-//         imgSrc: Brush3,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '10.42',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '11',
-//         productId: 3,
-//         imgSrc: Brush4,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '11.44',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '12',
-//         productId: 7,
-//         imgSrc: Brush5,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '12.46',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-//     {
-//         id: '13',
-//         imgSrc: Brush4,
-//         productId: 3,
-//         specialText: 'Special',
-//         isSpecial: true,
-//         paragraph: 'Brand Name - Brush, its specifications and all other details of it',
-//         price: '13.52',
-//         Name: 'Brush',
-//         quantity: 0,
-//         isDiscount: false,
-//         categoryName: 'Brushes',
-//         isBestSelling: false,
-//         discountpercent: 0,
-//         discountprice: 0
-//     },
-// ];
+// type IuniqueProps = {
+//     name: string,
+//     isIncluded: boolean,
+//     id: string,
+//     isChecked: boolean,
+// };
 
 const Product = () => {
-    const [value, setValue] = useState<number[]>([1, 20]);
+    const [value, setValue] = useState<number[]>([1, 100]);
     const [globalData, setData] = useState<ProductInterface[]>([]);
     const [category, setCategory] = useState<categoryDataProps[]>([]);
     const searchedProduct = useSelector((state: RootState) => state.mtSupplies.searchedProduct);
+    const searchedCategory = useSelector((state: RootState) => state.mtSupplies.selectedCategory);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [visibleProductsCount, setVisibleProductsCount] = useState(12);
-    const [uniqueData, setUniqueData] = useState<IuniqueProps[]>([]);
+    // const [uniqueData, setUniqueData] = useState<IuniqueProps[]>([]);
     const [initialData, setInitialData] = useState<ProductInterface[]>([]);
     const productsPerPage = 12;
 
@@ -290,7 +47,7 @@ const Product = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getProductList();
+        window.scroll(0, 0);
         getCategoryList();
     }, []);
 
@@ -305,6 +62,7 @@ const Product = () => {
                         isChecked: false
                     }));
                     setCategory(category);
+                    getProductList(category);
                 }
             })
             .catch((error) => {
@@ -312,50 +70,58 @@ const Product = () => {
             })
     };
 
-    const getProductList = async () => {
+    const getProductList = async (categorySelectionData) => {
         await AllProductsGetService('/product/get-all')
             .then((response) => {
                 console.log(response);
-                // setUsers(response?.data?.products);
                 const allProducts = response.data?.products.map((item) => ({
                     id: item?._id,
-                    productId: 7,
+                    productId: item?.productId,
                     imgSrc: item?.images[0]?.url,
                     specialText: item?.specialoffer,
                     isSpecial: item?.isSpecial,
                     paragraph: item?.description,
                     price: item?.price,
                     Name: item?.name,
-                    quantity: 0,
-                    isDiscount: false,
-                    // categoryName: item?.categoryName,
+                    quantity: item?.quantity,
+                    isDiscount: item?.isDiscount,
+                    categoryName: item?.categoryname,
                     category: item?.category,
                     stock: item?.stock,
                     discountpercent: item?.discountpercent,
                     discountprice: item?.discountprice,
                     subCategory: item?.subCategory,
-                    isChecked: false,
+                    isSelected: item?.isSelected,
                 }));
-                setData(allProducts);
+                console.log(searchedCategory);
+                if (searchedCategory.id) {
+                    const updatedCategories = categorySelectionData.map((cat) =>
+                        cat.id === searchedCategory.id ? { ...cat, isChecked: !cat.isChecked } : cat
+                    );
+                    setCategory(updatedCategories);
+
+                    const selectedCategories = updatedCategories
+                        .filter((cat) => cat.isChecked)
+                        .map((cat) => cat.id);
+
+                    const filteredProducts = allProducts.filter((item) => {
+                        const isInSelectedCategory =
+                            selectedCategories.length === 0 || selectedCategories.includes(item.category);
+
+                        const isInPriceRange = item.isSpecial ? item.specialText >= String(value[0]) && item.specialText <= String(value[1]) : item.price >= String(value[0]) && item.price <= String(value[1]);
+
+                        return isInSelectedCategory && isInPriceRange;
+                    });
+                    setData(filteredProducts);
+                } else {
+                    setData(allProducts);
+                }
                 setInitialData(allProducts);
             })
             .catch((error) => {
                 console.log(error);
             })
     };
-
-    //   id: '1',
-    //     productId: 1,
-    //     imgSrc: product1,
-    //     specialText: 'Special',
-    //     isSpecial: true,
-    //     paragraph: 'Brand Name - Pencil, its specifications and all other details of it',
-    //     price: '1.12',
-    //     Name: 'Pencil',
-    //     quantity: 0,
-    //     isDiscount: false,
-    //     categoryName: 'Pencils',
-    //     isBestSelling: false
 
     useEffect(() => {
         // window.scrollTo(0, 0);
@@ -379,6 +145,7 @@ const Product = () => {
 
     const handleClick = (item: any) => {
         const counterCartState = {
+            ...item,
             id: item?.id,
             imgSrc: item?.imgSrc,
             specialText: item?.specialText,
@@ -386,11 +153,12 @@ const Product = () => {
             paragraph: item?.paragraph,
             price: item?.price,
             quantity: 1,
-            Name: item?.name,
+            Name: item?.Name,
             categoryName: item?.categoryName,
             isDiscount: item?.isDiscount,
             productId: item?.productId,
         };
+        dispatch(clearSearchedProduct());
         dispatch(setProductDetail(counterCartState));
         const breadArray = ['Shop', 'ProductDetail'];
         dispatch(setBreadCrumb(breadArray))
@@ -399,6 +167,7 @@ const Product = () => {
 
     const handleCartClick = (item: any) => {
         const counterCartState = {
+            ...item,
             id: item?.id,
             imgSrc: item?.imgSrc,
             specialText: item?.specialText,
@@ -406,7 +175,7 @@ const Product = () => {
             paragraph: item?.paragraph,
             price: item?.price,
             quantity: 1,
-            Name: item?.name,
+            Name: item?.Name,
             categoryName: item?.categoryName,
             isDiscount: item?.isDiscount,
             productId: item?.productId,
@@ -414,36 +183,56 @@ const Product = () => {
         dispatch(addToCart(counterCartState));
     };
 
-    const handleUpdateForm = (row, isChecked) => {
-        const typeData = uniqueData.map((item) => ({
-            ...item,
-            isIncluded: isChecked ? item.id === row.id : true,
-        }));
+    const handleUpdateForm = (row) => {
+        const updatedCategories = category.map((cat) =>
+            cat.id === row.id ? { ...cat, isChecked: !cat.isChecked } : cat
+        );
+        setCategory(updatedCategories);
 
-        const categoryArray = category.map((item) => ({
-            ...item,
-            isChecked: isChecked ? item.id === row.id : false,
-        }));
-        setCategory(categoryArray);
-        setUniqueData(typeData);
+        const selectedCategories = updatedCategories
+            .filter((cat) => cat.isChecked)
+            .map((cat) => String(cat.id));
 
-        if (isChecked) {
-            const filteredData = initialData.filter(item => item?.category === row?.id);
-            setData(filteredData);
-        } else {
-            setData(initialData);
-        }
+        const filteredProducts = initialData.filter((item) => {
+            const isInSelectedCategory =
+                selectedCategories.length === 0 || selectedCategories.includes(item.category);
+
+            const isInPriceRange = item.isSpecial
+                ? item.specialText >= String(value[0]) && item.specialText <= String(value[1])
+                : item.price >= String(value[0]) && item.price <= String(value[1]);
+
+            return isInSelectedCategory && isInPriceRange;
+        });
+
+        setData(filteredProducts);
     };
 
-    const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
+    const handleChange = (_event, newValue) => {
+        setValue(newValue);
+
+        const selectedCategories = category
+            .filter((cat) => cat.isChecked)
+            .map((cat) => String(cat.id));
+
+        const filteredProducts = initialData.filter((item) => {
+            const isInSelectedCategory =
+                selectedCategories.length === 0 || selectedCategories.includes(item.category);
+
+            const isInPriceRange = item.isSpecial
+                ? item.specialText >= newValue[0] && item.specialText <= newValue[1]
+                : item.price >= newValue[0] && item.price <= newValue[1];
+
+            return isInSelectedCategory && isInPriceRange;
+        });
+
+        setData(filteredProducts);
     };
 
-    function valuetext(value: number) {
+    const valuetext = (value: number) => {
         return `${value}°C`;
     };
 
-    const handlePaginationChange = (event, value) => {
+    const handlePaginationChange = (value) => {
         setCurrentPage(value);
     };
 
@@ -451,28 +240,35 @@ const Product = () => {
         setVisibleProductsCount((prevCount) => prevCount + productsPerPage);
     };
 
-    const handleTypeForm = (row, isChecked) => {
-        const updatedData = uniqueData.map(item =>
-            item.name === row.name ? { ...item, isChecked } : item
-        );
+    // const handleTypeForm = (row, isChecked) => {
+    //     const updatedData = uniqueData.map(item =>
+    //         item.name === row.name ? { ...item, isChecked } : item
+    //     );
 
-        const data = initialData.map(item =>
-            item.Name === row.name ? { ...item, isChecked } : item
-        );
+    //     const data = initialData.map(item =>
+    //         item.Name === row.name ? { ...item, isChecked } : item
+    //     );
 
-        
 
-        const filteredData = data.filter(item => item.isChecked || item.isChecked === undefined);
-        
-        setData(filteredData);
-        setUniqueData(updatedData);
+
+    //     const filteredData = data.filter(item => item.isChecked || item.isChecked === undefined);
+
+    //     setData(filteredData);
+    //     setUniqueData(updatedData);
+    // };
+
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
     };
 
     return (
         <div className="">
             <div className='px-40 flex justify-start mt-10' >
-                <div className='w-1/4 ml-10' ></div>
-                <div>
+                <div className='w-1/4' ></div>
+                <div className='-ml-7' >
                     <BreadCrumb />
                 </div>
             </div>
@@ -488,7 +284,7 @@ const Product = () => {
                                     id={String(item?.id)}
                                     productLabel={item?.categoryLabel}
                                     checked={item?.isChecked}
-                                    onChange={() => handleUpdateForm(item, !item?.isChecked)}
+                                    onChange={() => handleUpdateForm(item)}
                                 />
                             </div>
                         </>
@@ -510,12 +306,12 @@ const Product = () => {
                     ))} */}
                     <div className="flex flex-col items-center">
                         <div className='w-[15rem] mt-10' >
-                            <div className='flex justify-between font-medium text-center'><div className='text-blue-900'>Price</div> <span className='font-medium text-gray-500' >£ 1.00 - 20.00</span></div>
+                            <div className='flex justify-between font-medium text-center'><div className='text-blue-900'>Price</div> <span className='font-medium text-gray-500' >£ 1.00 - 100.00</span></div>
                             <Slider
                                 getAriaLabel={() => 'Temperature range'}
                                 min={1}
-                                max={20}
-                                step={2}
+                                max={100}
+                                step={1}
                                 value={value}
                                 color='primary'
                                 onChange={handleChange}
@@ -531,7 +327,7 @@ const Product = () => {
                         <div className='h-[27rem]' key={item?.id}>
                             <div className="w-[18rem] flex flex-col shadow-lg hover:shadow-testShadow2 duration-500 mt-4 cursor-pointer hover:bg-gray-200" onClick={() => handleClick(item)}>
                                 <div className="relative h-72">
-                                    <img className='rounded-t-md w-full h-full object-cover cursor-pointer ' src={item.imgSrc} alt="product5" />
+                                    <img className='rounded-t-md w-full h-full object-cover cursor-pointer' src={item.imgSrc} alt="product5" />
                                     <div className="absolute top-0 left-0 ml-8">
                                         {item.isSpecial && (
                                             <div className='bg-light-green-600 p-2 rounded-b-md ' >
@@ -540,14 +336,14 @@ const Product = () => {
 
                                         )}
                                     </div>
-                                    <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-[12.5rem] ml-10" onClick={() => handleCartClick(item)} ><img src={Whitebluebordercart} alt="" /></motion.div>
+                                    <motion.div whileTap={{ scale: 0.9 }} className="absolute bottom-2 left-[12.5rem] ml-10" onClick={(e) => { e.stopPropagation(); handleCartClick(item); }} ><img src={Whitebluebordercart} alt="" /></motion.div>
                                 </div>
                                 <div className="px-2 py-1 flex flex-col justify-between items-start h-[7rem]">
                                     <div>
-                                        <p className="text-base font-medium text-gray-700 overflow-hidden">{item?.Name} - {item.paragraph}</p>
+                                        <p className="text-base font-medium text-gray-700 overflow-hidden">{item?.Name} - {truncateText(item?.paragraph, 50)}</p>
                                     </div>
                                     <div className='flex flex-col items-start' >
-                                        {item?.isSpecial && <div className='flex gap-2 text-sm font-medium' ><div className='text-gray-500 line-through' >£ {Number(item.price).toFixed(2)}</div><div className='text-blue-900' >({(item?.discountpercent)}% off)</div></div>}
+                                        {item?.isSpecial && <div className='flex gap-2 text-sm font-medium' ><div className='text-gray-500 line-through' >£ {Number(item.price).toFixed(2)}</div><div className='text-blue-900' >({(item?.discountpercent.toFixed(0))}% off)</div></div>}
                                         <h3 className="text-lg font-semibold">{item?.isSpecial ? `£ ${Number(item?.specialText).toFixed(2)}` : `£ ${Number(item.price).toFixed(2)}`}</h3>
                                     </div>
                                 </div>
@@ -563,7 +359,7 @@ const Product = () => {
                     )}
                 </div>
             </div>
-            <div className='ml-20 mt-20 lg:flex md:flex sm:hidden justify-center'>
+            <div className={`${globalData.length === 0 ? 'lg:hidden' : 'lg:flex'} ml-20 mt-20 lg:flex md:flex sm:hidden justify-center`}>
                 <Pagination count={totalPages} page={currentPage} onChange={handlePaginationChange} />
             </div>
             {visibleProductsCount < globalData.length && (

@@ -2,16 +2,14 @@ import { Link, useNavigate } from 'react-router'
 import logoblack from '../../assets/logoblack.png';
 import Search from '../../assets/Search.svg';
 import person from '../../assets/person.svg';
-import heart from '../../assets/heart.svg';
 import { TbMenuDeep } from "react-icons/tb";
 import cart from '../../assets/cart.svg';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 import { useEffect, useRef, useState } from 'react';
 import { RootState } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { Product, setBreadCrumb } from '../../redux/mtSupplies';
+import { Product, resetCart, setBreadCrumb, setSelectedCategory } from '../../redux/mtSupplies';
 import { motion, AnimatePresence } from 'framer-motion';
-import { product1, product2, Brush1 } from '../../assets/index';
 import SearchCard from '../Searchcard/SearchCard';
 import { setRemoveToken } from '../../redux/credentialReducer';
 import { GetService } from '../../global/GeneralService';
@@ -27,6 +25,9 @@ const Header = () => {
   const Products = useSelector((state: RootState) => state.mtSupplies.products);
   const user = useSelector((state: RootState) => state?.credentialReducer?.login);
   const token = useSelector((state: RootState) => state.credentialReducer.userToken);
+  const searchData = useSelector((state: RootState) => state.mtSupplies.searchProductData);
+  const [formData, setFormData] = useState<Product[]>([]);
+  const [isDropDown, setIsDropDown] = useState<boolean>(false);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,91 +43,9 @@ const Header = () => {
     };
   }, []);
 
-  const searchData: Product[] = [
-    {
-      id: '1',
-      imgSrc: product1,
-      specialText: 'Special',
-      isSpecial: true,
-      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-      price: '7.66',
-      Name: 'Pencil',
-      quantity: 0,
-      isDiscount: false,
-      productId: 0,
-      categoryName: 'Pencils',
-      isBestSelling: false,
-      discountpercent: 0,
-      discountprice: 0
-    },
-    {
-      id: '2',
-      imgSrc: product2,
-      specialText: '',
-      isSpecial: false,
-      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-      price: '7.66',
-      Name: 'Pen',
-      quantity: 0,
-      isDiscount: false,
-      productId: 0,
-      categoryName: 'Pens',
-      isBestSelling: false,
-      discountpercent: 0,
-      discountprice: 0
-    },
-    {
-      id: '3',
-      imgSrc: Brush1,
-      specialText: '',
-      isSpecial: false,
-      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-      price: '7.66',
-      Name: 'Brush',
-      quantity: 0,
-      isDiscount: false,
-      productId: 0,
-      categoryName: 'Brushes',
-      isBestSelling: false,
-      discountpercent: 0,
-      discountprice: 0
-    },
-    {
-      id: '4',
-      imgSrc: Brush1,
-      specialText: '',
-      isSpecial: false,
-      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-      price: '7.66',
-      Name: 'Brush',
-      quantity: 0,
-      isDiscount: false,
-      productId: 0,
-      categoryName: 'Brushes',
-      isBestSelling: false,
-      discountpercent: 0,
-      discountprice: 0
-    },
-    {
-      id: '5',
-      imgSrc: Brush1,
-      specialText: '',
-      isSpecial: false,
-      paragraph: 'Brand Name - Product name, its specifications and all other details of it',
-      price: '7.66',
-      Name: 'Brush',
-      quantity: 0,
-      isDiscount: false,
-      productId: 0,
-      categoryName: 'Brushes',
-      isBestSelling: false,
-      discountpercent: 0,
-      discountprice: 0
-    },
-  ];
-
-  const [formData, setFormData] = useState(searchData);
-  const [isDropDown, setIsDropDown] = useState<boolean>(false);
+  useEffect(() => {
+    setFormData(searchData);
+  }, [searchData])
 
   const handleChevron = (value: boolean) => {
     setChevron(value);
@@ -139,6 +58,16 @@ const Header = () => {
 
   const handleNavigation = () => {
     const breadvalue = ['Shop'];
+
+    const payload = {
+      id: '',
+      category: '',
+      categoryLabel: '',
+      images: [{ url: '', }],
+      isChecked: false,
+    }
+
+    dispatch(setSelectedCategory(payload));
     dispatch(setBreadCrumb(breadvalue));
     navigate('/Shop');
   };
@@ -155,13 +84,14 @@ const Header = () => {
     } else if (authValue === 'signup') {
       navigate('/Signup');
     } else if (authValue === 'order') {
-      navigate('/order')
+      navigate('/order');
     } else {
       GetService('/user/logout', token)
         .then((response) => {
           console.log(response);
           navigate('/');
           dispatch(setRemoveToken());
+          dispatch(resetCart());
           setIsDropDown(false);
         })
         .catch((error) => {
@@ -213,15 +143,22 @@ const Header = () => {
                       <SearchCard
                         key={index}
                         imgSrc={item?.imgSrc}
-                        name={item?.Name}
+                        Name={item?.Name}
                         paragraph={item?.paragraph}
                         id={item?.id}
                         specialText={item?.specialText}
                         isSpecial={item?.isSpecial}
                         price={item?.price}
-                        quantity={0}
+                        quantity={item?.quantity}
                         isDiscount={item?.isDiscount}
                         categoryName={item?.categoryName}
+                        productId={item?.productId}
+                        isBestSelling={item?.bestseller}
+                        discountpercent={item?.discountpercent}
+                        discountprice={item?.discountprice}
+                        category={item?.category}
+                        isChecked={item?.isChecked}
+                        subCategory={item?.subCategory}
                       />
                     ))}
                   </motion.div>
@@ -290,7 +227,7 @@ const Header = () => {
               <img src={cart} alt="search" className='cursor-pointer w-6 lg:block md:block sm:hidden' />
               {Products.length > 0 &&
                 <div
-                  className='absolute -top-1 left-3 w-4 h-4 flex bg-gradient-to-r from-[#0082E7] to-[#0053A5] rounded-xl text-white items-center justify-center text-sm font-medium' >
+                  className='absolute -top-2 left-4 w-4 h-4 flex bg-gradient-to-r from-[#0082E7] to-[#0053A5] rounded-xl text-white items-center justify-center text-sm font-medium' >
                   {Products.length}
                 </div>
               }
@@ -301,19 +238,16 @@ const Header = () => {
         <div className="bg-[#0053a5] py-2">
           <div className="flex flex-col">
             <div
-              className={chevron ? "hidden" : "flex items-center justify-around py-4"}
+              className={chevron ? "hidden" : "flex items-center justify-around"}
             >
-              <motion.div
-                whileTap={{ scale: 0.8 }}
-                className="text-white lg:text-xl md:text-base sm:text-base font-medium"><Link to={'/'}>Home</Link></motion.div>
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium"><Link to={'/about'} >About Us</Link></motion.div>
-              {/* <div className="text-white">Blog</div> */}
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium cursor-pointer"><div onClick={() => handleNavigation()} >Shop</div></motion.div>
-              <motion.div whileTap={{ scale: 0.8 }} className="text-white lg:text-xl md:text-base sm:text-base font-medium cursor-pointer"><Link to={'/Contact'} >Contact</Link></motion.div>
+              <div className="text-white xl:text-lg lg:text-lg md:text-base sm:text-base font-medium cursor-pointer"><Link to={'/'}>Home</Link></div>
+              <div className="text-white xl:text-lg lg:text-lg md:text-base sm:text-base font-medium cursor-pointer"><Link to={'/about'} >About Us</Link></div>
+              <div className="text-white xl:text-lg lg:text-lg md:text-base sm:text-base font-medium cursor-pointer"><div onClick={() => handleNavigation()} >Shop</div></div>
+              <div className="text-white xl:text-lg lg:text-lg md:text-base sm:text-base font-medium cursor-pointer"><Link to={'/Contact'} >Contact</Link></div>
             </div>
             <div className="flex justify-center items-center">
               <div
-                className="absolute bg-[#0053a5] rounded-full p-1 mt-4 z-20"
+                className="absolute -bottom-[8.5px] bg-[#0053a5] rounded-full  mt-4 z-20"
                 id="shows"
                 onClick={() => handleChevron(!chevron)}
               >

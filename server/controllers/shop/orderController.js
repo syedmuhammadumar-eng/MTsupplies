@@ -173,41 +173,53 @@ export const getSingleOrderController = async (req, res) => {
 
 // 4- Accept payemnts/ Stripe
 export const paymentsController = async ( req, res) => {
+    // try {
+    //     // get amount
+    //     const { totalAmount, token, name }  = req.body;
+    //     // validation
+    //     if(!totalAmount || !token || !name){
+    //         return res.status(404).send({
+    //             success: false,
+    //             message:  "Total Amount is require",
+    //         });
+    //     }
+
+    //     // const { client_secret } = await stripe.paymentIntents.create({
+    //     //     amount: Number(totalAmount * 100),
+    //     //     currency : 'GBP'
+    //     // });
+
+    //     const charge = await stripe.charges.create({
+    //         amount: amount*100,
+    //         currency: GBP,
+    //         // source: token,
+    //     })
+
+    //     res.status(200).send({
+    //         success: true,
+    //         client_secret,
+    //         charge
+    //     });
+
+    // } catch (error) {
+    //     console.log(error);
+
+    //     res.status(500).send({
+    //         success: false,
+    //         message: "Error in Accept payments",
+    //         error,
+    //     });
+    // }
+    const { amount, currency } = req.body;
+
     try {
-        // get amount
-        const { totalAmount, token, name }  = req.body;
-        // validation
-        if(!totalAmount || !token || !name){
-            return res.status(404).send({
-                success: false,
-                message:  "Total Amount is require",
-            });
-        }
-
-        // const { client_secret } = await stripe.paymentIntents.create({
-        //     amount: Number(totalAmount * 100),
-        //     currency : 'GBP'
-        // });
-
-        const charge = await stripe.charges.create({
-            amount: amount*100,
-            currency: GBP,
-            source: token,
-        })
-
-        res.status(200).send({
-            success: true,
-            client_secret,
-            charge
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: amount*100, // Amount in cents (e.g., $10.00 = 1000)
+            currency: currency || 'usd',
         });
 
+        res.status(200).json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.log(error);
-
-        res.status(500).send({
-            success: false,
-            message: "Error in Accept payments",
-            error,
-        });
+        res.status(500).json({ error: error.message });
     }
 };

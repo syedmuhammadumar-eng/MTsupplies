@@ -2,7 +2,8 @@ import { isAuth } from "../../middleware/authMiddleware.js";
 import { createOrderController, getAllOrdersController } from "../../controllers/shop/orderController.js";
 import { getMyOrdersController } from "../../controllers/shop/orderController.js";
 import { getSingleOrderController } from "../../controllers/shop/orderController.js";
-
+import { paymentsController } from "../../controllers/shop/orderController.js"
+ 
 import express from "express";
 
 
@@ -20,6 +21,12 @@ router.get("/my-orders", isAuth, getMyOrdersController);
 router.get("/all-orders", getAllOrdersController);
 
 // 3- get single order
-router.get("/my-orders/:id", isAuth, getSingleOrderController )
+router.get("/my-orders/:id", isAuth, getSingleOrderController );
+
+
+// 4- accept payments/ stripe
+router.post('/payments', isAuth, paymentsController );
+
+
 
 export default router;

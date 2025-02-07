@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import connectDB from "./config/db.js";
 import cookieParser from 'cookie-parser';
 import cloudinary from "cloudinary";
+import Stripe from 'stripe';
 
 
 //=========================================================> dot env config 
@@ -22,6 +23,10 @@ cloudinary.v2.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+//=========================================================> stripe Configuration
+export const stripe = new Stripe(process.env.STRIPE_API_SECRET);
+
 
 //create rest object because we can not use express directly, so we create copy of that , we use express in "app" named variable ,so all the express functionalities comes into app var, then now you can create routes with the help of app and we have lots of methods in express, most famous is get() method
 //rest object

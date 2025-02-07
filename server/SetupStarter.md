@@ -711,7 +711,7 @@ process.exit(1) ensures that if the connection fails, the application stops.
 # (done) forget password reset api:  http://localhost:8080/api/v1/user/reset-password                   {post}
 # payment docs:                                           {}
 
-
+# (done) payment: http://localhost:8080/api/v1/order/payments       {post}
 
 <!--=============================6-SECURITY===================================-->
 # () security api:                                      {}

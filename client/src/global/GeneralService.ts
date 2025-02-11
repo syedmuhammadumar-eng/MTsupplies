@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const localHost = 'http://localhost:8080/api/v1';
+const localHost = import.meta.env.REACT_APP_LOCALHOST;
 
 export const authService = (url, data) => {
     return axios.post(

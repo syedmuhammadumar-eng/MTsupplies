@@ -14,7 +14,7 @@ import { resetCart } from "../../redux/mtSupplies";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const stripePromise = loadStripe('pk_test_51IQXLZFHrNy2eS98jL7SmvAk8Od2Z50UrqqkcSYhsFMAWXGTBhpwXo6tQVdP5GSxSQHtlCYr53ySlkpV3sngObtc00hdLCwDOm');
+const stripePromise = loadStripe(import.meta.env.REACT_APP_STRIPE_PUBLISHABLE_KEY || '');
 
 const Payment = () => {
 
@@ -23,7 +23,7 @@ const Payment = () => {
   const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
     const Products = useSelector((state: RootState) => state.mtSupplies.products);
     const token = useSelector((state: RootState) => state?.credentialReducer?.userToken);
     const login = useSelector((state: RootState) => state?.credentialReducer?.login);
@@ -31,12 +31,12 @@ const Payment = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [debitCard, setDebitCard] = useState({
-      cardNumber: '',
-      name: '',
-      validThru: '',
-      cvc: '',
-    });
+    // const [debitCard, setDebitCard] = useState({
+    //   cardNumber: '',
+    //   name: '',
+    //   validThru: '',
+    //   cvc: '',
+    // });
 
     const [form, setForm] = useState({
       email: '',
@@ -147,32 +147,32 @@ const Payment = () => {
       }
     };
 
-    const handleInputChange = (field: string, e: any) => {
-      let formattedValue = '';
-      if (field === 'cardNumber') {
-        const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-        const groups = input.match(/.{1,4}/g); // Split into groups of 4 digits
-        formattedValue = groups ? groups.join(" ") : input; // Join groups with a space
-      }
-      else if (field === 'name') {
-        const input = e.target.value.replace(/\d/g, "");;
-        formattedValue = input;
-      }
-      else if (field === 'validThru') {
-        let input = e.target.value.replace(/\D/g, ""); // Remove non-digits
-        // Format as MM/YY
-        if (input.length > 2) {
-          input = `${input.slice(0, 2)}/${input.slice(2)}`;
-        }
-        formattedValue = input;
-      }
-      else if (field === 'cvc') {
-        const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-        formattedValue = input;
-      }
-      const newFormState = { ...debitCard, [field]: formattedValue };
-      setDebitCard(newFormState);
-    };
+    // const handleInputChange = (field: string, e: any) => {
+    //   let formattedValue = '';
+    //   if (field === 'cardNumber') {
+    //     const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+    //     const groups = input.match(/.{1,4}/g); // Split into groups of 4 digits
+    //     formattedValue = groups ? groups.join(" ") : input; // Join groups with a space
+    //   }
+    //   else if (field === 'name') {
+    //     const input = e.target.value.replace(/\d/g, "");;
+    //     formattedValue = input;
+    //   }
+    //   else if (field === 'validThru') {
+    //     let input = e.target.value.replace(/\D/g, ""); // Remove non-digits
+    //     // Format as MM/YY
+    //     if (input.length > 2) {
+    //       input = `${input.slice(0, 2)}/${input.slice(2)}`;
+    //     }
+    //     formattedValue = input;
+    //   }
+    //   else if (field === 'cvc') {
+    //     const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
+    //     formattedValue = input;
+    //   }
+    //   const newFormState = { ...debitCard, [field]: formattedValue };
+    //   setDebitCard(newFormState);
+    // };
 
     const phoneInputHandler = (value) => {
       setValue(value);
@@ -321,6 +321,16 @@ const Payment = () => {
         return;
       }
 
+      // Get the CardElement
+      const cardElement = elements.getElement(CardElement);
+
+      // Check if the CardElement is null
+      if (!cardElement) {
+        setLoading(false);
+        // setError('Card element not found');
+        return;
+      }
+
       // Create a Payment Intent on the server
       const response = await PostService('/order/payments', { amount: totalAmt + shippingCharge, currency: 'GBP' }, token);
 
@@ -329,12 +339,12 @@ const Payment = () => {
       // Confirm the Payment Intent on the client
       const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement(CardElement),
+          card: cardElement,
         },
       });
 
       if (stripeError) {
-        setError(stripeError.message);
+        // setError(stripeError.message);
         setLoading(false);
       } else {
         console.log('Payment successful:', paymentIntent);

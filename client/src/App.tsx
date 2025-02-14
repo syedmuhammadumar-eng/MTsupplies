@@ -29,6 +29,7 @@ import { useEffect } from "react";
 import { setIsAdmin } from "./redux/credentialReducer";
 
 const App = () => {
+
   const login = useSelector((state: RootState) => state.credentialReducer?.login);
   const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
   const isAdmin = useSelector((state: RootState) => state.credentialReducer?.isAdmin);
@@ -41,7 +42,9 @@ const App = () => {
     } else {
       dispatch(setIsAdmin(''));
     }
-  }, [login]);
+  }, [login, dispatch, login.role]);
+
+  console.log('isAdmin', isAdmin);
 
   const Layout = () => {
     return (

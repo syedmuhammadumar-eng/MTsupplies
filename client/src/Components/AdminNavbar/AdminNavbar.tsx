@@ -12,16 +12,18 @@ import { setRemoveToken } from '../../redux/credentialReducer';
 
 const AdminNavbar = () => {
   const token = useSelector((state: RootState) => state.credentialReducer.userToken);
+
   const dispatch = useDispatch();
+
   const handleLogout = () => {
     GetService('/user/logout', token)
-            .then((response) => {
-              console.log(response);
-              dispatch(setRemoveToken());
-            })
-            .catch((error) => {
-              console.log(error);
-            })
+      .then((response) => {
+        console.log(response);
+        dispatch(setRemoveToken());
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   };
   return (
     <div className="w-full p-5 flex items-center justify-between">

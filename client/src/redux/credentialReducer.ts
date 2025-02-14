@@ -44,7 +44,7 @@ export const credentialReducer = createSlice({
         setRemoveToken: (state) => {
             state.userToken = '';
             state.isLoginSuccessFull = false;
-            // state.login = initialState.login;
+            state.login = { name: '', email: '', password: '', role: '', userId: '', };
             state.isAdmin = '';
         },
         setIsAdmin: (state, action) => {

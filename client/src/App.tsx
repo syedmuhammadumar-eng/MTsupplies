@@ -39,7 +39,7 @@ const App = () => {
     if (token) {
       dispatch(setIsAdmin(login.role));
     } else {
-      dispatch(setIsAdmin(login.role));
+      dispatch(setIsAdmin(''));
     }
   }, [login]);
 

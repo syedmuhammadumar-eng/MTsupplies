@@ -2,14 +2,16 @@ import { Link, useNavigate } from "react-router"
 import logoblack from '../assets/logoblack.png';
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DangerToast from "../global/DangerToast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLoginData, setToken } from "../redux/credentialReducer";
 import { authService } from "../global/GeneralService";
 import ResponsiveDialog from "../global/Modal";
 import { resetCart } from "../redux/mtSupplies";
+import { RootState } from "../store";
 const LogIn = () => {
+    const isAdmin = useSelector((state: RootState) => state.credentialReducer?.isAdmin);
     const [isPasswordIcon, setPasswordIcon] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [openModal, setModalOpen] = useState(false);
@@ -21,6 +23,15 @@ const LogIn = () => {
     });
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (isAdmin) {
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        }
+    }, [isAdmin]);
+
 
     const handleChange = (field: string, value: string) => {
         const newFormState = { ...form, [field]: value };
@@ -39,7 +50,6 @@ const LogIn = () => {
                     dispatch(resetCart());
                     dispatch(setToken(response?.data?.token));
                     dispatch(setLoginData(newRespData));
-                    navigate('/');
                 }
             })
             .catch(error => {

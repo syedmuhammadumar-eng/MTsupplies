@@ -10,6 +10,7 @@ export interface CredentialState {
         userId: string,
     },
     userToken: string,
+    isAdmin: string,
 }
 
 const initialState: CredentialState = {
@@ -22,6 +23,7 @@ const initialState: CredentialState = {
         userId: '',
     },
     userToken: '',
+    isAdmin: '',
 };
 
 export const credentialReducer = createSlice({
@@ -42,6 +44,9 @@ export const credentialReducer = createSlice({
         setRemoveToken: (state) => {
             state.userToken = '';
             state.login = initialState?.login;
+        },
+        setIsAdmin: (state, action) => {
+            state.isAdmin = action.payload;
         }
     },
 });
@@ -51,5 +56,6 @@ export const {
     setToken,
     setRemoveToken,
     setLogout,
+    setIsAdmin,
 } = credentialReducer.actions;
 export default credentialReducer.reducer;

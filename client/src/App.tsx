@@ -22,23 +22,25 @@ import AdminProduct from "./Pages/AdminPanel/AdminProduct/AdminProduct";
 import AdminUserDetail from "./Pages/AdminPanel/adminUserDetail/AdminUserDetail";
 import AdminProductDetail from "./Pages/AdminPanel/adminProductDetail/AdminProductDetail";
 import AdminCategory from "./Pages/AdminPanel/adminCategory/AdminCategory";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 import Order from "./Pages/Order/Order";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { setIsAdmin } from "./redux/credentialReducer";
 
 const App = () => {
   const login = useSelector((state: RootState) => state.credentialReducer?.login);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState('');
+  const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
+  const isAdmin = useSelector((state: RootState) => state.credentialReducer?.isAdmin);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    // Simulate checking the authentication state
-    // This could be an API call or checking local storage
-    setTimeout(() => {
-      setIsAdmin(login?.role);
-      setIsLoading(false);
-    }, 1000); // Adjust the timeout as needed
+    if (token) {
+      dispatch(setIsAdmin(login.role));
+    } else {
+      dispatch(setIsAdmin(login.role));
+    }
   }, [login]);
 
   const Layout = () => {
@@ -61,7 +63,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        {!isLoading && isAdmin === "admin" ? (
+        {isAdmin === "admin" ? (
           <Route path="/" element={<Layout />} >
             {/* <Route index element={<Admin />} ></Route> */}
             <Route index element={<AdminProduct />} ></Route>
@@ -73,8 +75,6 @@ const App = () => {
         ) : (
           <Route>
             <Route index element={<Home />}></Route>
-            <Route path="/Login" element={<LogIn />} />
-            <Route path="/Signup" element={<SignUp />} />
             <Route path="/shop" element={<Shop />}></Route>
             <Route path="/about" element={<AboutUs />}></Route>
             <Route path="/shop/ProductDetail" element={<ProductDetail />} />
@@ -84,6 +84,8 @@ const App = () => {
             <Route path="/order" element={<Order />} ></Route>
           </Route>
         )}
+        <Route path="/Login" element={<LogIn />} />
+        <Route path="/Signup" element={<SignUp />} />
         {/*   <Route path="/journal" element={<Journal />}></Route>
           <Route path="/product/:_id" element={<ProductDetails />}></Route>  */}
       </Route>

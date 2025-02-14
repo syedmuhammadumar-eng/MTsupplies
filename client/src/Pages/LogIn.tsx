@@ -66,7 +66,7 @@ const LogIn = () => {
             <div className='mt-20 flex justify-center items-center selection:bg-[#0082E7] selection:text-[#FFF]' >
                 <div className='w-[30em] h-[28em] p-10 rounded-3xl' >
                     <div className='text-4xl font-semibold text-center' >LogIn</div>
-                    <div className='mt-10 text-xl font-medium' >Email</div>
+                    <div className='mt-10 text-xl font-medium' >EmailASDFAS</div>
                     <div className='mt-2' >
                         <input
                             className='w-[25em] border border-[#0082E7] border-r-0 border-t-0 border-l-0 p-2 outline-none font-medium'

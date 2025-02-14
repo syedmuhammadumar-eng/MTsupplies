@@ -57,6 +57,21 @@ const App = () => {
     );
   };
 
+  const homeLayout = () => {
+    return (
+      <Route>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/shop" element={<Shop />}></Route>
+            <Route path="/about" element={<AboutUs />}></Route>
+            <Route path="/shop/ProductDetail" element={<ProductDetail />} />
+            <Route path="/Cart" element={<Cart />} />
+            <Route path="/contact" element={<Contact />}></Route>
+            <Route path="/paymentgateway" element={<Payment />}></Route>
+            <Route path="/order" element={<Order />} ></Route>
+          </Route>
+    );
+  };
+
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
@@ -70,16 +85,7 @@ const App = () => {
             <Route path="/product/:id" element={<AdminProductDetail />} ></Route>
           </Route>
         ) : (
-          <Route>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/shop" element={<Shop />}></Route>
-            <Route path="/about" element={<AboutUs />}></Route>
-            <Route path="/shop/ProductDetail" element={<ProductDetail />} />
-            <Route path="/Cart" element={<Cart />} />
-            <Route path="/contact" element={<Contact />}></Route>
-            <Route path="/paymentgateway" element={<Payment />}></Route>
-            <Route path="/order" element={<Order />} ></Route>
-          </Route>
+          homeLayout()
         )}
         <Route path="/Login" element={<LogIn />} />
         <Route path="/Signup" element={<SignUp />} />

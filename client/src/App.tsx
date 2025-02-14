@@ -25,9 +25,19 @@ import AdminCategory from "./Pages/AdminPanel/adminCategory/AdminCategory";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
 import Order from "./Pages/Order/Order";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const login = useSelector((state: RootState) => state.credentialReducer?.login);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate checking the authentication state
+    // This could be an API call or checking local storage
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Adjust the timeout as needed
+  }, []);
 
   const Layout = () => {
     return (
@@ -49,7 +59,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        {login?.role === "admin" ? (
+        {!isLoading && login?.role === "admin" ? (
           <Route path="/" element={<Layout />} >
             {/* <Route index element={<Admin />} ></Route> */}
             <Route index element={<AdminProduct />} ></Route>

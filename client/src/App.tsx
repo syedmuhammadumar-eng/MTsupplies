@@ -31,7 +31,7 @@ import { setIsAdmin } from "./redux/credentialReducer";
 const App = () => {
 
   const login = useSelector((state: RootState) => state.credentialReducer?.login);
-  const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
+  // const token = useSelector((state: RootState) => state.credentialReducer?.userToken);
   const isAdmin = useSelector((state: RootState) => state.credentialReducer?.isAdmin);
 
   const dispatch = useDispatch();

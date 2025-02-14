@@ -34,10 +34,11 @@ const App = () => {
   useEffect(() => {
     // Simulate checking the authentication state
     // This could be an API call or checking local storage
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000); // Adjust the timeout as needed
-  }, []);
+    console.log(login);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000); // Adjust the timeout as needed
+  }, [login]);
 
   const Layout = () => {
     return (

@@ -39,12 +39,8 @@ const App = () => {
   useEffect(() => {
     if (token) {
       dispatch(setIsAdmin(login.role));
-    } else {
-      dispatch(setIsAdmin(''));
     }
-  }, [login, dispatch, login.role]);
-
-  console.log('isAdmin', isAdmin);
+  }, [login]);
 
   const Layout = () => {
     return (

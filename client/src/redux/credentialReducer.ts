@@ -44,11 +44,12 @@ export const credentialReducer = createSlice({
         setRemoveToken: (state) => {
             state.userToken = '';
             state.isLoginSuccessFull = false;
-            state.login = initialState.login;
+            // state.login = initialState.login;
+            state.isAdmin = '';
         },
         setIsAdmin: (state, action) => {
             state.isAdmin = action.payload;
-        }
+        },
     },
 });
 

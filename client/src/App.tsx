@@ -30,14 +30,15 @@ import { useEffect, useState } from "react";
 const App = () => {
   const login = useSelector((state: RootState) => state.credentialReducer?.login);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState('');
 
   useEffect(() => {
     // Simulate checking the authentication state
     // This could be an API call or checking local storage
-    console.log(login);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000); // Adjust the timeout as needed
+    setTimeout(() => {
+      setIsAdmin(login?.role);
+      setIsLoading(false);
+    }, 1000); // Adjust the timeout as needed
   }, [login]);
 
   const Layout = () => {
@@ -60,7 +61,7 @@ const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route>
-        {!isLoading && login?.role === "admin" ? (
+        {!isLoading && isAdmin === "admin" ? (
           <Route path="/" element={<Layout />} >
             {/* <Route index element={<Admin />} ></Route> */}
             <Route index element={<AdminProduct />} ></Route>

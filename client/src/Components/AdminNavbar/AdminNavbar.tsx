@@ -9,17 +9,20 @@ import { GetService } from '../../global/GeneralService';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { setRemoveToken } from '../../redux/credentialReducer';
+import { useNavigate } from 'react-router';
 
 const AdminNavbar = () => {
   const token = useSelector((state: RootState) => state.credentialReducer.userToken);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     GetService('/user/logout', token)
       .then((response) => {
         console.log(response);
         dispatch(setRemoveToken());
+        navigate('/Login');
       })
       .catch((error) => {
         console.log(error);

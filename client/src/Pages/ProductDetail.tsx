@@ -8,6 +8,81 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { addToCart, Product } from '../redux/mtSupplies';
 import { Button } from '@material-tailwind/react';
+import Slider from "react-slick";
+
+// Custom Previous Arrow Component
+const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div
+            className="custom-arrow custom-prev-arrow"
+            onClick={onClick}
+            style={{
+                position: 'absolute',
+                top: '50%',
+                left: '-40px',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                zIndex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px', // Size of the square container
+                height: '40px', // Size of the square container
+                borderRadius: '4px', // Optional: Rounded corners
+                transition: 'background-color 0.3s ease',
+                color: '#0082E7',
+            }}
+            onMouseEnter={(event) => {
+                const target = event.target as HTMLElement;
+                target.style.backgroundColor = '#f0f0f0';
+            }}
+            onMouseLeave={(event) => {
+                const target = event.target as HTMLElement;
+                target.style.backgroundColor = 'transparent';
+            }}
+        >
+            &#10094;
+        </div>
+    );
+};
+
+// Custom Next Arrow Component
+const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <div
+            className="custom-arrow custom-next-arrow"
+            onClick={onClick}
+            style={{
+                position: 'absolute',
+                top: '50%',
+                right: '-40px',
+                transform: 'translateY(-50%)',
+                cursor: 'pointer',
+                zIndex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '40px', // Size of the square container
+                height: '40px', // Size of the square container
+                borderRadius: '4px', // Optional: Rounded corners
+                transition: 'background-color 0.3s ease',
+                color: '#0082E7',
+            }}
+            onMouseEnter={(event) => {
+                const target = event.target as HTMLElement;
+                target.style.backgroundColor = '#f0f0f0';
+            }}
+            onMouseLeave={(event) => {
+                const target = event.target as HTMLElement;
+                target.style.backgroundColor = 'transparent';
+            }}
+        >
+            &#10095;
+        </div>
+    );
+};
 
 const ProductDetail = () => {
     const { productDetails, searchedProduct, relatedProductData } = useSelector((state: RootState) => state.mtSupplies);
@@ -38,9 +113,90 @@ const ProductDetail = () => {
 
     useEffect(() => {
         console.log(searchedProduct);
-    }, [searchedProduct])
+    }, [searchedProduct]);
 
-
+    const settings = {
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 5,
+        slidesToScroll: 3,
+        initialSlide: 0,
+        prevArrow: <CustomPrevArrow />,
+        nextArrow: <CustomNextArrow />,
+        responsive: [
+            {
+                breakpoint: 1725, // xl
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 3,
+                }
+            },
+            {
+                breakpoint: 1280, // xl
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                }
+            },
+            {
+                breakpoint: 1024, // lgl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3,
+                }
+            },
+            {
+                breakpoint: 960, // lg
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 768, // mdl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 728, // mdl
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 667, // md
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 500, // sml
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 375, // sm
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 320, // xs
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            }
+        ]
+    };
 
     const handleAddCart = () => {
         const payload = { ...form[0] }
@@ -64,7 +220,6 @@ const ProductDetail = () => {
 
         setForm(newForm);
     };
-    console.log('product Detail Data', form);
 
     return (
         <>
@@ -212,13 +367,10 @@ const ProductDetail = () => {
                         <label className='text-3xl font-semibold' >Related Products</label>
                     </div>
                 </div>
-                <div className="ml-52 mt-10 flex justify-center snap-x overflow-x-auto scroll-smooth space-x-4">
-                    {relatedSearchData &&
-                        relatedSearchData.map((item, index) => (
-                            <div
-                                key={index}
-                                className="snap-start flex-shrink-0 w-80"
-                            >
+                <div className="slider-container xl:w-[80%] lgl:w-[90%] lg:w-[80%] mdl:w-[80%] md:w-[80%] sml:w-[60%] sm:w-[60%] xs:w-[60%] place-self-center">
+                    <Slider {...settings}>
+                        {relatedSearchData &&
+                            relatedSearchData.map((item, index) => (
                                 <SellingCards
                                     key={index}
                                     id={item.id}
@@ -236,8 +388,9 @@ const ProductDetail = () => {
                                     quantity={item?.quantity}
                                     stock={item?.stock}
                                 />
-                            </div>
-                        ))}
+                            ))}
+                    </Slider>
+
                 </div>
             </div>
 

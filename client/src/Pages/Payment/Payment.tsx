@@ -13,6 +13,7 @@ import { PostService } from "../../global/GeneralService";
 import { resetCart } from "../../redux/mtSupplies";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import SuccessToast from "../../global/SuccessToast";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -65,6 +66,8 @@ const Payment = () => {
     const [emailValidationMessage, setEmailValidationMessage] = useState('Enter an email');
     const [danger, setDanger] = useState(false);
     const [dangerMessage, setDangerMessage] = useState('');
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
       let price = 0;
@@ -146,33 +149,6 @@ const Payment = () => {
         setEmailValidationMessage('');
       }
     };
-
-    // const handleInputChange = (field: string, e: any) => {
-    //   let formattedValue = '';
-    //   if (field === 'cardNumber') {
-    //     const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-    //     const groups = input.match(/.{1,4}/g); // Split into groups of 4 digits
-    //     formattedValue = groups ? groups.join(" ") : input; // Join groups with a space
-    //   }
-    //   else if (field === 'name') {
-    //     const input = e.target.value.replace(/\d/g, "");;
-    //     formattedValue = input;
-    //   }
-    //   else if (field === 'validThru') {
-    //     let input = e.target.value.replace(/\D/g, ""); // Remove non-digits
-    //     // Format as MM/YY
-    //     if (input.length > 2) {
-    //       input = `${input.slice(0, 2)}/${input.slice(2)}`;
-    //     }
-    //     formattedValue = input;
-    //   }
-    //   else if (field === 'cvc') {
-    //     const input = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-    //     formattedValue = input;
-    //   }
-    //   const newFormState = { ...debitCard, [field]: formattedValue };
-    //   setDebitCard(newFormState);
-    // };
 
     const phoneInputHandler = (value) => {
       setValue(value);
@@ -292,7 +268,11 @@ const Payment = () => {
         .then((response) => {
           console.log(response);
           dispatch(resetCart());
-          navigate('/order');
+          setOpen(true);
+          setMessage(response.data.message);
+          setTimeout(() => {
+            navigate('/order');
+          }, 1000);
           // setOpen(true);
           // setMessage('Payment Successfull');
           // setTransactionSuccess(true);
@@ -316,6 +296,35 @@ const Payment = () => {
 
     const handleSubmit = async () => {
       setLoading(true);
+      let respData;
+      // Create a Payment Intent on the server
+      PostService('/order/payments', { amount: totalAmt + shippingCharge, currency: 'GBP' }, token)
+        .then(response => {
+          respData = response.data
+          handlePayments(respData)
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          if (error.response.data.message.includes('UnAuthorized User')) {
+            setDanger(true);
+            setDangerMessage('Please Login Before Placing Order. You will be Redirected to Login.');
+            setTimeout(() => {
+              navigate('/Login');
+            }, 3000);
+          } else {
+            if (error.response.data.message) {
+              setDanger(true);
+              setDangerMessage(error.response.data.message);
+            }
+          }
+
+        })
+
+    };
+
+    const handlePayments = async (respData) => {
+      const { clientSecret } = respData;
 
       if (!stripe || !elements) {
         return;
@@ -330,11 +339,6 @@ const Payment = () => {
         // setError('Card element not found');
         return;
       }
-
-      // Create a Payment Intent on the server
-      const response = await PostService('/order/payments', { amount: totalAmt + shippingCharge, currency: 'GBP' }, token);
-
-      const { clientSecret } = response.data;
 
       // Confirm the Payment Intent on the client
       const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
@@ -357,11 +361,11 @@ const Payment = () => {
     return (
       <React.Fragment>
         <Header />
-        {/* <SuccessToast
-        open={open}
-        setOpen={setOpen}
-        warningMessage={message}
-      /> */}
+        <SuccessToast
+          open={open}
+          setOpen={setOpen}
+          warningMessage={message}
+        />
         <DangerToast
           open={danger}
           setOpen={setDanger}

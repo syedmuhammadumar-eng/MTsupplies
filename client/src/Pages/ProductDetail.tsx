@@ -119,7 +119,7 @@ const ProductDetail = () => {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 5,
+        slidesToShow: 4,
         slidesToScroll: 3,
         initialSlide: 0,
         prevArrow: <CustomPrevArrow />,
@@ -128,22 +128,36 @@ const ProductDetail = () => {
             {
                 breakpoint: 1725, // xl
                 settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 3,
                 }
             },
             {
-                breakpoint: 1280, // xl
+                breakpoint: 1600, // xl
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
                 }
             },
             {
+                breakpoint: 1280, // xl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 1200, // xl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
                 breakpoint: 1024, // lgl
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 3,
+                    slidesToScroll: 1,
                 }
             },
             {
@@ -156,7 +170,7 @@ const ProductDetail = () => {
             {
                 breakpoint: 768, // mdl
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
                     slidesToScroll: 2,
                 }
             },
@@ -347,7 +361,7 @@ const ProductDetail = () => {
                             <label className='text-lg font-medium' >PACKAGE CONTENTS:</label>
                         </div>
                         <div>
-                            <label className='text-lg text-gray-500' >1 Pencil</label>
+                            <label className='text-lg text-gray-500' >{form[0]?.stock} {form[0]?.Name}</label>
                         </div>
                     </div>
                     <div className='mt-10 flex justify-between items-center border-b border-gray-300 pb-2'>
@@ -367,7 +381,7 @@ const ProductDetail = () => {
                         <label className='text-3xl font-semibold' >Related Products</label>
                     </div>
                 </div>
-                <div className="slider-container xl:w-[80%] lgl:w-[90%] lg:w-[80%] mdl:w-[80%] md:w-[80%] sml:w-[60%] sm:w-[60%] xs:w-[60%] place-self-center">
+                <div className="slider-container lgl:w-[75%] lg:w-[80%] mdl:w-[80%] md:w-[80%] sml:w-[60%] sm:w-[60%] xs:w-[60%] place-self-center">
                     <Slider {...settings}>
                         {relatedSearchData &&
                             relatedSearchData.map((item, index) => (

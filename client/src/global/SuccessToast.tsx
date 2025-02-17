@@ -20,7 +20,7 @@ const SuccessToast = ({ open, setOpen, warningMessage }) => {
                     onClose={handleClose}
                     severity="success"
                     variant="filled"
-                    style={{ color: 'black' }}
+                    style={{ color: 'white' }}
                     sx={{ width: '100%' }}
                 >
                     {warningMessage}

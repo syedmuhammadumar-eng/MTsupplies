@@ -233,6 +233,8 @@ const ProductDetail = () => {
                                     productId={item?.productId}
                                     discountpercent={item?.discountpercent}
                                     bestSeller={item?.isBestSelling}
+                                    quantity={item?.quantity}
+                                    stock={item?.stock}
                                 />
                             </div>
                         ))}

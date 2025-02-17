@@ -7,7 +7,7 @@ import one6 from '../../assets/logos/one6.png';
 // 1753
 const Brand = () => {
     return (
-        <div className="flex flex-row justify-center py-10 px-10 flex-wrap lgl:flex-nowrap bg-red-100">
+        <div className="flex flex-row justify-center py-10 px-10 flex-wrap lgl:flex-nowrap">
             <div className="border"> <img src={one1} alt="Stabilo" className="" /></div>
             <div className="border"> <img src={one2} alt="Legami" className="" /></div>
             <div className="border"> <img src={one3} alt="Ranger" className="" /></div>

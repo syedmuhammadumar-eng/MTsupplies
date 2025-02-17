@@ -21,7 +21,7 @@ interface imgSrc {
 }
 
 
-const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, stock, quantity, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId, discountpercent, bestSeller }) => {
+const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, stock, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId, discountpercent, bestSeller }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

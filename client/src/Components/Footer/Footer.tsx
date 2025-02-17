@@ -6,7 +6,7 @@ import whatsapp from '../../assets/icons/whatsapp.png';
 import phoneWhite from '../../assets/icons/phonewhite.png';
 import cash from '../../assets/icons/cash.png';
 import bankTransfer from '../../assets/icons/banktransfer.png';
-import visa from '../../assets/icons/visa.png';
+import masterCard from '../../assets/masterCard.png';
 import { useState } from 'react';
 
 const Footer = () => {
@@ -68,9 +68,9 @@ const Footer = () => {
 
 
             <div className='flex flex-row justify-start mt-4'>
-              <div className="pt-4"><img src={instagram} alt="ig" className="px-3" /></div>
-              <div className="pt-4"><img src={twitter} alt="twitter" className="px-3" /></div>
-              <div className="pt-4"><img src={facebook} alt="fb" className="px-3" /></div>
+              <div className="pt-4"><img src={instagram} alt="ig" className="px-3 cursor-pointer" /></div>
+              <div className="pt-4"><img src={twitter} alt="twitter" className="px-3  cursor-pointer" /></div>
+              <div className="pt-4"><img src={facebook} alt="fb" className="px-3  cursor-pointer" /></div>
             </div>
           </div>
 
@@ -115,10 +115,10 @@ const Footer = () => {
           <div>
             <label className='text-white' >We accept these payment methods</label>
           </div>
-          <div className='flex gap-5'>
+          <div className='flex gap-2'>
             <img src={cash} alt="cash" />
             <img src={bankTransfer} alt="Bank transfer" />
-            <img src={visa} alt="visa" />
+            <img className='w-16 h-10' src={masterCard} alt="visa" />
           </div>
         </div>
       </div>

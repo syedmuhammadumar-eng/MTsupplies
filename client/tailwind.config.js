@@ -16,6 +16,8 @@ export default withMT({
         lg: "960px",
         lgl: "1024px",
         xl: "1280px",
+        // xxl: "1753px",
+        // xxl: "1908px"
       },
       fontFamily: {
         bodyFont: ["Quicksand", "sans-serif"],

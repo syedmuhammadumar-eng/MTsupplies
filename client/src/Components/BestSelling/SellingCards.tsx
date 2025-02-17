@@ -16,10 +16,12 @@ interface imgSrc {
     productId: number
     discountpercent: number,
     bestSeller: boolean,
+    quantity: number,
+    stock: number
 }
 
 
-const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId, discountpercent, bestSeller }) => {
+const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, stock, quantity, isSpecial, paragraph, price, id, name, categoryName, isDiscount, productId, discountpercent, bestSeller }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragr
             productId: productId,
             discountpercent: discountpercent,
             bestSeller: bestSeller,
+            stock: stock,
         };
         dispatch(clearSearchedProduct())
         dispatch(setProductDetail(counterCartState));
@@ -55,7 +58,13 @@ const SellingCards: React.FC<imgSrc> = ({ imgSrc, specialText, isSpecial, paragr
             paragraph: paragraph,
             price: price,
             quantity: 1,
-            Name: name
+            Name: name,
+            categoryName: categoryName,
+            isDiscount: isDiscount,
+            productId: productId,
+            discountpercent: discountpercent,
+            bestSeller: bestSeller,
+            stock: stock,
         };
         dispatch(addToCart(counterCartState));
         // dispatch(resetCart());

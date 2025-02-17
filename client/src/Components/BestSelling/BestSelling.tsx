@@ -84,33 +84,79 @@ const BestSelling = ({ bestSelling }) => {
         infinite: false,
         speed: 500,
         slidesToShow: 5,
-        slidesToScroll: 4,
+        slidesToScroll: 3,
         initialSlide: 0,
-        prevArrow: <CustomPrevArrow />, // Add custom previous arrow
-        nextArrow: <CustomNextArrow />, // Add custom next arrow
+        prevArrow: <CustomPrevArrow />,
+        nextArrow: <CustomNextArrow />,
         responsive: [
             {
-                breakpoint: 1024,
+                breakpoint: 1725, // xl
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 3,
+                }
+            },
+            {
+                breakpoint: 1280, // xl
                 settings: {
                     slidesToShow: 3,
                     slidesToScroll: 3,
-                    infinite: true,
-                    dots: false
                 }
             },
             {
-                breakpoint: 600,
+                breakpoint: 1024, // lgl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3,
+                }
+            },
+            {
+                breakpoint: 960, // lg
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                    initialSlide: 2
                 }
             },
             {
-                breakpoint: 480,
+                breakpoint: 768, // mdl
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                }
+            },
+            {
+                breakpoint: 728, // mdl
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 667, // md
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 500, // sml
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 375, // sm
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 320, // xs
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
                 }
             }
         ]
@@ -129,7 +175,8 @@ const BestSelling = ({ bestSelling }) => {
                 <div className='font-medium text-4xl'><span className='text-gray-600' >Best</span> Selling</div>
 
             </div>
-            <div className="slider-container w-4/5 place-self-center">
+            <div
+                className="slider-container xl:w-[80%] lgl:w-[90%] lg:w-[80%] mdl:w-[80%] md:w-[80%] sml:w-[60%] sm:w-[60%] xs:w-[60%] place-self-center">
                 <Slider {...settings}>
                     {bestSellingProducts && bestSellingProducts.map((item, index) => (
                         <SellingCards
@@ -141,6 +188,8 @@ const BestSelling = ({ bestSelling }) => {
                             paragraph={item?.paragraph}
                             price={item?.price}
                             name={item?.Name}
+                            quantity={item?.quantity}
+                            stock={item.stock}
                             categoryName={item?.categoryName}
                             isDiscount={item?.isDiscount}
                             productId={item?.productId}

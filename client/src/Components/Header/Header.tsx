@@ -110,6 +110,7 @@ const Header = () => {
           >
             <Link to={'/'}>
               <img className='lg:w-48 md:w-48 sm:w-36' src={logoblack} alt="MTSUPPLIES LOGO" />
+              asdfas
             </Link>
             <div className='hover:bg-[#e0e0e0] p-1 rounded-md'>
               <TbMenuDeep className='lg:hidden md:hidden sm:block' size={28} onClick={() => setOpen(true)} />
